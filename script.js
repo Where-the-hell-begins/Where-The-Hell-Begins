@@ -10,7 +10,7 @@ function criarBola() {
     setTimeout(criarBola, 200);
     return;
   }
-
+//abc
   // Escolhe uma posição aleatória entre as livres
   const indice = livres[Math.floor(Math.random() * livres.length)];
   ocupadas[indice] = true; // Marca como ocupada
