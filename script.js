@@ -16,12 +16,6 @@ function criarBola() {
     setTimeout(criarBola, 200);
     return;
   }
-<<<<<<< Updated upstream
-  // Escolhe uma posição aleatória entre as livres
-  const indice = livres[Math.floor(Math.random() * livres.length)];
-  ocupadas[indice] = true; // Marca como ocupada
-=======
->>>>>>> Stashed changes
 
   const indice = livres[Math.floor(Math.random() * livres.length)];
   ocupadas[indice] = true;
