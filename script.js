@@ -107,4 +107,5 @@ boss();
 criarArma();
 tiro();
 atualizarMunicao();
-//teste
+
+
