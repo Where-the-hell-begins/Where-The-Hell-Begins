@@ -106,10 +106,4 @@ criarBola();
 boss();
 criarArma();
 tiro();
-<<<<<<< Updated upstream
 atualizarMunicao();
-
-
-=======
-atualizarMunicao();
->>>>>>> Stashed changes
