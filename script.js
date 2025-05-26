@@ -55,5 +55,3 @@ function criarBola() {
 
 // Começa o jogo
 criarBola();
-//ola corno
-//ola
