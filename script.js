@@ -116,9 +116,6 @@ function tiro() {
   }
 }
 
-
-
-
 // Inicialização do jogo
 criarBola();
 boss();
