@@ -61,9 +61,26 @@ body, html {
   transition: transform 0.05s linear;
 }
 
-#municao{
-  color: white;
+#municao {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
 }
+
+.bala {
+  font-size: 28px;
+  color: white;
+  transition: opacity 0.2s ease;
+}
+
+.bala.apagada {
+  opacity: 0.2;
+}
+
+
 
 @keyframes fadeIn {
   0% {
