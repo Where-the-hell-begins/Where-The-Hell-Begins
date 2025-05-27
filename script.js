@@ -86,12 +86,28 @@ function criarArma() {
 
 }
 
-let muni = 6; // valor inicial de munição
+let muni = 6;
+let maxmuni = 6; // valor inicial de munição
 
-function atualizarMunicao() {
-  const span = document.getElementById("municao");
-  span.innerText = `Munição: ${muni}`;
+function atualizarMunicao() { //arrumar pois esta meio errada
+  const container = document.getElementById("municao");
+  container.innerHTML = ""; // Limpa munição anterior
+
+  for (let i = 0; i < maxmuni; i++) {
+    const bala = document.createElement("span");
+    bala.classList.add("bala");
+    bala.innerText = "🔥"; // Pode trocar por outro símbolo, como "•"
+
+    // 🔧 Correção: só apaga se i >= muni (ou seja, munições *já gastas*)
+    if (i >= muni) {
+      bala.classList.add("apagada");
+    }
+
+    container.appendChild(bala);
+  }
 }
+
+
 
 function tiro() {
   if (muni > 0) {
@@ -99,6 +115,8 @@ function tiro() {
     atualizarMunicao();
   }
 }
+
+
 
 
 // Inicialização do jogo
