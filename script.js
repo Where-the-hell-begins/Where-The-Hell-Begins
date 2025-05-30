@@ -2,7 +2,10 @@ const canvas = document.getElementById("canvas");
 
 // Posições fixas para as bolas (excluindo o centro onde está o boss)
 const posicoesFixas = [240, 400, 560, 880, 1040, 1200];
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
 const ocupadas = posicoesFixas.map(() => false);
 
 // Boss centralizado
@@ -36,6 +39,7 @@ function criarBola() {
   envelope.appendChild(circulo);
   envelope.appendChild(bola);
   canvas.appendChild(envelope);
+<<<<<<< Updated upstream
                                                   //[JOAO]
   envelope.addEventListener("click", (event) => { //Arrumei o problema de diminuir 2 tiros, a funcao tiro tava sendo chamada 2 vezes fazendo
     event.stopPropagation();                      //diminuir 2 vezes, esse event.stopPropagation(); faz a funcao do tiro parar por aqui 
@@ -45,6 +49,13 @@ function criarBola() {
       envelope.remove();
       ocupadas[indice] = false;
     }
+=======
+
+  envelope.addEventListener("click", () => {
+    envelope.remove();
+    tiro();
+    ocupadas[indice] = false;
+>>>>>>> Stashed changes
   });
 
   setTimeout(() => {
@@ -68,7 +79,26 @@ function criarArma() {
   const arma = document.createElement("div");
   arma.classList.add("arma");
   canvas.appendChild(arma);
+<<<<<<< Updated upstream
   //[GUI] removido o de seguir o mouse, pois não é necessário para o jogo
+=======
+
+  canvas.addEventListener("mousemove", (e) => {
+    const rect = canvas.getBoundingClientRect();
+    const armaX = rect.left + canvas.clientWidth / 2;
+    const armaY = rect.top + canvas.clientHeight;
+
+    const mouseX = e.clientX;
+    const mouseY = e.clientY;
+
+    const dx = mouseX - armaX;
+    const dy = mouseY - armaY;
+
+    const angulo = Math.atan2(dy, dx);
+    arma.style.transform = `translateX(-50%) rotate(${angulo}rad)`;
+  });
+
+>>>>>>> Stashed changes
   canvas.addEventListener("click", () => {
     tiro(); // dispara ao clicar
   });
@@ -76,6 +106,7 @@ function criarArma() {
 
 }
 
+<<<<<<< Updated upstream
 let muni = 6;
 let maxmuni = 6; // valor inicial de munição
 
@@ -128,8 +159,29 @@ document.addEventListener("keydown", (event) => {
 //=========================================================
 
 // tirei o tiro() pois era isso q fazia começar com uma bala a menos[JOAO]
+=======
+let muni = 6; // valor inicial de munição
+
+function atualizarMunicao() {
+  const span = document.getElementById("municao");
+  span.innerText = `Munição: ${muni}`;
+}
+
+function tiro() {
+  if (muni > 0) {
+    muni--;
+    atualizarMunicao();
+  }
+}
+
+
+>>>>>>> Stashed changes
 // Inicialização do jogo
 criarBola();
 boss();
 criarArma();
+<<<<<<< Updated upstream
+=======
+tiro();
+>>>>>>> Stashed changes
 atualizarMunicao();
