@@ -2,6 +2,7 @@ const canvas = document.getElementById("canvas");
 
 // Posições fixas para as bolas (excluindo o centro onde está o boss)
 const posicoesFixas = [240, 400, 560, 880, 1040, 1200];
+
 const ocupadas = posicoesFixas.map(() => false);
 
 // Boss centralizado
@@ -67,22 +68,7 @@ function criarArma() {
   const arma = document.createElement("div");
   arma.classList.add("arma");
   canvas.appendChild(arma);
-
-  canvas.addEventListener("mousemove", (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const armaX = rect.left + canvas.clientWidth / 2;
-    const armaY = rect.top + canvas.clientHeight;
-
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-
-    const dx = mouseX - armaX;
-    const dy = mouseY - armaY;
-
-    const angulo = Math.atan2(dy, dx);
-    arma.style.transform = `translateX(-50%) rotate(${angulo}rad)`;
-  });
-
+  //[GUI] removido o de seguir o mouse, pois não é necessário para o jogo
   canvas.addEventListener("click", () => {
     tiro(); // dispara ao clicar
   });
