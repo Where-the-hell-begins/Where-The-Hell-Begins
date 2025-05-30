@@ -35,11 +35,15 @@ function criarBola() {
   envelope.appendChild(circulo);
   envelope.appendChild(bola);
   canvas.appendChild(envelope);
-
-  envelope.addEventListener("click", () => {
-    envelope.remove();
-    tiro();
-    ocupadas[indice] = false;
+                                                  //[JOAO]
+  envelope.addEventListener("click", (event) => { //Arrumei o problema de diminuir 2 tiros, a funcao tiro tava sendo chamada 2 vezes fazendo
+    event.stopPropagation();                      //diminuir 2 vezes, esse event.stopPropagation(); faz a funcao do tiro parar por aqui 
+    if(!tiro()){                                  //e nao da pra atirar sem muni
+      return;
+    }else{
+      envelope.remove();
+      ocupadas[indice] = false;
+    }
   });
 
   setTimeout(() => {
@@ -89,16 +93,15 @@ function criarArma() {
 let muni = 6;
 let maxmuni = 6; // valor inicial de munição
 
-function atualizarMunicao() { //arrumar pois esta meio errada
+function atualizarMunicao() { 
   const container = document.getElementById("municao");
   container.innerHTML = ""; // Limpa munição anterior
 
   for (let i = 0; i < maxmuni; i++) {
     const bala = document.createElement("span");
     bala.classList.add("bala");
-    bala.innerText = "🔥"; // Pode trocar por outro símbolo, como "•"
+    bala.innerText = "⏺︎";
 
-    // 🔧 Correção: só apaga se i >= muni (ou seja, munições *já gastas*)
     if (i >= muni) {
       bala.classList.add("apagada");
     }
@@ -107,18 +110,40 @@ function atualizarMunicao() { //arrumar pois esta meio errada
   }
 }
 
-
-
+//ATIRAR
+//===================================
 function tiro() {
-  if (muni > 0) {
+  if(recarregando || muni <= 0){//Retorna true ou false para ver se da pra atirar ou nao qunado tiver sem muni
+    return false;                 
+  }else{
     muni--;
     atualizarMunicao();
+    return true;
   }
 }
+//================================
 
+
+//RECARREGAR
+//=====================================================
+let recarregando = false;
+
+document.addEventListener("keydown", (event) => {
+  if (event.key === "r" && !recarregando && muni < maxmuni) {
+    recarregando = true;
+
+    setTimeout(() => {
+      muni = maxmuni;
+      atualizarMunicao();
+      recarregando = false;
+    }, 500); // definir o tempo
+  }
+});
+//=========================================================
+
+// tirei o tiro() pois era isso q fazia começar com uma bala a menos[JOAO]
 // Inicialização do jogo
 criarBola();
 boss();
 criarArma();
-tiro();
 atualizarMunicao();
