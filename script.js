@@ -9,7 +9,7 @@ const posicaoBoss = 720;
 
 function criarBola() {
   const livres = posicoesFixas
-    .map((_, i) => !ocupadas[i] ? i : null)
+    .map((_, i) => (!ocupadas[i] ? i : null))
     .filter(i => i !== null);
 
   if (livres.length === 0) {
@@ -35,72 +35,57 @@ function criarBola() {
   envelope.appendChild(circulo);
   envelope.appendChild(bola);
   canvas.appendChild(envelope);
-                                                  //[JOAO]
-  envelope.addEventListener("click", (event) => { //Arrumei o problema de diminuir 2 tiros, a funcao tiro tava sendo chamada 2 vezes fazendo
-    event.stopPropagation();                      //diminuir 2 vezes, esse event.stopPropagation(); faz a funcao do tiro parar por aqui 
-    if(!tiro()){                                  //e nao da pra atirar sem muni
-      return;
-    }else{
+
+  // Clique na bola
+  envelope.addEventListener("click", (event) => {
+    event.stopPropagation(); // Impede propagação para evitar múltiplas chamadas
+
+    if (!tiro()) return; // Se não puder atirar, não remove
+
+    envelope.remove();
+    ocupadas[indice] = false;
+  });
+
+  // Remoção automática após 4 segundos
+  setTimeout(() => {
+    if (document.body.contains(envelope)) {
       envelope.remove();
       ocupadas[indice] = false;
     }
-  envelope.addEventListener("click", () => {
-    envelope.remove();
-    tiro();
-    ocupadas[indice] = false;
-
-  });
-
-  setTimeout(() => {
-    envelope.remove();
-    ocupadas[indice] = false;
   }, 4000);
 
+  // Cria nova bola após um pequeno delay aleatório
   const delay = Math.random() * 1000 + 500;
   setTimeout(criarBola, delay);
-},
+}
 
 function boss() {
   const boss = document.createElement("div");
   boss.classList.add("boss");
-  boss.style.left = `${posicaoBoss - 50}px`; // Centralizado (100px de largura)
+  boss.style.left = `${posicaoBoss - 50}px`;
   boss.style.top = "250px";
   canvas.appendChild(boss);
-},
+}
 
 function criarArma() {
   const arma = document.createElement("div");
   arma.classList.add("arma");
   canvas.appendChild(arma);
-  //[GUI] removido o de seguir o mouse, pois não é necessário para o jogo
-  canvas.addEventListener("mousemove", (e) => {
-    const rect = canvas.getBoundingClientRect();
-    const armaX = rect.left + canvas.clientWidth / 2;
-    const armaY = rect.top + canvas.clientHeight;
 
-    const mouseX = e.clientX;
-    const mouseY = e.clientY;
-
-    const dx = mouseX - armaX;
-    const dy = mouseY - armaY;
-
-    const angulo = Math.atan2(dy, dx);
-    arma.style.transform = `translateX(-50%) rotate(${angulo}rad)`;
-  });
+  //Removido o de seguir a mira
 
   canvas.addEventListener("click", () => {
-    tiro(); // dispara ao clicar
+    tiro(); // Disparo geral (caso queira animar tiros mesmo sem acertar algo)
   });
-  
-
 }
 
+// Munição
 let muni = 6;
-let maxmuni = 6; // valor inicial de munição
+const maxmuni = 6;
 
-function atualizarMunicao() { 
+function atualizarMunicao() {
   const container = document.getElementById("municao");
-  container.innerHTML = ""; // Limpa munição anterior
+  container.innerHTML = "";
 
   for (let i = 0; i < maxmuni; i++) {
     const bala = document.createElement("span");
@@ -115,22 +100,18 @@ function atualizarMunicao() {
   }
 }
 
-//ATIRAR
-//===================================
+// Atirar
 function tiro() {
-  if(recarregando || muni <= 0){//Retorna true ou false para ver se da pra atirar ou nao qunado tiver sem muni
-    return false;                 
-  }else{
+  if (recarregando || muni <= 0) {
+    return false;
+  } else {
     muni--;
     atualizarMunicao();
     return true;
   }
 }
-//================================
 
-
-//RECARREGAR
-//=====================================================
+// Recarregar
 let recarregando = false;
 
 document.addEventListener("keydown", (event) => {
@@ -141,15 +122,12 @@ document.addEventListener("keydown", (event) => {
       muni = maxmuni;
       atualizarMunicao();
       recarregando = false;
-    }, 500); // definir o tempo
+    }, 500);
   }
 });
-//=========================================================
 
-// tirei o tiro() pois era isso q fazia começar com uma bala a menos[JOAO]
-// Inicialização do jogo
+// Inicialização
 criarBola();
 boss();
 criarArma();
-tiro();
-atualizarMunicao();
+atualizarMunicao(); // Corrigido: não chamar tiro() aqui
