@@ -93,7 +93,7 @@ function criarArma() {
   });
   
 
-},
+}
 
 let muni = 6;
 let maxmuni = 6; // valor inicial de munição
