@@ -19,7 +19,10 @@ body, html {
   width: 1440px;
   height: 600px;
   border: 2px solid #333;
-  background-color: #202020;
+  background-image: url("imagens/teste.png"); /* imagem de fundo */
+  background-size: cover; 
+  background-position: center;
+  background-repeat: no-repeat;
 }
 
 .bola {
@@ -51,15 +54,19 @@ body, html {
 
 .arma {
   position: absolute;
-  width: 100px;
-  height: 20px;
-  background-color: #ffcc00;
+  width: 500px;
+  height: 200px; /* Força altura para a imagem aparecer */
   bottom: 0;
   left: 50%;
   transform-origin: center bottom;
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.05s linear;
+  background-image: url("imagens/personagem.png"); /*imagem da arma*/
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
 }
+
 
 #municao {
   position: absolute;
