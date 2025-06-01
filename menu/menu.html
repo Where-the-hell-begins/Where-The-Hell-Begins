@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="pt">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Where The Hell Begins</title>
+
+    <!-- Framework VueJS -->
+    <script src="https://cdn.jsdelivr.net/npm/vue@3.4.21/dist/vue.global.prod.js"></script>
+
+    <!-- Fonte -->
+    <link href="https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap" rel="stylesheet">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="menu.css">
+</head>
+
+<body>
+
+    <!-- 🎵 Música de fundo -->
+    <audio id="bg-music" src="audio/Rise up Dead Man (Instrumental).mp3" autoplay loop></audio>
+
+    <div id="app">
+        <!-- ---------- TELA DE TÍTULO ---------- -->
+        <div class="overlay" v-if="screen === 'title'">
+            <img src="imagens/ChatGPT Image 28 de mai. de 2025, 19_49_22.png" alt="Logo" class="logo">
+            <div class="title-screen">
+                <h1>WHERE THE HELL BEGINS</h1>
+                <div class="menu-options">
+                    <div @click="screen = 'menu'">Pressione Iniciar</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------- MENU PRINCIPAL ---------- -->
+        <div class="overlay" v-else-if="screen === 'menu'">
+            <div class="menu-options">
+                <div @mouseover="createSpark" @click="screen = 'characters'">Iniciar Jogo</div>
+                <div @mouseover="createSpark" @click="screen = 'settings'">Configurações</div>
+                <div @mouseover="createSpark" @click="screen = 'title'">Voltar</div>
+            </div>
+        </div>
+
+        <!-- ---------- SELEÇÃO DE PERSONAGENS ---------- -->
+        <div class="overlay container" v-if="screen === 'characters'">
+            <h2 class="text-center mb-4">Escolha seu Caçador</h2>
+            <div class="character-select">
+                <div class="character-list">
+                    <ul class="list-group">
+                        <li class="list-group-item" v-for="(char, i) in characters" :key="char.name"
+                            :class="{ active: selectedIndex === i }" @click="selectedIndex = i">
+                            {{ char.name }}
+                        </li>
+                    </ul>
+                    <button class="btn-back" @click="screen = 'menu'">Voltar</button>
+                </div>
+
+                <div class="character-details" v-if="characters[selectedIndex]">
+                    <img :src="characters[selectedIndex].image" :alt="characters[selectedIndex].name">
+                    <h3>{{ characters[selectedIndex].name }}</h3>
+                    <p>{{ characters[selectedIndex].description }}</p>
+                    <button class="btn btn-warning mt-2">Selecionar</button>
+                </div>
+            </div>
+        </div>
+
+        <!-- ---------- CONFIGURAÇÕES ---------- -->
+        <div class="overlay container text-center" v-if="screen === 'settings'">
+            <h2 class="mb-4">Configurações</h2>
+            <p>⚙️ Opções em desenvolvimento.</p>
+            <button class="btn-back" @click="screen = 'menu'">Voltar</button>
+        </div>
+    </div>
+
+    <!-- JavaScript -->
+    <script src="menu.js"></script>
+</body>
+
+</html>
