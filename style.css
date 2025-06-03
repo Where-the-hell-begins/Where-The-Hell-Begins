@@ -12,6 +12,7 @@ body, html {
   display: flex;
   justify-content: center;
   align-items: center;
+  font-family: Arial, sans-serif;
 }
 
 #canvas {
@@ -20,9 +21,10 @@ body, html {
   height: 600px;
   border: 2px solid #333;
   background-image: url("imagens/teste.png"); /* imagem de fundo */
-  background-size: cover; 
+  background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
+  user-select: none;
 }
 
 .bola {
@@ -55,7 +57,7 @@ body, html {
 .arma {
   position: absolute;
   width: 500px;
-  height: 200px; /* Força altura para a imagem aparecer */
+  height: 200px;
   bottom: 0;
   left: 50%;
   transform-origin: center bottom;
@@ -66,7 +68,6 @@ body, html {
   background-repeat: no-repeat;
   background-position: center;
 }
-
 
 #municao {
   position: absolute;
@@ -86,8 +87,6 @@ body, html {
 .bala.apagada {
   opacity: 0.2;
 }
-
-
 
 @keyframes fadeIn {
   0% {
