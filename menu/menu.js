@@ -170,9 +170,9 @@ function configurarMusica() {
     }, { once: true });
 }
 
-/**
- * Configura o botão de tela cheia
- */
+//=================================
+ // Configura o botão de tela cheia
+ //=================================
 function configurarTelaCheia() {
     elementos.botoes.telaCheia.addEventListener('click', function() {
         if (!document.fullscreenElement) {
