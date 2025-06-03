@@ -19,25 +19,33 @@ const personagens = [
 
 // Variáveis globais
 let personagemSelecionadoIndex = 0;
+const musicaFundo = document.getElementById('musica-fundo');
 
 // Elementos da DOM
-const telas = {
-    inicio: document.getElementById('tela-inicio'),
-    menu: document.getElementById('tela-menu'),
-    personagens: document.getElementById('tela-personagens'),
-    configuracoes: document.getElementById('tela-configuracoes')
+const elementos = {
+    telas: {
+        inicio: document.getElementById('tela-inicio'),
+        menu: document.getElementById('tela-menu'),
+        personagens: document.getElementById('tela-personagens'),
+        configuracoes: document.getElementById('tela-configuracoes')
+    },
+    botoes: {
+        iniciar: document.getElementById('btn-iniciar'),
+        voltarPersonagens: document.getElementById('btn-voltar-personagens'),
+        voltarConfig: document.getElementById('btn-voltar-config'),
+        som: document.getElementById('btn-som'),
+        telaCheia: document.getElementById('btn-tela-cheia')
+    },
+    listaPersonagens: document.getElementById('lista-personagens'),
+    detalhesPersonagem: document.getElementById('detalhes-personagem')
 };
 
 // Inicialização quando o DOM estiver carregado
 document.addEventListener('DOMContentLoaded', function() {
-    // Configurar eventos
     configurarEventos();
-    
-    // Carregar lista de personagens
     carregarPersonagens();
-    
-    // Configurar música de fundo
     configurarMusica();
+    configurarTelaCheia();
 });
 
 /**
@@ -45,32 +53,22 @@ document.addEventListener('DOMContentLoaded', function() {
  */
 function configurarEventos() {
     // Botão de iniciar na tela inicial
-    document.getElementById('btn-iniciar').addEventListener('click', function() {
-        mostrarTela('menu');
-    });
-    
+    elementos.botoes.iniciar.addEventListener('click', () => mostrarTela('menu'));
+
     // Opções do menu principal
     document.querySelectorAll('.opcao-menu').forEach(opcao => {
         opcao.addEventListener('click', function() {
             mostrarTela(this.dataset.tela);
         });
-        
-        // Efeito de faísca ao passar o mouse
         opcao.addEventListener('mouseover', criarFaisca);
     });
-    
-    // Botão voltar na tela de personagens
-    document.getElementById('btn-voltar-personagens').addEventListener('click', function() {
-        mostrarTela('menu');
-    });
-    
-    // Botão voltar na tela de configurações
-    document.getElementById('btn-voltar-config').addEventListener('click', function() {
-        mostrarTela('menu');
-    });
-    
-    // Itens da lista de personagens
-    document.getElementById('lista-personagens').addEventListener('click', function(e) {
+
+    // Botões de voltar
+    elementos.botoes.voltarPersonagens.addEventListener('click', () => mostrarTela('menu'));
+    elementos.botoes.voltarConfig.addEventListener('click', () => mostrarTela('menu'));
+
+    // Lista de personagens
+    elementos.listaPersonagens.addEventListener('click', function(e) {
         if (e.target.classList.contains('list-group-item')) {
             selecionarPersonagem(parseInt(e.target.dataset.index));
         }
@@ -79,61 +77,37 @@ function configurarEventos() {
 
 /**
  * Mostra uma tela específica e esconde as outras
- * @param {string} tela - Nome da tela a ser mostrada
  */
 function mostrarTela(tela) {
-    // Esconder todas as telas
-    Object.values(telas).forEach(tela => {
-        tela.style.display = 'none';
-    });
-    
-    // Mostrar a tela solicitada
-    if (telas[tela]) {
-        telas[tela].style.display = 'flex';
-    }
+    Object.values(elementos.telas).forEach(t => t.style.display = 'none');
+    if (elementos.telas[tela]) elementos.telas[tela].style.display = 'flex';
 }
 
 /**
  * Carrega a lista de personagens na tela de seleção
  */
 function carregarPersonagens() {
-    const listaPersonagens = document.getElementById('lista-personagens');
-    listaPersonagens.innerHTML = '';
+    elementos.listaPersonagens.innerHTML = '';
     
     personagens.forEach((personagem, index) => {
         const item = document.createElement('li');
-        item.className = 'list-group-item';
+        item.className = `list-group-item ${index === personagemSelecionadoIndex ? 'selecionado' : ''}`;
         item.textContent = personagem.nome;
         item.dataset.index = index;
-        
-        if (index === personagemSelecionadoIndex) {
-            item.classList.add('selecionado');
-        }
-        
-        listaPersonagens.appendChild(item);
+        elementos.listaPersonagens.appendChild(item);
     });
     
-    // Atualizar detalhes do personagem selecionado
     atualizarDetalhesPersonagem();
 }
 
 /**
  * Seleciona um personagem da lista
- * @param {number} index - Índice do personagem na lista
  */
 function selecionarPersonagem(index) {
     personagemSelecionadoIndex = index;
-    
-    // Atualizar classe 'selecionado' nos itens da lista
     document.querySelectorAll('#lista-personagens .list-group-item').forEach((item, i) => {
-        if (i === index) {
-            item.classList.add('selecionado');
-        } else {
-            item.classList.remove('selecionado');
-        }
+        item.classList.toggle('selecionado', i === index);
     });
-    
-    // Atualizar detalhes do personagem
     atualizarDetalhesPersonagem();
 }
 
@@ -141,66 +115,88 @@ function selecionarPersonagem(index) {
  * Atualiza a área de detalhes do personagem selecionado
  */
 function atualizarDetalhesPersonagem() {
-    const detalhes = document.getElementById('detalhes-personagem');
     const personagem = personagens[personagemSelecionadoIndex];
-    
-    detalhes.innerHTML = `
+    elementos.detalhesPersonagem.innerHTML = `
         <img src="${personagem.imagem}" alt="${personagem.nome}">
         <h3>${personagem.nome}</h3>
         <p>${personagem.descricao}</p>
         <button class="btn-selecionar">Selecionar</button>
     `;
     
-    // Configurar evento do botão selecionar
-    detalhes.querySelector('.btn-selecionar').addEventListener('click', function() {
-        redirecionarParaJogo(personagem);
+    elementos.detalhesPersonagem.querySelector('.btn-selecionar').addEventListener('click', () => {
+        iniciarJogoComPersonagem(personagem);
     });
 }
 
 /**
- * Redireciona para a tela do jogo com o personagem selecionado
- * @param {Object} personagem - Personagem selecionado
+ * Mostra tela de carregamento e inicia o jogo após 3 segundos
  */
-function redirecionarParaJogo(personagem) {
-    // Armazena o personagem selecionado no sessionStorage
-    sessionStorage.setItem('personagemSelecionado', JSON.stringify(personagem));
+function iniciarJogoComPersonagem(personagem) {
+    elementos.telas.personagens.innerHTML = `
+        <div class="tela-carregamento">
+            <h2>INICIANDO...</h2>
+            <div class="barra-carregamento">
+                <div class="progresso-carregamento"></div>
+            </div>
+        </div>
+    `;
     
-    // Redireciona para a página do jogo (index.html na raiz)
-    window.location.href = '../index.html';
-}   
+    const barraProgresso = document.querySelector('.progresso-carregamento');
+    barraProgresso.style.width = '0%';
+    setTimeout(() => barraProgresso.style.width = '100%', 100);
+    
+    setTimeout(() => {
+        sessionStorage.setItem('personagemSelecionado', JSON.stringify(personagem));
+        sessionStorage.setItem('musicaLigada', !musicaFundo.muted);
+        window.location.href = '../index.html';
+    }, 3000);
+}
+
+/**
+ * Configura o controle de som
+ */
+function configurarMusica() {
+    elementos.botoes.som.textContent = musicaFundo.muted ? '🔇 Som Desligado' : '🔊 Som Ligado';
+    
+    elementos.botoes.som.addEventListener('click', function() {
+        musicaFundo.muted = !musicaFundo.muted;
+        this.textContent = musicaFundo.muted ? '🔇 Som Desligado' : '🔊 Som Ligado';
+    });
+
+    // Inicia música no primeiro clique
+    window.addEventListener('click', function iniciarMusica() {
+        musicaFundo.play().catch(() => {});
+        window.removeEventListener('click', iniciarMusica);
+    }, { once: true });
+}
+
+/**
+ * Configura o botão de tela cheia
+ */
+function configurarTelaCheia() {
+    elementos.botoes.telaCheia.addEventListener('click', function() {
+        if (!document.fullscreenElement) {
+            document.documentElement.requestFullscreen()
+                .then(() => this.textContent = '🖥️ Sair da Tela Cheia')
+                .catch(err => console.error('Erro ao entrar em tela cheia:', err));
+        } else {
+            document.exitFullscreen();
+            this.textContent = '🖥️ Tela Cheia';
+        }
+    });
+}
 
 /**
  * Cria efeito de faísca ao passar o mouse
- * @param {MouseEvent} evento - Evento de mouse
  */
 function criarFaisca(evento) {
     const faisca = document.createElement('div');
     faisca.className = 'faisca';
-    document.body.appendChild(faisca);
-
-    const x = Math.random() * 100 - 50;
-    const y = Math.random() * -100 - 50;
-
-    faisca.style.setProperty('--x', `${x}px`);
-    faisca.style.setProperty('--y', `${y}px`);
+    faisca.style.setProperty('--x', `${Math.random() * 100 - 50}px`);
+    faisca.style.setProperty('--y', `${Math.random() * -100 - 50}px`);
     faisca.style.left = `${evento.clientX}px`;
     faisca.style.top = `${evento.clientY}px`;
-
-    faisca.addEventListener('animationend', () => {
-        faisca.remove();
-    });
-}
-
-/**
- * Configura a música de fundo para tocar no primeiro clique
- */
-function configurarMusica() {
-    window.addEventListener('click', function iniciarMusica() {
-        const musica = document.getElementById('musica-fundo');
-        if (musica) {
-            musica.play().catch(() => {});
-        }
-        // Remove o evento após o primeiro clique
-        window.removeEventListener('click', iniciarMusica);
-    }, { once: true });
+    
+    document.body.appendChild(faisca);
+    faisca.addEventListener('animationend', () => faisca.remove());
 }
