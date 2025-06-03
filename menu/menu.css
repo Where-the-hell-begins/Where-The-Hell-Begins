@@ -1,0 +1,177 @@
+/* Estilos globais */
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background-color: black;
+    background-image: radial-gradient(circle at center, rgba(255, 204, 153, 0.05) 0%, transparent 70%);
+    color: #e0d8c3;
+    font-family: 'UnifrakturCook', cursive;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.overlay {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    text-align: center;
+}
+
+.logo {
+    width: 180px;
+    margin-bottom: 20px;
+    filter: drop-shadow(0 0 15px rgba(255, 190, 90, 0.7))
+            drop-shadow(0 0 30px rgba(255, 150, 50, 0.4))
+            drop-shadow(0 0 60px rgba(255, 120, 40, 0.3));
+}
+
+.tela-titulo h1 {
+    font-size: 4rem;
+    color: #d9c18c;
+    letter-spacing: 8px;
+    text-shadow: 0 0 20px rgba(255, 215, 130, 0.8),
+                 0 0 40px rgba(255, 200, 100, 0.5);
+}
+
+.opcoes-menu {
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.opcoes-menu div {
+    cursor: pointer;
+    font-size: 1.5rem;
+    color: #c7b389;
+    transition: color 0.3s;
+    font-family: 'UnifrakturCook', cursive;
+}
+
+.opcoes-menu div:hover {
+    color: #ffe6a3;
+}
+
+.selecao-personagem {
+    display: flex;
+    gap: 2rem;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+    max-width: 1000px;
+}
+
+.lista-personagens {
+    flex: 1;
+    max-width: 300px;
+}
+
+.lista-personagens .list-group-item {
+    background: transparent;
+    border: 2px solid #c2a869;
+    color: #e6d6b8;
+    cursor: pointer;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: color 0.3s, box-shadow 0.3s, transform 0.3s;
+    font-family: 'UnifrakturCook', cursive;
+    text-align: center;
+    list-style: none;
+    margin-bottom: 0.5rem;
+}
+
+.lista-personagens .list-group-item:hover {
+    color: red;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.8),
+                0 0 20px rgba(255, 0, 0, 0.6),
+                0 0 30px rgba(255, 50, 50, 0.4);
+    transform: scale(1.05);
+}
+
+.lista-personagens .list-group-item.selecionado {
+    background: rgba(100, 80, 60, 0.7);
+    border-color: #e8c58a;
+    color: #ffe6a3;
+}
+
+.detalhes-personagem {
+    flex: 2;
+    min-width: 300px;
+    min-height: 400px;
+    background: rgba(20, 15, 10, 0.8);
+    border: 1px solid #c2a869;
+    padding: 1.5rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 0 30px rgba(200, 150, 80, 0.5);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.detalhes-personagem img {
+    width: 100%;
+    border-radius: 0.5rem;
+    margin-bottom: 1rem;
+    object-fit: cover;
+    height: 200px;
+}
+
+h2, h3 {
+    color: #e8c58a;
+    text-shadow: 0 0 10px rgba(255, 200, 100, 0.8);
+}
+
+.btn-voltar {
+    margin-top: 2rem;
+    color: #e6d6b8;
+    border: none;
+    background: none;
+    cursor: pointer;
+    font-size: 1.2rem;
+    font-family: 'UnifrakturCook', cursive;
+}
+
+.btn-voltar:hover {
+    color: #ffe6a3;
+}
+
+.btn-selecionar {
+    background: rgba(200, 150, 80, 0.3);
+    border: 1px solid #c2a869;
+    color: #e6d6b8;
+    padding: 0.5rem 1rem;
+    font-family: 'UnifrakturCook', cursive;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.btn-selecionar:hover {
+    background: rgba(200, 150, 80, 0.5);
+    color: #ffe6a3;
+}
+
+.faisca {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 165, 0, 0.8);
+    border-radius: 50%;
+    pointer-events: none;
+    animation: faisca-animacao 1s forwards;
+}
+
+@keyframes faisca-animacao {
+    0% {
+        transform: translate(0, 0) scale(1);
+        opacity: 1;
+    }
+    100% {
+        transform: translate(var(--x), var(--y)) scale(0);
+        opacity: 0;
+    }
+}
