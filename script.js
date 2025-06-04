@@ -29,6 +29,11 @@ function criarBola() {
   const circulo = document.createElement("div");
   circulo.classList.add("circulo");
 
+  const circuloMenor = document.createElement("div");
+  circuloMenor.classList.add("circuloMenor");
+
+  circulo.appendChild(circuloMenor);
+
   envelope.style.left = `${posicoesFixas[indice] - 25}px`;
   envelope.style.top = `300px`;
 

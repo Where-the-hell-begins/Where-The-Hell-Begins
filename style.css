@@ -28,6 +28,17 @@ body, html {
   animation: growAndFade 4s ease-out forwards;
 }
 
+.circuloMenor{
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  border: 1px solid white;
+  border-radius: 50%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+
 .circulo {
   border: 1px solid white;
   transform: translate(0%, 0%);
