@@ -1,12 +1,7 @@
 const canvas = document.getElementById("canvas");
-
-// Posições fixas para as bolas (excluindo o centro onde está o boss)
-const posicoesFixas = [240, 400, 560, 880, 1040, 1200];
-const ocupadas = posicoesFixas.map(() => false);
-
-// Boss centralizado
+let muni = 6;
+let maxmuni = 6;
 const posicaoBoss = 720;
-
 let bolasAcertadas = 0;  // Contador de bolas pequenas acertadas
 let bossVidaMax = 5;
 let bossVidaAtual = bossVidaMax;
@@ -58,8 +53,36 @@ function iniciarTempoBoss() {
   }, 5000);
 }
 
-function criarBola() {
-  const livres = posicoesFixas
+function boss() {
+  const boss = document.createElement("div");
+  boss.classList.add("boss");
+  boss.style.left = `${posicaoBoss - 50}px`;
+  boss.style.top = "250px";
+  canvas.appendChild(boss);
+
+  boss.addEventListener("click", (event) => {
+    event.stopPropagation();
+
+    if (!bossAtivo) return;
+
+    if (!tiro()) return;
+
+    // Boss leva dano
+    bossVidaAtual--;
+    atualizarBarraVida();
+
+    if (bossVidaAtual <= 0) {
+      mostrarWin();
+    } else {
+      iniciarTempoBoss(); // Reset timer a cada acerto no boss
+    }
+  });
+}
+
+function criarBolas(posicaoBolas) {
+
+  const ocupadas = posicoesBolas.map(() => false);
+  const livres = posicaoBolas
     .map((_, i) => (!ocupadas[i] ? i : null))
     .filter(i => i !== null);
 
@@ -85,7 +108,7 @@ function criarBola() {
 
   circulo.appendChild(circuloMenor);
 
-  envelope.style.left = `${posicoesFixas[indice] - 25}px`;
+  envelope.style.left = `${posicoesBolas[indice] - 25}px`;
   envelope.style.top = `300px`;
 
   envelope.appendChild(circulo);
@@ -124,32 +147,6 @@ function criarBola() {
   setTimeout(criarBola, delay);
 }
 
-function boss() {
-  const boss = document.createElement("div");
-  boss.classList.add("boss");
-  boss.style.left = `${posicaoBoss - 50}px`;
-  boss.style.top = "250px";
-  canvas.appendChild(boss);
-
-  boss.addEventListener("click", (event) => {
-    event.stopPropagation();
-
-    if (!bossAtivo) return;
-
-    if (!tiro()) return;
-
-    // Boss leva dano
-    bossVidaAtual--;
-    atualizarBarraVida();
-
-    if (bossVidaAtual <= 0) {
-      mostrarWin();
-    } else {
-      iniciarTempoBoss(); // Reset timer a cada acerto no boss
-    }
-  });
-}
-
 function criarArma() {
   const arma = document.createElement("div");
   arma.classList.add("arma");
@@ -159,9 +156,6 @@ function criarArma() {
     tiro();
   });
 }
-
-let muni = 6;
-const maxmuni = 6;
 
 function atualizarMunicao() {
   const container = document.getElementById("municao");
@@ -228,6 +222,22 @@ function mostrarWin() {
   bossAtivo = false;
   bolasAcertadas = 0;
   clearTimeout(tempoBossTimer);
+}
+
+function fases(IndexFase) {
+  switch (IndexFase) {
+    case 1:
+      document.getElementById("canvas").classList.add("fase1");
+      const pocicaoFase1 = [100, 200, 300, 400, 500, 600, 700];
+      criarBola(pocicaoFase1);
+      boss();
+      criarArma();
+      atualizarMunicao();
+      atualizarBarraVida();
+      break;
+    case 2:
+      break;
+  }
 }
 
 // Inicialização

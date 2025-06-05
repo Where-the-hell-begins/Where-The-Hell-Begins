@@ -15,12 +15,15 @@ body, html {
   font-family: Arial, sans-serif;
 }
 
+.fase1{
+  background-image: url("imagens/teste.png");
+}
+
 #canvas {
   position: relative;
   width: 1440px;
   height: 600px;
   border: 2px solid #333;
-  background-image: url("imagens/teste.png"); /* imagem de fundo */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
