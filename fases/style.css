@@ -39,7 +39,7 @@ body, html {
   position: absolute;
   width: 30px;
   height: 30px;
-  border: 1px solid white;
+  border: 3px solid white;
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -47,9 +47,9 @@ body, html {
 }
 
 .circulo {
-  border: 1px solid white;
+  border: 3px solid white;
   transform: translate(0%, -1%); /*centralizado*/
-  animation: fadeIn 5s ease-out forwards;
+  
 }
 
 .circulo, .bola {
@@ -132,10 +132,8 @@ body, html {
 @keyframes growAndFade {
   0% {
     transform: scale(0);
-    opacity: 1;
   }
   100% {
     transform: scale(1);
-    opacity: 0;
   }
 }

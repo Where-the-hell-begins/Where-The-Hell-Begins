@@ -207,7 +207,7 @@ function atualizarMunicao() {
     const bala = document.createElement("img");
     bala.classList.add("bala");
 
-    bala.src = "./imagens/bala.jpg";  // caminho da sua imagem da bala (substitua conforme sua estrutura)
+    bala.src = "./imagens/bala.png";  // caminho da sua imagem da bala (substitua conforme sua estrutura)
     bala.alt = "bala";
     bala.style.width = "28px";       // ajuste o tamanho conforme desejar
     bala.style.height = "28px";
