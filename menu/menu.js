@@ -148,7 +148,7 @@ function iniciarJogoComPersonagem(personagem) {
     setTimeout(() => {
         sessionStorage.setItem('personagemSelecionado', JSON.stringify(personagem));
         sessionStorage.setItem('musicaLigada', !musicaFundo.muted);
-        window.location.href = '../index.html';
+        window.location.href = '../fases/fase.html';
     }, 3000);
 }
 
