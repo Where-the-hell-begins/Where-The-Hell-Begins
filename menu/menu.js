@@ -186,9 +186,9 @@ function configurarTelaCheia() {
     });
 }
 
-/**
- * Cria efeito de faísca ao passar o mouse
- */
+//========================================
+// Cria efeito de faísca ao passar o mouse
+//========================================
 function criarFaisca(evento) {
     const faisca = document.createElement('div');
     faisca.className = 'faisca';
