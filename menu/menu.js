@@ -1,19 +1,19 @@
 // Dados dos personagens
 const personagens = [
     {
-        nome: 'Reaper Bill',
+        nome: 'Clint',
         descricao: 'Pistoleiro morto-vivo, ressuscitado para caçar as forças do inferno.',
         imagem: 'https://i.pinimg.com/736x/9b/e9/50/9be95049887c336a5bea6e25feed3c2d.jpg'
     },
     {
-        nome: 'Lilith Flame',
+        nome: 'Bloquado',
         descricao: 'Bruxa do deserto com pacto demoníaco reverso.',
-        imagem: 'https://i.pinimg.com/736x/08/46/55/08465588aa672e99967c1636728afbd9.jpg'
+        imagem: '../imagens/block_generico.png'
     },
     {
-        nome: 'Father Graves',
+        nome: 'Bloqueado',
         descricao: 'Exorcista com espingarda sagrada e passado sombrio.',
-        imagem: 'https://i.pinimg.com/736x/d2/0d/04/d20d043b427f8263d0c6621bb9338c5a.jpg'
+        imagem: '../imagens/block_generico.png'
     }
 ];
 
