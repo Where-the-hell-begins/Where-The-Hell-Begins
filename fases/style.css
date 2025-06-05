@@ -17,10 +17,12 @@ body, html {
 
 #canvas {
   position: relative;
-  width: 1440px;
-  height: 600px;
+  width: 1440px; /* ajuste conforme necessário para seu layout */
+  height: 600px; /* altura suficiente para as bolas e o personagem */
+  margin: 0 auto; /* centraliza o canvas horizontalmente */
   border: 2px solid #333;
-  background-image: url("../imagens/teste.png"); /* imagem de fundo */
+  overflow: hidden; /* impede elementos saírem do canvas visualmente */
+  background-image: url("imagens/teste.png"); /* caminho corrigido */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -46,7 +48,7 @@ body, html {
 
 .circulo {
   border: 1px solid white;
-  transform: translate(0%, 0%);
+  transform: translate(0%, -1%); /*centralizado*/
   animation: fadeIn 5s ease-out forwards;
 }
 
@@ -65,7 +67,7 @@ body, html {
   border-radius: 50%;
 }
 
-.arma {
+.personagem {
   position: absolute;
   width: 500px;
   height: 200px;
@@ -74,7 +76,7 @@ body, html {
   transform-origin: center bottom;
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.05s linear;
-  background-image: url("../imagens/personagem.png"); /*imagem da arma*/
+  background-image: url("imagens/personagem.png"); /*imagem da personagem*/
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -82,8 +84,8 @@ body, html {
 
 #municao {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 550px;
+  left: 20px;
   display: flex;
   gap: 8px;
   z-index: 10;
@@ -98,6 +100,25 @@ body, html {
 .bala.apagada {
   opacity: 0.2;
 }
+
+#vidas {
+  position: absolute;
+  top: 510px;
+  left: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.vida {
+  font-size: 28px;
+  color: red;
+}
+
+.vida.perdida {
+  opacity: 0.2;
+}
+
 
 @keyframes fadeIn {
   0% {
