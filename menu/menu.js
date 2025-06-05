@@ -152,9 +152,9 @@ function iniciarJogoComPersonagem(personagem) {
     }, 3000);
 }
 
-/**
- * Configura o controle de som
- */
+//============================
+// Configura o controle de som
+//============================
 function configurarMusica() {
     elementos.botoes.som.textContent = musicaFundo.muted ? '🔇 Som Desligado' : '🔊 Som Ligado';
     
