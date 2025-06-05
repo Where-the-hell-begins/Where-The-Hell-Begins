@@ -1,14 +1,18 @@
+// Variáveis globais do jogo
 const canvas = document.getElementById("canvas");
 let muni = 6;
 let maxmuni = 6;
 const posicaoBoss = 720;
-let bolasAcertadas = 0;  // Contador de bolas pequenas acertadas
+let bolasAcertadas = 0;
 let bossVidaMax = 5;
 let bossVidaAtual = bossVidaMax;
-let bossAtivo = false; // Se o boss pode receber dano
+let bossAtivo = false;
 let tempoBossTimer = null;
+let recarregando = false;
+let ocupadas = [];
+let posicaoBolas = [];
 
-// Criar barra de vida do boss
+// Barra de vida do boss
 const barraContainer = document.createElement("div");
 barraContainer.style.position = "absolute";
 barraContainer.style.top = "10px";
@@ -30,30 +34,32 @@ barraVida.style.transition = "width 0.3s, background-color 0.3s";
 barraContainer.appendChild(barraVida);
 document.body.appendChild(barraContainer);
 
+// Função para atualizar a barra de vida do boss
 function atualizarBarraVida() {
   const porcentagem = (bossVidaAtual / bossVidaMax) * 100;
   barraVida.style.width = porcentagem + "%";
 
-  // Cor vai de verde para vermelho
+  // Muda a cor de verde para vermelho conforme a vida diminui
   const verde = Math.floor((porcentagem / 100) * 255);
   const vermelho = 255 - verde;
   barraVida.style.backgroundColor = `rgb(${vermelho}, ${verde}, 0)`;
 }
 
+// Temporizador do boss
 function iniciarTempoBoss() {
   if (tempoBossTimer) clearTimeout(tempoBossTimer);
 
   tempoBossTimer = setTimeout(() => {
-    // Tempo acabou, resetar só as bolasAcertadas e desativar boss,
-    // mas mantém bossVidaAtual e barra de vida.
     bossAtivo = false;
     barraContainer.style.display = "none";
     bolasAcertadas = 0;
-    // NÃO resetar bossVidaAtual aqui!
+    bossVidaAtual = bossVidaMax;
+    atualizarBarraVida();
   }, 5000);
 }
 
-function boss() {
+// Cria o boss
+function criarBoss() {
   const boss = document.createElement("div");
   boss.classList.add("boss");
   boss.style.left = `${posicaoBoss - 50}px`;
@@ -65,23 +71,21 @@ function boss() {
 
     if (!bossAtivo) return;
 
-    if (!tiro()) return;
+    if (!atirar()) return;
 
-    // Boss leva dano
     bossVidaAtual--;
     atualizarBarraVida();
 
     if (bossVidaAtual <= 0) {
-      mostrarWin();
+      mostrarVitoria();
     } else {
-      iniciarTempoBoss(); // Reset timer a cada acerto no boss
+      iniciarTempoBoss();
     }
   });
 }
 
-function criarBolas(posicaoBolas) {
-
-  const ocupadas = posicoesBolas.map(() => false);
+// Cria as bolas pequenas
+function criarBola() {
   const livres = posicaoBolas
     .map((_, i) => (!ocupadas[i] ? i : null))
     .filter(i => i !== null);
@@ -107,35 +111,34 @@ function criarBolas(posicaoBolas) {
   circuloMenor.classList.add("circuloMenor");
 
   circulo.appendChild(circuloMenor);
-
-  envelope.style.left = `${posicoesBolas[indice] - 25}px`;
+  envelope.style.left = `${posicaoBolas[indice] - 25}px`;
   envelope.style.top = `300px`;
 
   envelope.appendChild(circulo);
   envelope.appendChild(bola);
   canvas.appendChild(envelope);
 
-  // Clique na bola
+  // Evento de clique na bola
   envelope.addEventListener("click", (event) => {
     event.stopPropagation();
 
-    if (!tiro()) return;
+    if (!atirar()) return;
 
     envelope.remove();
     ocupadas[indice] = false;
 
     if (!bossAtivo) {
-      // Contar acertos nas bolas pequenas
       bolasAcertadas++;
       if (bolasAcertadas >= 10) {
         bossAtivo = true;
         barraContainer.style.display = "block";
+        atualizarBarraVida();
         iniciarTempoBoss();
       }
     }
   });
 
-  // Remoção automática após 4 segundos
+  // Remove a bola após 4 segundos se não for clicada
   setTimeout(() => {
     if (document.body.contains(envelope)) {
       envelope.remove();
@@ -147,16 +150,19 @@ function criarBolas(posicaoBolas) {
   setTimeout(criarBola, delay);
 }
 
+// Cria a arma do jogador
 function criarArma() {
   const arma = document.createElement("div");
   arma.classList.add("arma");
   canvas.appendChild(arma);
 
+  // Evento de clique para atirar
   canvas.addEventListener("click", () => {
-    tiro();
+    atirar();
   });
 }
 
+// Atualiza a exibição da munição
 function atualizarMunicao() {
   const container = document.getElementById("municao");
   container.innerHTML = "";
@@ -164,7 +170,7 @@ function atualizarMunicao() {
   for (let i = 0; i < maxmuni; i++) {
     const bala = document.createElement("span");
     bala.classList.add("bala");
-    bala.innerText = "⏺︎";
+    bala.innerText = "⏺";
 
     if (i >= muni) {
       bala.classList.add("apagada");
@@ -174,7 +180,8 @@ function atualizarMunicao() {
   }
 }
 
-function tiro() {
+// Função de atirar
+function atirar() {
   if (recarregando || muni <= 0) {
     return false;
   } else {
@@ -184,8 +191,7 @@ function tiro() {
   }
 }
 
-let recarregando = false;
-
+// Recarregar a arma
 document.addEventListener("keydown", (event) => {
   if (event.key === "r" && !recarregando && muni < maxmuni) {
     recarregando = true;
@@ -198,11 +204,9 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-function mostrarWin() {
-  // Limpa o canvas
+// Mostrar tela de vitória
+function mostrarVitoria() {
   canvas.innerHTML = "";
-
-  // Remove barra de vida
   barraContainer.style.display = "none";
 
   const mensagem = document.createElement("div");
@@ -214,35 +218,30 @@ function mostrarWin() {
   mensagem.style.fontSize = "60px";
   mensagem.style.fontWeight = "bold";
   mensagem.style.textShadow = "2px 2px 4px black";
-  mensagem.innerText = "WIN";
+  mensagem.innerText = "VITÓRIA!";
 
   canvas.appendChild(mensagem);
 
-  // Para evitar novas interações, remove eventos e timers
   bossAtivo = false;
   bolasAcertadas = 0;
   clearTimeout(tempoBossTimer);
 }
 
-function fases(IndexFase) {
-  switch (IndexFase) {
+// Iniciar fase
+function iniciarFase(numeroFase) {
+  switch (numeroFase) {
     case 1:
-      document.getElementById("canvas").classList.add("fase1");
-      const pocicaoFase1 = [100, 200, 300, 400, 500, 600, 700];
-      criarBola(pocicaoFase1);
-      boss();
+      canvas.classList.add("fase1");
+      posicaoBolas = [100, 200, 300, 400, 500, 600, 700];
+      ocupadas = posicaoBolas.map(() => false);
+      criarBola();
+      criarBoss();
       criarArma();
       atualizarMunicao();
       atualizarBarraVida();
       break;
     case 2:
+      // Implemente outras fases aqui
       break;
   }
 }
-
-// Inicialização
-criarBola();
-boss();
-criarArma();
-atualizarMunicao();
-atualizarBarraVida(); // Atualiza a barra inicialmente (vida cheia)
