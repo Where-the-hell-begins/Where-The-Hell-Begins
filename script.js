@@ -1,5 +1,30 @@
 const canvas = document.getElementById("canvas");
 
+// Se não existir os containers de munição e vidas, cria eles no body
+if (!document.getElementById("municao")) {
+  const muniContainer = document.createElement("div");
+  muniContainer.id = "municao";
+  muniContainer.style.position = "absolute";
+  muniContainer.style.top = "10px";
+  muniContainer.style.left = "10px";
+  muniContainer.style.color = "white";
+  muniContainer.style.fontSize = "24px";
+  muniContainer.style.fontFamily = "Arial, sans-serif";
+  document.body.appendChild(muniContainer);
+}
+
+if (!document.getElementById("vidas")) {
+  const vidasContainer = document.createElement("div");
+  vidasContainer.id = "vidas";
+  vidasContainer.style.position = "absolute";
+  vidasContainer.style.top = "40px";
+  vidasContainer.style.left = "10px";
+  vidasContainer.style.color = "red";
+  vidasContainer.style.fontSize = "24px";
+  vidasContainer.style.fontFamily = "Arial, sans-serif";
+  document.body.appendChild(vidasContainer);
+}
+
 // Posições fixas para as bolas (excluindo o centro onde está o boss)
 const posicoesFixas = [240, 400, 560, 880, 1040, 1200];
 const ocupadas = posicoesFixas.map(() => false);
@@ -8,10 +33,18 @@ const ocupadas = posicoesFixas.map(() => false);
 const posicaoBoss = 720;
 
 let bolasAcertadas = 0;  // Contador de bolas pequenas acertadas
-let bossVidaMax = 5;
+let bossVidaMax = 3;
 let bossVidaAtual = bossVidaMax;
 let bossAtivo = false; // Se o boss pode receber dano
 let tempoBossTimer = null;
+
+let muni = 6;
+const maxmuni = 6;
+
+let vidas = 5;
+const maxVidas = 5;
+
+let recarregando = false;
 
 // Criar barra de vida do boss
 const barraContainer = document.createElement("div");
@@ -54,7 +87,6 @@ function iniciarTempoBoss() {
     bossAtivo = false;
     barraContainer.style.display = "none";
     bolasAcertadas = 0;
-    // NÃO resetar bossVidaAtual aqui!
   }, 5000);
 }
 
@@ -102,11 +134,12 @@ function criarBola() {
     ocupadas[indice] = false;
 
     if (!bossAtivo) {
-      // Contar acertos nas bolas pequenas
       bolasAcertadas++;
-      if (bolasAcertadas >= 10) {
+
+      if (bolasAcertadas >= 3) {
         bossAtivo = true;
         barraContainer.style.display = "block";
+        boss();
         iniciarTempoBoss();
       }
     }
@@ -117,6 +150,12 @@ function criarBola() {
     if (document.body.contains(envelope)) {
       envelope.remove();
       ocupadas[indice] = false;
+
+      if (!bossAtivo) {
+        vidas--;
+        atualizarVidas();
+        if (vidas <= 0) mostrarGameOver();
+      }
     }
   }, 4000);
 
@@ -125,6 +164,8 @@ function criarBola() {
 }
 
 function boss() {
+  if (document.querySelector(".boss")) return; // Evita múltiplos bosses
+
   const boss = document.createElement("div");
   boss.classList.add("boss");
   boss.style.left = `${posicaoBoss - 50}px`;
@@ -150,33 +191,49 @@ function boss() {
   });
 }
 
-function criarArma() {
-  const arma = document.createElement("div");
-  arma.classList.add("arma");
-  canvas.appendChild(arma);
+function criarPersonagem() {
+  const personagem = document.createElement("div");
+  personagem.classList.add("personagem");
+  canvas.appendChild(personagem);
 
   canvas.addEventListener("click", () => {
     tiro();
   });
 }
 
-let muni = 6;
-const maxmuni = 6;
-
 function atualizarMunicao() {
   const container = document.getElementById("municao");
   container.innerHTML = "";
 
   for (let i = 0; i < maxmuni; i++) {
-    const bala = document.createElement("span");
+    const bala = document.createElement("img");
     bala.classList.add("bala");
-    bala.innerText = "⏺︎";
 
-    if (i >= muni) {
-      bala.classList.add("apagada");
-    }
+    bala.src = "imagens/bala.jpg";  // caminho da sua imagem da bala (substitua conforme sua estrutura)
+    bala.alt = "bala";
+    bala.style.width = "28px";       // ajuste o tamanho conforme desejar
+    bala.style.height = "28px";
+    bala.style.opacity = i >= muni ? "0.2" : "1"; // sem munição fica semi-transparente
+    bala.style.transition = "opacity 0.2s ease";
 
     container.appendChild(bala);
+  }
+}
+
+function atualizarVidas() {
+  const container = document.getElementById("vidas");
+  container.innerHTML = "";
+
+  for (let i = 0; i < maxVidas; i++) {
+    const vida = document.createElement("span");
+    vida.classList.add("vida");
+    vida.innerText = "❤";
+
+    if (i >= vidas) {
+      vida.classList.add("perdida");
+    }
+
+    container.appendChild(vida);
   }
 }
 
@@ -189,8 +246,6 @@ function tiro() {
     return true;
   }
 }
-
-let recarregando = false;
 
 document.addEventListener("keydown", (event) => {
   if (event.key === "r" && !recarregando && muni < maxmuni) {
@@ -205,14 +260,11 @@ document.addEventListener("keydown", (event) => {
 });
 
 function mostrarWin() {
-  // Limpa o canvas
   canvas.innerHTML = "";
-
-  // Remove barra de vida
   barraContainer.style.display = "none";
 
   const mensagem = document.createElement("div");
-  mensagem.style.position = "absolute";
+  mensagem.style.position = "fixed";  // mudar para fixed na tela toda
   mensagem.style.top = "50%";
   mensagem.style.left = "50%";
   mensagem.style.transform = "translate(-50%, -50%)";
@@ -220,19 +272,83 @@ function mostrarWin() {
   mensagem.style.fontSize = "60px";
   mensagem.style.fontWeight = "bold";
   mensagem.style.textShadow = "2px 2px 4px black";
+  mensagem.style.backgroundColor = "rgba(0,0,0,0.8)";
+  mensagem.style.padding = "20px 40px";
+  mensagem.style.borderRadius = "10px";
+  mensagem.style.cursor = "pointer";
+  mensagem.style.zIndex = "10000";
   mensagem.innerText = "WIN";
 
-  canvas.appendChild(mensagem);
+  mensagem.addEventListener("click", resetarJogo);
 
-  // Para evitar novas interações, remove eventos e timers
+  document.body.appendChild(mensagem);
+
   bossAtivo = false;
   bolasAcertadas = 0;
   clearTimeout(tempoBossTimer);
 }
 
+function mostrarGameOver() {
+  canvas.innerHTML = "";
+  barraContainer.style.display = "none";
+
+  const mensagem = document.createElement("div");
+  mensagem.style.position = "fixed";
+  mensagem.style.top = "50%";
+  mensagem.style.left = "50%";
+  mensagem.style.transform = "translate(-50%, -50%)";
+  mensagem.style.color = "red";
+  mensagem.style.fontSize = "60px";
+  mensagem.style.fontWeight = "bold";
+  mensagem.style.textShadow = "2px 2px 4px black";
+  mensagem.style.backgroundColor = "rgba(0,0,0,0.8)";
+  mensagem.style.padding = "20px 40px";
+  mensagem.style.borderRadius = "10px";
+  mensagem.style.cursor = "pointer";
+  mensagem.style.zIndex = "10000";
+  mensagem.innerText = "GAME OVER";
+
+  mensagem.addEventListener("click", resetarJogo);
+
+  document.body.appendChild(mensagem);
+
+  bossAtivo = false;
+  bolasAcertadas = 0;
+  clearTimeout(tempoBossTimer);
+}
+
+function resetarJogo() {
+  // Resetar variáveis
+  bolasAcertadas = 0;
+  bossVidaAtual = bossVidaMax;
+  bossAtivo = false;
+  muni = maxmuni;
+  vidas = maxVidas;
+  recarregando = false;
+
+  // Limpar canvas e barra
+  canvas.innerHTML = "";
+  barraContainer.style.display = "none";
+
+  // Remover mensagens WIN ou GAME OVER se existirem
+  const msgs = document.querySelectorAll("body > div");
+  msgs.forEach(div => {
+    if (div.innerText === "WIN" || div.innerText === "GAME OVER") {
+      div.remove();
+    }
+  });
+
+  // Reiniciar elementos do jogo
+  criarBola();
+  criarPersonagem();
+  atualizarMunicao();
+  atualizarVidas();
+  atualizarBarraVida();
+}
+
 // Inicialização
 criarBola();
-boss();
-criarArma();
+criarPersonagem();
 atualizarMunicao();
-atualizarBarraVida(); // Atualiza a barra inicialmente (vida cheia)
+atualizarBarraVida();
+atualizarVidas();
