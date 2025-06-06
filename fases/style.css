@@ -132,23 +132,55 @@ html {
   }
 }
 
+/* Barra de vida do boss */
 #barraVidaContainer {
   position: absolute;
   top: 10px;
   left: 50%;
   transform: translateX(-50%);
-  width: 300px;
-  height: 25px;
+  width: 400px;
+  height: 30px;
+  border: 3px solid #ff0000;
+  border-radius: 15px;
   background-color: #222;
-  border-radius: 10px;
-  border: "2px solid white";
-  display: "none";
-  z-index: "1000";
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+  display: none;
+  z-index: 1000;
+  overflow: hidden;
 }
 
 #barraVida {
-  height:"100%";
-  width:"100%";
-  background-color:"green";
-  transition:"width 0.3s, background-color 0.3s";
+  height: 100%;
+  width: 100%;
+  background-color: #00ff00;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bossVidaText {
+  color: white;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px black;
+  z-index: 2;
+}
+
+@keyframes dano {
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.5); }
+  100% { filter: brightness(1); }
+}
+
+#mensagemVitoria{
+  position: "absolute";
+  top: "50%";
+  left: "50%";
+  transform: "translate(-50%, -50%)";
+  color: "white";
+  font-size: "60px";
+  font-weight: "bold";
+  text-shadow: "2px 2px 4px black";
 }

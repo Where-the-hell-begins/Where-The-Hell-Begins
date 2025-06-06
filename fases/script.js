@@ -9,6 +9,7 @@ let bossVidaAtual = bossVidaMax;
 let bossAtivo = false;
 let tempoBossTimer = null;
 let recarregando = false;
+let jogoAtivo = true; // Variável para controlar o estado do jogo
 
 // Barra de vida do boss
 const barraContainer = document.createElement("div");
@@ -17,6 +18,10 @@ barraContainer.id = "barraVidaContainer";
 const barraVida = document.createElement("div");
 barraVida.id = "barraVida";
 
+const textoVida = document.createElement("span");
+textoVida.id = "bossVidaText";
+
+barraVida.appendChild(textoVida);
 barraContainer.appendChild(barraVida);
 document.body.appendChild(barraContainer);
 
@@ -72,6 +77,9 @@ function criarBoss() {
 
 // Cria as bolas pequenas
 function criarBola(posicaoBolas) {
+  // Verifica se o jogo ainda está ativo
+  if (!jogoAtivo) return;
+
   // Inicializa o array de ocupadas com false para cada posição
   const ocupadas = new Array(posicaoBolas.length).fill(false);
 
@@ -140,7 +148,11 @@ function criarBola(posicaoBolas) {
   }, 4000);
 
   const delay = Math.random() * 1000 + 500;
-  setTimeout(() => criarBola(posicaoBolas), delay);
+  setTimeout(() => {
+    if (jogoAtivo) {
+      criarBola(posicaoBolas);
+    }
+  }, delay);
 }
 
 // Cria a arma do jogador
@@ -199,25 +211,28 @@ document.addEventListener("keydown", (event) => {
 
 // Mostrar tela de vitória
 function mostrarVitoria() {
+  jogoAtivo = false; // Desativa o jogo
   canvas.innerHTML = "";
   barraContainer.style.display = "none";
 
   const mensagem = document.createElement("div");
-  mensagem.style.position = "absolute";
-  mensagem.style.top = "50%";
-  mensagem.style.left = "50%";
-  mensagem.style.transform = "translate(-50%, -50%)";
-  mensagem.style.color = "white";
-  mensagem.style.fontSize = "60px";
-  mensagem.style.fontWeight = "bold";
-  mensagem.style.textShadow = "2px 2px 4px black";
+  mensagem.id = "mensagemVitoria";
   mensagem.innerText = "VITÓRIA!";
+  // Adiciona evento de clique para redirecionar
+  mensagem.addEventListener("click", () => {
+    window.location.href = './index.html';
+  });
 
   canvas.appendChild(mensagem);
 
   bossAtivo = false;
   bolasAcertadas = 0;
   clearTimeout(tempoBossTimer);
+
+  // Opcional: Também pode redirecionar após alguns segundos automaticamente
+  setTimeout(() => {
+    window.location.href = '../whe';
+  }, 5000);
 }
 
 // Iniciar fase
@@ -238,9 +253,8 @@ function iniciarFase(numeroFase) {
   }
 }
 
-document.addEventListener('DOMContentLoaded', function() {
-    const fase = parseInt(canvas.dataset.fase) || 1;
-    
-    iniciarFase(fase);
-});
+document.addEventListener('DOMContentLoaded', function () {
+  const fase = parseInt(canvas.dataset.fase) || 1;
 
+  iniciarFase(fase);
+});
