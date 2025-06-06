@@ -234,7 +234,6 @@ function iniciarFase(numeroFase) {
 }
 
 document.addEventListener('DOMContentLoaded', function() {
-    const canvas = document.getElementById('gameCanvas');
     const fase = parseInt(canvas.dataset.fase) || 1;
     
     iniciarFase(fase);
