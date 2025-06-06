@@ -12,22 +12,10 @@ let recarregando = false;
 
 // Barra de vida do boss
 const barraContainer = document.createElement("div");
-barraContainer.style.position = "absolute";
-barraContainer.style.top = "10px";
-barraContainer.style.left = "50%";
-barraContainer.style.transform = "translateX(-50%)";
-barraContainer.style.width = "300px";
-barraContainer.style.height = "25px";
-barraContainer.style.border = "2px solid white";
-barraContainer.style.backgroundColor = "#222";
-barraContainer.style.display = "none";
-barraContainer.style.zIndex = "1000";
+barraContainer.id = "barraVidaContainer";
 
 const barraVida = document.createElement("div");
-barraVida.style.height = "100%";
-barraVida.style.width = "100%";
-barraVida.style.backgroundColor = "green";
-barraVida.style.transition = "width 0.3s, background-color 0.3s";
+barraVida.id = "barraVida";
 
 barraContainer.appendChild(barraVida);
 document.body.appendChild(barraContainer);

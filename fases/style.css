@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   height: 100%;
   background-color: #181818;
   cursor: crosshair;
@@ -15,8 +16,7 @@ body, html {
   font-family: Arial, sans-serif;
 }
 
-<<<<<<< HEAD
-.fase1{
+.fase1 {
   background-image: url("imagens/teste.png");
 }
 
@@ -25,16 +25,6 @@ body, html {
   width: 1440px;
   height: 600px;
   border: 2px solid #333;
-=======
-#canvas {
-  position: relative;
-  width: 1440px; /* ajuste conforme necessário para seu layout */
-  height: 600px; /* altura suficiente para as bolas e o personagem */
-  margin: 0 auto; /* centraliza o canvas horizontalmente */
-  border: 2px solid #333;
-  overflow: hidden; /* impede elementos saírem do canvas visualmente */
-  background-image: url("imagens/teste.png"); /* caminho corrigido */
->>>>>>> main
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -47,15 +37,12 @@ body, html {
   animation: growAndFade 4s ease-out forwards;
 }
 
-.circuloMenor{
+.circuloMenor {
   position: absolute;
   width: 30px;
   height: 30px;
-<<<<<<< HEAD
   border: 1px solid white;
-=======
   border: 3px solid white;
->>>>>>> main
   border-radius: 50%;
   top: 50%;
   left: 50%;
@@ -63,18 +50,17 @@ body, html {
 }
 
 .circulo {
-<<<<<<< HEAD
   border: 1px solid white;
   transform: translate(0%, 0%);
   animation: fadeIn 5s ease-out forwards;
-=======
   border: 3px solid white;
-  transform: translate(0%, -1%); /*centralizado*/
-  
->>>>>>> main
+  transform: translate(0%, -1%);
+  /*centralizado*/
+
 }
 
-.circulo, .bola {
+.circulo,
+.bola {
   position: absolute;
   width: 50px;
   height: 50px;
@@ -89,11 +75,7 @@ body, html {
   border-radius: 50%;
 }
 
-<<<<<<< HEAD
-.arma {
-=======
 .personagem {
->>>>>>> main
   position: absolute;
   width: 500px;
   height: 200px;
@@ -102,11 +84,8 @@ body, html {
   transform-origin: center bottom;
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.05s linear;
-<<<<<<< HEAD
-  background-image: url("imagens/personagem.png"); /*imagem da arma*/
-=======
-  background-image: url("imagens/personagem.png"); /*imagem da personagem*/
->>>>>>> main
+  background-image: url("imagens/personagem.png");
+  /*imagem da arma*/
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -114,13 +93,8 @@ body, html {
 
 #municao {
   position: absolute;
-<<<<<<< HEAD
   top: 10px;
   left: 10px;
-=======
-  top: 550px;
-  left: 20px;
->>>>>>> main
   display: flex;
   gap: 8px;
   z-index: 10;
@@ -136,32 +110,11 @@ body, html {
   opacity: 0.2;
 }
 
-<<<<<<< HEAD
-=======
-#vidas {
-  position: absolute;
-  top: 510px;
-  left: 20px;
-  display: flex;
-  gap: 8px;
-  z-index: 10;
-}
-
-.vida {
-  font-size: 28px;
-  color: red;
-}
-
-.vida.perdida {
-  opacity: 0.2;
-}
-
-
->>>>>>> main
 @keyframes fadeIn {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -170,16 +123,32 @@ body, html {
 @keyframes growAndFade {
   0% {
     transform: scale(0);
-<<<<<<< HEAD
     opacity: 1;
   }
+
   100% {
     transform: scale(1);
     opacity: 0;
-=======
   }
-  100% {
-    transform: scale(1);
->>>>>>> main
-  }
+}
+
+#barraVidaContainer {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 300px;
+  height: 25px;
+  background-color: #222;
+  border-radius: 10px;
+  border: "2px solid white";
+  display: "none";
+  z-index: "1000";
+}
+
+#barraVida {
+  height:"100%";
+  width:"100%";
+  background-color:"green";
+  transition:"width 0.3s, background-color 0.3s";
 }
