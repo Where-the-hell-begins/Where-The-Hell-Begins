@@ -72,14 +72,19 @@ function criarBoss() {
 
 // Cria as bolas pequenas
 function criarBola(posicaoBolas) {
-  const ocupadas = posicaoBolas.map(() => false);
+  // Inicializa o array de ocupadas com false para cada posição
+  const ocupadas = new Array(posicaoBolas.length).fill(false);
 
-  const livres = posicaoBolas
-    .map((_, i) => (!ocupadas[i] ? i : null))
-    .filter(i => i !== null);
+  // Encontra índices das posições livres
+  const livres = [];
+  for (let i = 0; i < ocupadas.length; i++) {
+    if (!ocupadas[i]) {
+      livres.push(i);
+    }
+  }
 
   if (livres.length === 0) {
-    setTimeout(criarBola, 200);
+    setTimeout(() => criarBola(posicaoBolas), 200);
     return;
   }
 
@@ -135,7 +140,7 @@ function criarBola(posicaoBolas) {
   }, 4000);
 
   const delay = Math.random() * 1000 + 500;
-  setTimeout(criarBola, delay);
+  setTimeout(() => criarBola(posicaoBolas), delay);
 }
 
 // Cria a arma do jogador
@@ -238,3 +243,4 @@ document.addEventListener('DOMContentLoaded', function() {
     
     iniciarFase(fase);
 });
+
