@@ -4,8 +4,7 @@
   box-sizing: border-box;
 }
 
-body,
-html {
+body, html {
   height: 100%;
   background-color: #181818;
   cursor: crosshair;
@@ -18,20 +17,31 @@ html {
 
 #canvas {
   position: relative;
-  width: 1440px;
-  height: 600px;
+  width: 1440px; /* ajuste conforme necessário para seu layout */
+  height: 600px; /* altura suficiente para as bolas e o personagem */
+  margin: 0 auto; /* centraliza o canvas horizontalmente */
   border: 2px solid #333;
+  overflow: hidden; /* impede elementos saírem do canvas visualmente */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   user-select: none;
 }
 
-.circuloMenor {
+.fase1{
+  background-image: url("imagens/teste.png"); /* caminho corrigido */
+}
+
+.bola {
+  background-color: red;
+  transform-origin: center;
+  animation: growAndFade 4s ease-out forwards;
+}
+
+.circuloMenor{
   position: absolute;
   width: 30px;
   height: 30px;
-  border: 1px solid white;
   border: 3px solid white;
   border-radius: 50%;
   top: 50%;
@@ -40,29 +50,25 @@ html {
 }
 
 .circulo {
-  border: 1px solid white;
-  transform: translate(0%, 0%);
-  animation: fadeIn 5s ease-out forwards;
   border: 3px solid white;
-  transform: translate(0%, -1%);
-  /*centralizado*/
-
+  transform: translate(0%, -1%); /*centralizado*/
+  
 }
 
-.circulo,
-.bola {
+.circulo, .bola {
   position: absolute;
   width: 50px;
   height: 50px;
   border-radius: 50%;
-  pointer-events: auto;
-  z-index: 10;
-  background-color: red;
-  transform-origin: center;
-  animation: growAndFade 4s ease-out forwards;
 }
 
-
+.boss {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  border-radius: 50%;
+}
 
 .personagem {
   position: absolute;
@@ -73,8 +79,7 @@ html {
   transform-origin: center bottom;
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.05s linear;
-  background-image: url("imagens/personagem.png");
-  /*imagem da arma*/
+  background-image: url("imagens/personagem.png"); /*imagem da personagem*/
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -82,8 +87,8 @@ html {
 
 #municao {
   position: absolute;
-  top: 10px;
-  left: 10px;
+  top: 550px;
+  left: 20px;
   display: flex;
   gap: 8px;
   z-index: 10;
@@ -99,11 +104,29 @@ html {
   opacity: 0.2;
 }
 
+#vidas {
+  position: absolute;
+  top: 510px;
+  left: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+
+.vida {
+  font-size: 28px;
+  color: red;
+}
+
+.vida.perdida {
+  opacity: 0.2;
+}
+
+
 @keyframes fadeIn {
   0% {
     opacity: 1;
   }
-
   100% {
     opacity: 0;
   }
@@ -112,15 +135,39 @@ html {
 @keyframes growAndFade {
   0% {
     transform: scale(0);
-    opacity: 1;
   }
-
   100% {
     transform: scale(1);
-    opacity: 0;
   }
 }
 
+.mensagem-vitoria {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 60px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px black;
+  cursor: pointer;
+  
+  /* Estilos adicionais sugeridos */
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px 40px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s;
+  z-index: 1000;
+}
+
+.mensagem-vitoria:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+/* styles.css */
+
+/* Barra de vida do boss */
 #barraVidaContainer {
   position: absolute;
   top: 10px;
@@ -157,49 +204,7 @@ html {
 }
 
 @keyframes dano {
-  0% {
-    filter: brightness(1);
-  }
-
-  50% {
-    filter: brightness(1.5);
-  }
-
-  100% {
-    filter: brightness(1);
-  }
-}
-
-.mensagem-vitoria {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 60px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px black;
-  cursor: pointer;
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px 40px;
-  border-radius: 10px;
-  text-align: center;
-  transition: transform 0.3s;
-  z-index: 1000;
-}
-
-.mensagem-vitoria:hover {
-  transform: translate(-50%, -50%) scale(1.05);
-}
-
-.boss {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background-color: blue;
-  border-radius: 50%;
-}
-
-.fase1 {
-  background-image: url("imagens/teste.png");
+  0% { filter: brightness(1); }
+  50% { filter: brightness(1.5); }
+  100% { filter: brightness(1); }
 }

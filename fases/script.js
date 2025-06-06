@@ -3,7 +3,8 @@ const canvas = document.getElementById("canvas");
 let muni = 6;
 let maxmuni = 6;
 let bolasAcertadas = 0;
-let bossVidaMax;
+let bossVidaMax = 5;
+const posicaoBoss = 720; // Posição do boss na tela
 let bossVidaAtual = bossVidaMax;
 let bossAtivo = false;
 let tempoBossTimer = null;
@@ -49,7 +50,7 @@ function iniciarTempoBoss() {
 }
 
 // Cria o boss
-function criarBoss(posicaoBoss) {
+function criarBoss() {
   const boss = document.createElement("div");
   boss.classList.add("boss");
   boss.style.left = `${posicaoBoss - 50}px`;
@@ -235,9 +236,8 @@ function iniciarFase(numeroFase) {
     case 1:
       canvas.classList.add("fase1");
       const posicaoBolasFase1 = [100, 200, 300, 400, 500, 600, 700];
-      const posicaoBossFase1 = 1000; // Posição do boss na fase 1
       criarBola(posicaoBolasFase1);
-      criarBoss(posicaoBossFase1);
+      criarBoss();
       criarArma();
       atualizarMunicao();
       atualizarBarraVida();
