@@ -148,7 +148,11 @@ function iniciarJogoComPersonagem(personagem) {
     setTimeout(() => {
         sessionStorage.setItem('personagemSelecionado', JSON.stringify(personagem));
         sessionStorage.setItem('musicaLigada', !musicaFundo.muted);
+<<<<<<< HEAD
         window.location.href = '../fases/fase1.html';
+=======
+        window.location.href = '../fases/fase.html';
+>>>>>>> main
     }, 3000);
 }
 
@@ -186,9 +190,9 @@ function configurarTelaCheia() {
     });
 }
 
-/**
- * Cria efeito de faísca ao passar o mouse
- */
+//========================================
+// Cria efeito de faísca ao passar o mouse
+//========================================
 function criarFaisca(evento) {
     const faisca = document.createElement('div');
     faisca.className = 'faisca';
