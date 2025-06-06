@@ -169,18 +169,37 @@ html {
 }
 
 @keyframes dano {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.5); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.5);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
 }
 
-#mensagemVitoria{
-  position: "absolute";
-  top: "50%";
-  left: "50%";
-  transform: "translate(-50%, -50%)";
-  color: "white";
-  font-size: "60px";
-  font-weight: "bold";
-  text-shadow: "2px 2px 4px black";
+.mensagem-vitoria {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: white;
+  font-size: 60px;
+  font-weight: bold;
+  text-shadow: 2px 2px 4px black;
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.7);
+  padding: 20px 40px;
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s;
+  z-index: 1000;
+}
+
+.mensagem-vitoria:hover {
+  transform: translate(-50%, -50%) scale(1.05);
 }

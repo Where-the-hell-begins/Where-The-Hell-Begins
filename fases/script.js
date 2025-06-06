@@ -209,30 +209,25 @@ document.addEventListener("keydown", (event) => {
   }
 });
 
-// Mostrar tela de vitória
 function mostrarVitoria() {
-  jogoAtivo = false; // Desativa o jogo
+  jogoAtivo = false;
   canvas.innerHTML = "";
   barraContainer.style.display = "none";
 
   const mensagem = document.createElement("div");
-  mensagem.id = "mensagemVitoria";
+  mensagem.className = "mensagem-vitoria"; // Aplica a classe CSS
   mensagem.innerText = "VITÓRIA!";
-  // Adiciona evento de clique para redirecionar
+
+  // Mantém o evento de clique no JavaScript
   mensagem.addEventListener("click", () => {
-    window.location.href = './index.html';
+    window.location.href = '../index.html';
   });
 
   canvas.appendChild(mensagem);
 
-  bossAtivo = false;
-  bolasAcertadas = 0;
-  clearTimeout(tempoBossTimer);
-
-  // Opcional: Também pode redirecionar após alguns segundos automaticamente
   setTimeout(() => {
-    window.location.href = '../whe';
-  }, 5000);
+    window.location.href = '../index.html';
+  }, 10000);
 }
 
 // Iniciar fase
