@@ -215,7 +215,7 @@ function mostrarVitoria() {
   barraContainer.style.display = "none";
 
   const mensagem = document.createElement("div");
-  mensagem.className = "mensagem-vitoria"; // Aplica a classe CSS
+  mensagem.className = "mensagem-vitoria";
   mensagem.innerText = "VITÓRIA!";
 
   // Mantém o evento de clique no JavaScript
