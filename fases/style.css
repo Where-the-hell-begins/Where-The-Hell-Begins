@@ -16,10 +16,6 @@ html {
   font-family: Arial, sans-serif;
 }
 
-.fase1 {
-  background-image: url("imagens/teste.png");
-}
-
 #canvas {
   position: relative;
   width: 1440px;
@@ -29,12 +25,6 @@ html {
   background-position: center;
   background-repeat: no-repeat;
   user-select: none;
-}
-
-.bola {
-  background-color: red;
-  transform-origin: center;
-  animation: growAndFade 4s ease-out forwards;
 }
 
 .circuloMenor {
@@ -65,15 +55,14 @@ html {
   width: 50px;
   height: 50px;
   border-radius: 50%;
+  pointer-events: auto;
+  z-index: 10;
+  background-color: red;
+  transform-origin: center;
+  animation: growAndFade 4s ease-out forwards;
 }
 
-.boss {
-  position: absolute;
-  width: 100px;
-  height: 100px;
-  background-color: blue;
-  border-radius: 50%;
-}
+
 
 .personagem {
   position: absolute;
@@ -132,7 +121,6 @@ html {
   }
 }
 
-/* Barra de vida do boss */
 #barraVidaContainer {
   position: absolute;
   top: 10px;
@@ -202,4 +190,16 @@ html {
 
 .mensagem-vitoria:hover {
   transform: translate(-50%, -50%) scale(1.05);
+}
+
+.boss {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: blue;
+  border-radius: 50%;
+}
+
+.fase1 {
+  background-image: url("imagens/teste.png");
 }
