@@ -214,7 +214,7 @@ function atirar() {
   return true;
 }
 
-document.addEventListener("keydown", (event) => {
+window.addEventListener("keydown", (event) => {
   if (event.key === "r" && !recarregando && muni < maxmuni) {
     recarregando = true;
     setTimeout(() => {
@@ -224,6 +224,7 @@ document.addEventListener("keydown", (event) => {
     }, 500);
   }
 });
+
 
 function mostrarVitoria() {
   jogoAtivo = false;
