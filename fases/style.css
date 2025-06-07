@@ -51,7 +51,7 @@ body, html {
 
 .circulo {
   border: 3px solid white;
-  transform: translate(0%, -1%); /*centralizado*/
+  transform: translate(0%, 0%); /*centralizado*/
   
 }
 
@@ -88,7 +88,7 @@ body, html {
 #municao {
   position: absolute;
   top: 550px;
-  left: 20px;
+  left: 12px;
   display: flex;
   gap: 8px;
   z-index: 10;
@@ -106,8 +106,8 @@ body, html {
 
 #vidas {
   position: absolute;
-  top: 510px;
-  left: 20px;
+  top: 520px;
+  left: 10px;
   display: flex;
   gap: 8px;
   z-index: 10;
@@ -165,6 +165,25 @@ body, html {
   transform: translate(-50%, -50%) scale(1.05);
 }
 
+.mensagem-derrota {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  font-size: 48px;
+  color: red;
+  font-weight: bold;
+  cursor: pointer;
+  background: rgba(0,0,0,0.7);
+  padding: 20px 40px;
+  border-radius: 10px;
+  text-align: center;
+}
+
+.mensagem-derrota:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
 /* styles.css */
 
 /* Barra de vida do boss */
@@ -207,4 +226,27 @@ body, html {
   0% { filter: brightness(1); }
   50% { filter: brightness(1.5); }
   100% { filter: brightness(1); }
+}
+
+.mensagem-fase {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 24px;
+  padding: 20px 40px;
+  border-radius: 12px;
+  text-align: center;
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% { opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 1; }
+  100% { opacity: 0; }
 }
