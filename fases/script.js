@@ -5,8 +5,24 @@ let faseAtual = parseInt(canvas.dataset.fase) || 1; // Corrigido para garantir n
 // Constante para adaptar as variáveis de acordo com a fase
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
-  { fase: "1", classeCanva: "fase1", classeBolas: "bolasFase1", classeBoss: "bossFase1", posicaoBolas: [100, 200, 300, 400, 500, 600, 700], posicaoBoss: 720, bossVidaMax: 5 },
-  { fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [150, 250, 350, 450, 550, 650, 750], posicaoBoss: 770, bossVidaMax: 6 }
+  { fase: "1", classeCanva: "fase1", classeBolas: "bolasFase1", classeBoss: "bossFase1", posicaoBolas: [
+  { x: 850, y: 100 },
+  { x: 1050, y: 100 },
+  { x: 1300, y: 400 },
+  { x: 130, y: 370 },
+  { x: 400, y: 300 },
+  { x: 1010, y: 310 },
+  { x: 570, y: 350 }
+], posicaoBoss: 720, bossVidaMax: 100 },
+  { fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [
+  { x: 850, y: 100 },
+  { x: 1050, y: 100 },
+  { x: 1300, y: 400 },
+  { x: 130, y: 370 },
+  { x: 400, y: 300 },
+  { x: 1010, y: 310 },
+  { x: 570, y: 350 }
+], posicaoBoss: 770, bossVidaMax: 6 }
 ];
 
 canvas.classList.add(`${configuracaoFases[faseAtual].classeCanva}`);
@@ -57,12 +73,25 @@ function iniciarTempoBoss() {
     bossAtivo = false;
     barraContainer.style.display = "none";
     bolasAcertadas = 0;
+
+    const boss = document.querySelector(".boss");
+    if (boss) boss.remove();
+
+    // Restaurar munição se for fase 1
+    if (faseAtual === 1) {
+      muni = maxmuni;
+      atualizarMunicao();
+    }
+
     atualizarBarraVida();
     criarBola();
-  }, 5000);
+  }, 8000);
 }
 
+
 function criarBoss() {
+  if (document.querySelector(".boss") || !jogoAtivo) return;
+
   const boss = document.createElement("div");
   boss.classList.add("boss", configuracaoFases[faseAtual].classeBoss);
   boss.style.left = `${posicaoBoss - 50}px`;
@@ -75,26 +104,34 @@ function criarBoss() {
     bossVidaAtual--;
     atualizarBarraVida();
     if (bossVidaAtual <= 0) {
+      clearTimeout(tempoBossTimer);
       mostrarVitoria();
-    } else {
-      iniciarTempoBoss();
     }
   });
 }
 
+
+
+
 function criarBola() {
   if (!jogoAtivo || bossAtivo) return;
 
-  const ocupadas = new Array(posicaoBolas.length).fill(false);
-  const livres = ocupadas.map((_, i) => i);
+ const livres = posicaoBolas
+  .map((pos, i) => {
+    const ocupado = bolasAtivas.some(b => b.x === pos.x - 25 && b.y === pos.y - 25);
+    return !ocupado ? i : null;
+  })
+  .filter(i => i !== null);
+
   if (livres.length === 0) {
     setTimeout(() => criarBola(), 200);
     return;
   }
 
   const indice = livres[Math.floor(Math.random() * livres.length)];
-  const posX = posicaoBolas[indice] - 25;
-  const posY = 300;
+  const posX = posicaoBolas[indice].x - 25;
+  const posY = posicaoBolas[indice].y - 25;
+
 
   const bossArea = { x: posicaoBoss - 50, y: 250, width: 100, height: 100 };
   if (
@@ -147,14 +184,16 @@ function criarBola() {
     envelope.remove();
     bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
     if (!bossAtivo) {
-      bolasAcertadas++;
-      if (bolasAcertadas >= 10) {
-        bossAtivo = true;
-        barraContainer.style.display = "block";
-        atualizarBarraVida();
-        iniciarTempoBoss();
-      }
-    }
+    bolasAcertadas++;
+    if (bolasAcertadas >= 10) {
+    bossAtivo = true;
+    barraContainer.style.display = "block";
+    atualizarBarraVida();
+    criarBoss();
+    iniciarTempoBoss(); // Inicia uma única vez aqui
+  }
+}
+
   });
 
   setTimeout(() => {
@@ -208,15 +247,26 @@ function atualizarVidas() {
 }
 
 function atirar() {
-  if (recarregando || muni <= 0) return false;
+  if (recarregando) return false;
+
+  if (faseAtual === 1 && bossAtivo) return true;
+
+  if (muni <= 0) {
+    mostrarMensagemRecarregar();
+    return false;
+  }
+
   muni--;
   atualizarMunicao();
   return true;
 }
 
+
+
 window.addEventListener("keydown", (event) => {
   if (event.key === "r" && !recarregando && muni < maxmuni) {
     recarregando = true;
+    mostrarAnimacaoRecarregando();
     setTimeout(() => {
       muni = maxmuni;
       atualizarMunicao();
@@ -226,13 +276,40 @@ window.addEventListener("keydown", (event) => {
 });
 
 
+const msgRecarregar = document.getElementById("mensagem-recarregar");
+const barraRecarregando = document.getElementById("animacao-recarregando");
+
+function mostrarMensagemRecarregar() {
+  msgRecarregar.style.display = "block";
+  setTimeout(() => {
+    msgRecarregar.style.display = "none";
+  }, 1500);
+}
+
+function mostrarAnimacaoRecarregando() {
+  barraRecarregando.style.display = "block";
+  barraRecarregando.style.width = "0";
+  barraRecarregando.style.transition = "width 0.5s linear";
+  setTimeout(() => {
+    barraRecarregando.style.width = "150px";
+  }, 10);
+  setTimeout(() => {
+    barraRecarregando.style.display = "none";
+    barraRecarregando.style.width = "0";
+  }, 550);
+}
+
+
 function mostrarVitoria() {
   jogoAtivo = false;
+  // Remove bolas restantes e limpa timers
+  bolasAtivas.forEach(b => b.el.remove());
+  bolasAtivas = [];
+  clearTimeout(tempoBossTimer);
   canvas.innerHTML = "";
   barraContainer.style.display = "none";
   const mensagem = document.createElement("div");
   const proximaFase = faseAtual + 1;
-
   mensagem.className = "mensagem-vitoria";
   mensagem.innerText = "VITÓRIA!";
   canvas.appendChild(mensagem);
@@ -254,6 +331,10 @@ function mostrarVitoria() {
 
 function mostrarGameOver() {
   jogoAtivo = false;
+  // Remove bolas restantes e limpa timers
+  bolasAtivas.forEach(b => b.el.remove());
+  bolasAtivas = [];
+  clearTimeout(tempoBossTimer);
   canvas.innerHTML = "";
   barraContainer.style.display = "none";
   const mensagem = document.createElement("div");
@@ -271,18 +352,19 @@ function mostrarGameOver() {
 function iniciarFase() {
   const mensagem = document.createElement("div");
   mensagem.className = "mensagem-fase";
-  mensagem.innerHTML = `<strong>Fase ${faseAtual}</strong><br>Prepare-se! Eles estão vindo em ondas... não desperdice sua munição!`;
+  mensagem.innerHTML = `<strong>Fase ${faseAtual}</strong><br>A Gula foi despertada <br>De a ela o que ela mais deseja: uma chuva de balas!`;
   canvas.appendChild(mensagem);
+
   setTimeout(() => {
     mensagem.remove();
-    criarBola();
-    criarBoss();
-    criaPersonagem();
+    criarBola();               // Começa as bolas
+    criaPersonagem();          // Mostra personagem
     atualizarMunicao();
     atualizarVidas();
-    atualizarBarraVida();
+    atualizarBarraVida();      // Só mostrará se boss aparecer
   }, 3000);
 }
+
 
 // Inicializa a fase ao carregar
 iniciarFase();
