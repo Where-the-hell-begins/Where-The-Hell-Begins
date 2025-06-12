@@ -46,7 +46,7 @@ let tempoTotalBoss = 8; // 8 segundos de duração
 let tempoAtualBoss = 0;
 
 
-let maxVidas = 5;
+let maxVidas = 6;
 let vidas = maxVidas;
 let bolasAtivas = [];
 
@@ -286,7 +286,7 @@ function atualizarMunicao() {
   for (let i = 0; i < maxmuni; i++) {
     const bala = document.createElement("span");
     bala.classList.add("bala");
-    bala.innerText = "⏺";
+    bala.innerHTML = `<img src="imagens/bala.png" class="icone-bala">`;
     if (i >= muni) bala.classList.add("apagada");
     container.appendChild(bala);
   }

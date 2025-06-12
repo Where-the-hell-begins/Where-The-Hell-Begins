@@ -110,18 +110,23 @@ body, html {
 
 #municao {
   position: absolute;
-  top: 550px;
-  left: 12px;
+  top: 560px;
+  left: 8px;
   display: flex;
   gap: 8px;
   z-index: 10;
 }
 
 .bala {
-  font-size: 28px;
-  color: white;
+  width: 28px;
+  height: 28px;
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+  background-image: url("imagens/bala.png");
   transition: opacity 0.2s ease;
 }
+
 
 .bala.apagada {
   opacity: 0.2;
@@ -130,7 +135,7 @@ body, html {
 #vidas {
   position: absolute;
   top: 520px;
-  left: 10px;
+  left: 14px;
   display: flex;
   gap: 8px;
   z-index: 10;
