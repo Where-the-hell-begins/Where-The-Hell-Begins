@@ -29,7 +29,7 @@ canvas.classList.add(`${configuracaoFases[faseAtual].classeCanva}`);
 
 let maxmuni = 6;
 let muni = maxmuni;
-const posicaoBolas = configuracaoFases[faseAtual].posicaoBolas[faseAtual - 1]
+const posicaoBolas = configuracaoFases[faseAtual].posicaoBolas
 let bolasAcertadas = 0;
 let recarregando = false;
 let jogoAtivo = true;
