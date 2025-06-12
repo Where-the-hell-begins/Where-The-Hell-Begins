@@ -29,7 +29,7 @@ canvas.classList.add(`${configuracaoFases[faseAtual].classeCanva}`);
 
 let maxmuni = 6;
 let muni = maxmuni;
-const posicaoBolas = configuracaoFases[faseAtual].posicaoBolas;
+const posicaoBolas = configuracaoFases[faseAtual].posicaoBolas
 let bolasAcertadas = 0;
 let recarregando = false;
 let jogoAtivo = true;
@@ -39,6 +39,12 @@ const posicaoBoss = configuracaoFases[faseAtual].posicaoBoss;
 let bossVidaAtual = bossVidaMax;
 let bossAtivo = false;
 let tempoBossTimer = null;
+const bossTimerCanvas = document.getElementById('boss-timer-circle');
+const bossTimerCtx = bossTimerCanvas.getContext('2d');
+let tempoBossInterval = null;
+let tempoTotalBoss = 8; // 8 segundos de duração
+let tempoAtualBoss = 0;
+
 
 let maxVidas = 6;
 let vidas = maxVidas;
@@ -58,6 +64,12 @@ barraVida.appendChild(textoVida);
 barraContainer.appendChild(barraVida);
 document.body.appendChild(barraContainer);
 
+function atualizarFaseHUD(numero, nome) {
+  const hud = document.getElementById("faseAtual");
+  hud.textContent = `Fase ${numero}: ${nome}`;
+}
+
+
 function atualizarBarraVida() {
   const porcentagem = (bossVidaAtual / bossVidaMax) * 100;
   barraVida.style.width = porcentagem + "%";
@@ -69,24 +81,70 @@ function atualizarBarraVida() {
 
 function iniciarTempoBoss() {
   if (tempoBossTimer) clearTimeout(tempoBossTimer);
-  tempoBossTimer = setTimeout(() => {
-    bossAtivo = false;
-    barraContainer.style.display = "none";
-    bolasAcertadas = 0;
+  if (tempoBossInterval) clearInterval(tempoBossInterval);
+  
+  tempoAtualBoss = 0;
+  bossTimerCanvas.style.display = "block";
 
-    const boss = document.querySelector(".boss");
-    if (boss) boss.remove();
+  tempoBossInterval = setInterval(() => {
+    tempoAtualBoss += 0.1;
+    if (tempoAtualBoss >= tempoTotalBoss) {
+      tempoAtualBoss = tempoTotalBoss;
+      clearInterval(tempoBossInterval);
+      bossTimerCanvas.style.display = "none";
+      bossAtivo = false;
+      barraContainer.style.display = "none";
+      bolasAcertadas = 0;
 
-    // Restaurar munição se for fase 1
-    if (faseAtual === 1) {
-      muni = maxmuni;
-      atualizarMunicao();
+      const boss = document.querySelector(".boss");
+      if (boss) boss.remove();
+
+      if (faseAtual === 1) {
+        muni = maxmuni;
+        atualizarMunicao();
+      }
+
+      atualizarBarraVida();
+      criarBola();
     }
 
-    atualizarBarraVida();
-    criarBola();
-  }, 8000);
+    desenharBossTimer();
+  }, 100);
 }
+
+function desenharBossTimer() {
+  const ctx = bossTimerCtx;
+  const canvas = bossTimerCanvas;
+  const raio = 45;
+  const centroX = canvas.width / 2;
+  const centroY = canvas.height / 2;
+
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+  // Fundo cinza
+  ctx.beginPath();
+  ctx.arc(centroX, centroY, raio, 0, 2 * Math.PI);
+  ctx.fillStyle = '#333';
+  ctx.fill();
+
+  const angulo = (tempoAtualBoss / tempoTotalBoss) * 2 * Math.PI;
+
+  // "fatia de pizza" em vermelho
+  ctx.beginPath();
+  ctx.moveTo(centroX, centroY);
+  ctx.arc(centroX, centroY, raio, -Math.PI / 2, -Math.PI / 2 + angulo);
+  ctx.closePath();
+  ctx.fillStyle = 'red';
+  ctx.fill();
+
+  // Borda branca
+  ctx.beginPath();
+  ctx.arc(centroX, centroY, raio, 0, 2 * Math.PI);
+  ctx.strokeStyle = 'white';
+  ctx.lineWidth = 4;
+  ctx.stroke();
+}
+
 
 
 function criarBoss() {

@@ -32,6 +32,29 @@ body, html {
   background-image: url("imagens/teste.png"); /* caminho corrigido */
 }
 
+#hud {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 12px;
+  color: white;
+  font-family: 'Arial', sans-serif;
+  font-size: 18px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+#boss-timer-circle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
 .bola {
   background-color: red;
   transform-origin: center;

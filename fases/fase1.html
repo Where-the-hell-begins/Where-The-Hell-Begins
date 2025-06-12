@@ -5,9 +5,12 @@
   <title>Fase 1</title>
   <link rel="stylesheet" href="style.css" />
   <script src="script.js" defer></script>
-
 </head>
 <body>
+
+  <div id="hud">
+    <span id="faseAtual">Fase 1: Gula</span>
+  </div>
 
   <div id="canvas" class="fase1" data-fase="1">
     <div id="municao"></div>
@@ -16,9 +19,11 @@
     <div id="animacao-recarregando"></div>
   </div>
 
+  <!-- Canvas do temporizador em forma de pizza -->
+  <canvas id="boss-timer-circle" width="100" height="100"></canvas>
+
 </body>
 </html>
-
 
 <!--
 
