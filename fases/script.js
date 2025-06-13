@@ -287,7 +287,6 @@ function atualizarMunicao() {
   for (let i = 0; i < maxmuni; i++) {
     const bala = document.createElement("span");
     bala.classList.add("bala");
-    bala.innerHTML = `<img src="imagens/bala.png" class="icone-bala">`;
     if (i >= muni) bala.classList.add("apagada");
     container.appendChild(bala);
   }
@@ -299,7 +298,7 @@ function atualizarVidas() {
   for (let i = 0; i < maxVidas; i++) {
     const vida = document.createElement("span");
     vida.classList.add("vida");
-    vida.innerText = "❤";
+    vida.innerHTML = '<img src="imagens/coracao.png" class="icone-coracao">'; //agora a vida não é um emote
     if (i >= vidas) vida.classList.add("perdida");
     container.appendChild(vida);
   }

@@ -4,7 +4,8 @@
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   height: 100%;
   background-color: #181818;
   cursor: crosshair;
@@ -17,11 +18,15 @@ body, html {
 
 #canvas {
   position: relative;
-  width: 1440px; /* ajuste conforme necessário para seu layout */
-  height: 600px; /* altura suficiente para as bolas e o personagem */
-  margin: 0 auto; /* centraliza o canvas horizontalmente */
+  width: 1440px;
+  /* ajuste conforme necessário para seu layout */
+  height: 600px;
+  /* altura suficiente para as bolas e o personagem */
+  margin: 0 auto;
+  /* centraliza o canvas horizontalmente */
   border: 2px solid #333;
-  overflow: hidden; /* impede elementos saírem do canvas visualmente */
+  overflow: hidden;
+  /* impede elementos saírem do canvas visualmente */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -29,8 +34,9 @@ body, html {
   z-index: 1;
 }
 
-.fase1{
-  background-image: url("imagens/teste.png"); /* caminho corrigido */
+.fase1 {
+  background-image: url("imagens/teste.png");
+  /* caminho corrigido */
 }
 
 #hud {
@@ -62,7 +68,7 @@ body, html {
   animation: growAndFade 4s ease-out forwards;
 }
 
-.circuloMenor{
+.circuloMenor {
   position: absolute;
   width: 30px;
   height: 30px;
@@ -75,11 +81,13 @@ body, html {
 
 .circulo {
   border: 3px solid white;
-  transform: translate(0%, 0%); /*centralizado*/
-  
+  transform: translate(0%, 0%);
+  /*centralizado*/
+
 }
 
-.circulo, .bola {
+.circulo,
+.bola {
   position: absolute;
   width: 50px;
   height: 50px;
@@ -87,14 +95,14 @@ body, html {
 }
 
 .boss {
-  
+
   left: 33rem !important;
   top: 8rem !important;
   position: absolute;
   width: 350px;
   height: 350px;
   z-index: 2;
-  
+
   background-image: url(imagens/Gula.png);
   background-repeat: no-repeat;
 }
@@ -108,7 +116,8 @@ body, html {
   transform-origin: center bottom;
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.05s linear;
-  background-image: url("imagens/personagem.png"); /*imagem da personagem*/
+  background-image: url("imagens/personagem.png");
+  /*imagem da personagem*/
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -125,8 +134,8 @@ body, html {
 }
 
 .bala {
-  width: 28px;
-  height: 28px;
+  width: 32px;
+  height: 32px;
   display: flex;
   gap: 5px;
   z-index: 10;
@@ -141,16 +150,21 @@ body, html {
 
 #vidas {
   position: absolute;
+  max-height: 32px;
   top: 520px;
-  left: 14px;
+  left: 8px;
   display: flex;
   gap: 8px;
   z-index: 10;
+  background-repeat: no-repeat;
 }
 
-.vida {
-  font-size: 28px;
-  color: red;
+.icone-coracao {
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  gap: 5px;
+  
 }
 
 .vida.perdida {
@@ -162,6 +176,7 @@ body, html {
   0% {
     opacity: 1;
   }
+
   100% {
     opacity: 0;
   }
@@ -171,6 +186,7 @@ body, html {
   0% {
     transform: scale(0);
   }
+
   100% {
     transform: scale(1);
   }
@@ -186,7 +202,7 @@ body, html {
   font-weight: bold;
   text-shadow: 2px 2px 4px black;
   cursor: pointer;
-  
+
   /* Estilos adicionais sugeridos */
   background-color: rgba(0, 0, 0, 0.7);
   padding: 20px 40px;
@@ -209,7 +225,7 @@ body, html {
   color: red;
   font-weight: bold;
   cursor: pointer;
-  background: rgba(0,0,0,0.7);
+  background: rgba(0, 0, 0, 0.7);
   padding: 20px 40px;
   border-radius: 10px;
   text-align: center;
@@ -258,9 +274,17 @@ body, html {
 }
 
 @keyframes dano {
-  0% { filter: brightness(1); }
-  50% { filter: brightness(1.5); }
-  100% { filter: brightness(1); }
+  0% {
+    filter: brightness(1);
+  }
+
+  50% {
+    filter: brightness(1.5);
+  }
+
+  100% {
+    filter: brightness(1);
+  }
 }
 
 .mensagem-fase {
@@ -280,10 +304,21 @@ body, html {
 }
 
 @keyframes fadeInOut {
-  0% { opacity: 0; }
-  10% { opacity: 1; }
-  90% { opacity: 1; }
-  100% { opacity: 0; }
+  0% {
+    opacity: 0;
+  }
+
+  10% {
+    opacity: 1;
+  }
+
+  90% {
+    opacity: 1;
+  }
+
+  100% {
+    opacity: 0;
+  }
 }
 
 #mensagem-recarregar {
@@ -302,8 +337,13 @@ body, html {
 }
 
 @keyframes piscar {
-  from { opacity: 1; }
-  to { opacity: 0.3; }
+  from {
+    opacity: 1;
+  }
+
+  to {
+    opacity: 0.3;
+  }
 }
 
 #animacao-recarregando {
