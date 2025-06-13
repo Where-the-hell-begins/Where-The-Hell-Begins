@@ -26,6 +26,7 @@ body, html {
   background-position: center;
   background-repeat: no-repeat;
   user-select: none;
+  z-index: 1;
 }
 
 .fase1{
@@ -86,11 +87,16 @@ body, html {
 }
 
 .boss {
+  
+  left: 33rem !important;
+  top: 8rem !important;
   position: absolute;
-  width: 100px;
-  height: 100px;
-  background-color: blue;
-  border-radius: 50%;
+  width: 350px;
+  height: 350px;
+  z-index: 2;
+  
+  background-image: url(imagens/Gula.png);
+  background-repeat: no-repeat;
 }
 
 .personagem {
@@ -106,6 +112,7 @@ body, html {
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  z-index: 3;
 }
 
 #municao {

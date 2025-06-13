@@ -13,7 +13,7 @@ const configuracaoFases = [
   { x: 300, y: 275 },
   { x: 990, y: 275 },
   { x: 510, y: 290 }
-], posicaoBoss: 720, bossVidaMax: 100 },
+], posicaoBoss: 630, bossVidaMax: 100 },
   { fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [
    { x: 805, y: 100 },
   { x: 1015, y: 100 },
@@ -152,8 +152,9 @@ function criarBoss() {
 
   const boss = document.createElement("div");
   boss.classList.add("boss", configuracaoFases[faseAtual].classeBoss);
-  boss.style.left = `${posicaoBoss - 50}px`;
-  boss.style.top = "250px";
+  boss.style.left = `${posicaoBoss - 25}px`;
+  boss.style.backgroundSize = "350px";
+  boss.style.top = "25px";
   canvas.appendChild(boss);
 
   boss.addEventListener("click", (event) => {
@@ -421,6 +422,22 @@ function iniciarFase() {
     atualizarVidas();
     atualizarBarraVida();      // Só mostrará se boss aparecer
   }, 3000);
+
+
+  /*//CODIGO DE TESTE BOSS
+  setTimeout(() => {
+  mensagem.remove();
+  criaPersonagem();          
+  atualizarMunicao();
+  atualizarVidas();
+  
+  bossAtivo = true;
+  barraContainer.style.display = "block";
+  atualizarBarraVida();
+  criarBoss();               // Força o boss aparecer
+  iniciarTempoBoss();       // Inicia o tempo do boss
+}, 1000);*/
+
 }
 
 
