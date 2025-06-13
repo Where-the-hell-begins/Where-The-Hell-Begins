@@ -4,24 +4,22 @@
   box-sizing: border-box;
 }
 
-body, html {
-  height: 100%;
-  background-color: #181818;
-  cursor: crosshair;
-  overflow: hidden;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-family: Arial, sans-serif;
+html, body {
+  overflow: hidden; /* já tem, impede scroll */
+  width: 100vw;
+  height: 100vh;
+  max-width: 100vw;
+  max-height: 100vh;
 }
+
 
 #canvas {
   position: relative;
-  width: 1440px; /* ajuste conforme necessário para seu layout */
-  height: 600px; /* altura suficiente para as bolas e o personagem */
-  margin: 0 auto; /* centraliza o canvas horizontalmente */
+  width: 100vw;    /* usa toda largura da janela */
+  height: 100vh;   /* usa toda altura da janela */
+  margin: 0 auto;
   border: 2px solid #333;
-  overflow: hidden; /* impede elementos saírem do canvas visualmente */
+  overflow: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -87,16 +85,21 @@ body, html {
 
 .boss {
   position: absolute;
-  width: 100px;
-  height: 100px;
+  width: 100px;     /* Ajuste o tamanho conforme desejar */
+  height: 100px;    /* Para ficar quadrado, ou ajuste a altura */
   background-color: blue;
   border-radius: 50%;
+  
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 1000; /* Para ficar acima de outros elementos */
 }
 
 .personagem {
   position: absolute;
-  width: 500px;
-  height: 200px;
+  width: 15vw; /* largura da personagem */
+  height: 15vw; /* altura da personagem */
   bottom: 0;
   left: 50%;
   transform-origin: center bottom;
@@ -110,8 +113,8 @@ body, html {
 
 #municao {
   position: absolute;
-  top: 560px;
-  left: 8px;
+  top: 880px;
+  left: 10px;
   display: flex;
   gap: 8px;
   z-index: 10;
@@ -134,8 +137,8 @@ body, html {
 
 #vidas {
   position: absolute;
-  top: 520px;
-  left: 14px;
+  top: 835px;
+  left: 9px;
   display: flex;
   gap: 8px;
   z-index: 10;
