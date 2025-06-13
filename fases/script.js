@@ -6,22 +6,22 @@ let faseAtual = parseInt(canvas.dataset.fase) || 1; // Corrigido para garantir n
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
   { fase: "1", classeCanva: "fase1", classeBolas: "bolasFase1", classeBoss: "bossFase1", posicaoBolas: [
-  { x: 850, y: 100 },
-  { x: 1050, y: 100 },
-  { x: 1300, y: 400 },
+  { x: 805, y: 100 },
+  { x: 1015, y: 100 },
+  { x: 1280, y: 320 },
   { x: 130, y: 370 },
-  { x: 400, y: 300 },
-  { x: 1010, y: 310 },
-  { x: 570, y: 350 }
+  { x: 300, y: 275 },
+  { x: 990, y: 275 },
+  { x: 510, y: 290 }
 ], posicaoBoss: 720, bossVidaMax: 100 },
   { fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [
-  { x: 850, y: 100 },
-  { x: 1050, y: 100 },
-  { x: 1300, y: 400 },
+   { x: 805, y: 100 },
+  { x: 1015, y: 100 },
+  { x: 1280, y: 320 },
   { x: 130, y: 370 },
-  { x: 400, y: 300 },
-  { x: 1010, y: 310 },
-  { x: 570, y: 350 }
+  { x: 300, y: 275 },
+  { x: 990, y: 275 },
+  { x: 510, y: 290 }
 ], posicaoBoss: 770, bossVidaMax: 6 }
 ];
 
