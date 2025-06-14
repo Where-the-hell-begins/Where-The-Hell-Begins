@@ -1,19 +1,54 @@
+
 // Variáveis globais do jogo para definir o fundo e as fases
 const canvas = document.getElementById("canvas");
 let faseAtual = parseInt(canvas.dataset.fase) || 1; // Corrigido para garantir número
 
-// Constante para adaptar as variáveis de acordo com a fase
+// Ajusta o tamanho do canvas para a tela toda
+function ajustarTela() {
+  canvas.style.width = window.innerWidth + "px";
+  canvas.style.height = window.innerHeight + "px";
+  
+}
+window.addEventListener("load", ajustarTela);
+window.addEventListener("resize", ajustarTela);
+
+window.addEventListener('wheel', function(e) {
+  if (e.ctrlKey) {
+    e.preventDefault(); // bloqueia zoom com Ctrl + roda do mouse
+  }
+}, { passive: false });
+
+window.addEventListener('keydown', function(e) {
+  // Bloquear Ctrl + '+' ou Ctrl + '-' e Ctrl + '0'
+  if (e.ctrlKey) {
+    if (
+      e.key === '+' || 
+      e.key === '-' || 
+      e.key === '=' || // '=' também pode ser o '+'
+      e.key === '0'
+    ) {
+      e.preventDefault();
+    }
+  }
+});
+
+
+
+// Configurações das fases com posições relativas (0 a 1)
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
   { fase: "1", classeCanva: "fase1", classeBolas: "bolasFase1", classeBoss: "bossFase1", posicaoBolas: [
-  { x: 805, y: 100 },
-  { x: 1015, y: 100 },
-  { x: 1280, y: 320 },
-  { x: 130, y: 370 },
-  { x: 300, y: 275 },
-  { x: 990, y: 275 },
-  { x: 510, y: 290 }
-], posicaoBoss: 630, bossVidaMax: 100 },
+    { x: 0.56, y: 0.2 }, //janela 1
+    { x: 0.705, y: 0.2 }, //janela 2
+    { x: 0.69, y: 0.48}, // atras da carroça
+    { x: 0.9, y: 0.53}, // varanda esquerda
+    { x: 0.32, y: 0.48 }, // perto da carroça
+    { x: 0.21, y: 0.44  }, // dentro da corroça
+    { x: 0.02, y: 0.48 } //varanda direita
+], posicaoBoss: [
+  { x: 0.5, y: 0.5 } // Posição centralizada para o boss
+] , bossVidaMax: 100 }, 
+
   { fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [
    { x: 805, y: 100 },
   { x: 1015, y: 100 },
@@ -25,17 +60,18 @@ const configuracaoFases = [
 ], posicaoBoss: 770, bossVidaMax: 6 }
 ];
 
-canvas.classList.add(`${configuracaoFases[faseAtual].classeCanva}`);
+// Aplica classe da fase ao canvas
+canvas.classList.add(configuracaoFases[faseAtual].classeCanva);
 
 let maxmuni = 6;
 let muni = maxmuni;
-const posicaoBolas = configuracaoFases[faseAtual].posicaoBolas
+const posicaoBolasRelativas = configuracaoFases[faseAtual].posicaoBolas;
 let bolasAcertadas = 0;
 let recarregando = false;
 let jogoAtivo = true;
 
 let bossVidaMax = configuracaoFases[faseAtual].bossVidaMax;
-const posicaoBoss = configuracaoFases[faseAtual].posicaoBoss;
+const posicaoBossRelativa = configuracaoFases[faseAtual].posicaoBoss;
 let bossVidaAtual = bossVidaMax;
 let bossAtivo = false;
 let tempoBossTimer = null;
@@ -44,7 +80,6 @@ const bossTimerCtx = bossTimerCanvas.getContext('2d');
 let tempoBossInterval = null;
 let tempoTotalBoss = 8; // 8 segundos de duração
 let tempoAtualBoss = 0;
-
 
 let maxVidas = 6;
 let vidas = maxVidas;
@@ -69,7 +104,6 @@ function atualizarFaseHUD(numero, nome) {
   hud.textContent = `Fase ${numero}: ${nome}`;
 }
 
-
 function atualizarBarraVida() {
   const porcentagem = (bossVidaAtual / bossVidaMax) * 100;
   barraVida.style.width = porcentagem + "%";
@@ -82,7 +116,7 @@ function atualizarBarraVida() {
 function iniciarTempoBoss() {
   if (tempoBossTimer) clearTimeout(tempoBossTimer);
   if (tempoBossInterval) clearInterval(tempoBossInterval);
-  
+
   tempoAtualBoss = 0;
   bossTimerCanvas.style.display = "block";
 
@@ -109,17 +143,17 @@ function iniciarTempoBoss() {
     }
 
     desenharBossTimer();
-  }, 100);
+  }, 90); 
 }
 
 function desenharBossTimer() {
   const ctx = bossTimerCtx;
-  const canvas = bossTimerCanvas;
+  const canvasTimer = bossTimerCanvas;
   const raio = 45;
-  const centroX = canvas.width / 2;
-  const centroY = canvas.height / 2;
+  const centroX = canvasTimer.width / 2;
+  const centroY = canvasTimer.height / 2;
 
-  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  ctx.clearRect(0, 0, canvasTimer.width, canvasTimer.height);
 
   // Fundo cinza
   ctx.beginPath();
@@ -145,16 +179,42 @@ function desenharBossTimer() {
   ctx.stroke();
 }
 
-
+// Função auxiliar para converter posição relativa para pixels com ajuste de offset (50px para centralizar)
+// OFFSET considera largura/altura do elemento (50x50)
+function posicaoRelativaParaPixels(posRelativa) {
+  const largura = canvas.clientWidth;
+  const altura = canvas.clientHeight;
+  return {
+    x: Math.round(posRelativa.x * largura) - 25,
+    y: Math.round(posRelativa.y * altura) - 25,
+  };
+}
 
 function criarBoss() {
   if (document.querySelector(".boss") || !jogoAtivo) return;
 
   const boss = document.createElement("div");
   boss.classList.add("boss", configuracaoFases[faseAtual].classeBoss);
-  boss.style.left = `${posicaoBoss - 25}px`;
-  boss.style.backgroundSize = "350px";
-  boss.style.top = "25px";
+
+  // Defina o tamanho real do boss
+  const bossWidth = 400;  // maior largura
+  const bossHeight = 400; // maior altura
+
+  boss.style.width = `${bossWidth}px`;
+  boss.style.height = `${bossHeight}px`;
+  boss.style.position = "absolute";
+  boss.style.backgroundSize = "contain"; // Faz a imagem se ajustar sem cortar
+
+  // Calcula o centro do canvas
+  const canvasWidth = canvas.offsetWidth;
+  const canvasHeight = canvas.offsetHeight;
+
+  const posX = (canvasWidth - bossWidth) / 2;
+  const posY = (canvasHeight - bossHeight) / 2;
+
+  boss.style.left = `${posX}px`;
+  boss.style.top = `${posY}px`;
+
   canvas.appendChild(boss);
 
   boss.addEventListener("click", (event) => {
@@ -170,17 +230,19 @@ function criarBoss() {
 }
 
 
-
-
 function criarBola() {
   if (!jogoAtivo || bossAtivo) return;
 
- const livres = posicaoBolas
-  .map((pos, i) => {
-    const ocupado = bolasAtivas.some(b => b.x === pos.x - 25 && b.y === pos.y - 25);
-    return !ocupado ? i : null;
-  })
-  .filter(i => i !== null);
+  // converte posições relativas para pixels toda vez para acompanhar o tamanho da tela
+  const posicoesBolasPixels = posicaoBolasRelativas.map(pos => posicaoRelativaParaPixels(pos));
+
+  // seleciona posições livres para evitar sobreposição com bolasAtivas
+  const livres = posicoesBolasPixels
+    .map((pos, i) => {
+      const ocupado = bolasAtivas.some(b => b.x === pos.x && b.y === pos.y);
+      return !ocupado ? i : null;
+    })
+    .filter(i => i !== null);
 
   if (livres.length === 0) {
     setTimeout(() => criarBola(), 200);
@@ -188,11 +250,14 @@ function criarBola() {
   }
 
   const indice = livres[Math.floor(Math.random() * livres.length)];
-  const posX = posicaoBolas[indice].x - 25;
-  const posY = posicaoBolas[indice].y - 25;
+  const posX = posicoesBolasPixels[indice].x;
+  const posY = posicoesBolasPixels[indice].y;
 
+  // Área do boss (dimensões aproximadas 100x100)
+  const bossPosPixels = posicaoRelativaParaPixels(posicaoBossRelativa);
+  const bossArea = { x: bossPosPixels.x, y: bossPosPixels.y, width: 100, height: 100 };
 
-  const bossArea = { x: posicaoBoss - 50, y: 250, width: 100, height: 100 };
+  // Verifica se bola está sobre a área do boss
   if (
     posX < bossArea.x + bossArea.width &&
     posX + 50 > bossArea.x &&
@@ -203,6 +268,7 @@ function criarBola() {
     return;
   }
 
+  // Verifica colisão com outras bolas ativas
   const colisao = bolasAtivas.some((b) => (
     posX < b.x + 50 &&
     posX + 50 > b.x &&
@@ -215,6 +281,7 @@ function criarBola() {
     return;
   }
 
+  // Cria o envelope e bola com as classes e posições
   const envelope = document.createElement("div");
   envelope.style.position = "absolute";
 
@@ -243,16 +310,15 @@ function criarBola() {
     envelope.remove();
     bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
     if (!bossAtivo) {
-    bolasAcertadas++;
-    if (bolasAcertadas >= 10) {
-    bossAtivo = true;
-    barraContainer.style.display = "block";
-    atualizarBarraVida();
-    criarBoss();
-    iniciarTempoBoss(); // Inicia uma única vez aqui
-  }
-}
-
+      bolasAcertadas++;
+      if (bolasAcertadas >= 10) {
+        bossAtivo = true;
+        barraContainer.style.display = "block";
+        atualizarBarraVida();
+        criarBoss();
+        iniciarTempoBoss(); // Inicia uma única vez aqui
+      }
+    }
   });
 
   setTimeout(() => {
@@ -319,8 +385,6 @@ function atirar() {
   return true;
 }
 
-
-
 window.addEventListener("keydown", (event) => {
   if (event.key === "r" && !recarregando && muni < maxmuni) {
     recarregando = true;
@@ -332,7 +396,6 @@ window.addEventListener("keydown", (event) => {
     }, 500);
   }
 });
-
 
 const msgRecarregar = document.getElementById("mensagem-recarregar");
 const barraRecarregando = document.getElementById("animacao-recarregando");
@@ -357,10 +420,8 @@ function mostrarAnimacaoRecarregando() {
   }, 550);
 }
 
-
 function mostrarVitoria() {
   jogoAtivo = false;
-  // Remove bolas restantes e limpa timers
   bolasAtivas.forEach(b => b.el.remove());
   bolasAtivas = [];
   clearTimeout(tempoBossTimer);
@@ -384,12 +445,10 @@ function mostrarVitoria() {
       window.location.href = `./fase${proximaFase}.html`;
     }, 10000);
   }
-
 }
 
 function mostrarGameOver() {
   jogoAtivo = false;
-  // Remove bolas restantes e limpa timers
   bolasAtivas.forEach(b => b.el.remove());
   bolasAtivas = [];
   clearTimeout(tempoBossTimer);
@@ -438,7 +497,6 @@ function iniciarFase() {
 }, 1000);*/
 
 }
-
 
 // Inicializa a fase ao carregar
 iniciarFase();
