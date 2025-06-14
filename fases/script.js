@@ -80,6 +80,8 @@ const bossTimerCtx = bossTimerCanvas.getContext('2d');
 let tempoBossInterval = null;
 let tempoTotalBoss = 8; // 8 segundos de duração
 let tempoAtualBoss = 0;
+let bossVulneravel = false;
+
 
 let maxVidas = 6;
 let vidas = maxVidas;
@@ -120,31 +122,42 @@ function iniciarTempoBoss() {
   tempoAtualBoss = 0;
   bossTimerCanvas.style.display = "block";
 
-  tempoBossInterval = setInterval(() => {
-    tempoAtualBoss += 0.1;
-    if (tempoAtualBoss >= tempoTotalBoss) {
-      tempoAtualBoss = tempoTotalBoss;
-      clearInterval(tempoBossInterval);
-      bossTimerCanvas.style.display = "none";
-      bossAtivo = false;
-      barraContainer.style.display = "none";
-      bolasAcertadas = 0;
+  tempoBossInterval = setInterval(atualizarTempoBoss, 90);
+}
 
-      const boss = document.querySelector(".boss");
-      if (boss) boss.remove();
+function atualizarTempoBoss() {
+  tempoAtualBoss += 0.1;
 
-      if (faseAtual === 1) {
-        muni = maxmuni;
-        atualizarMunicao();
-      }
+  if (tempoAtualBoss >= tempoTotalBoss) {
+    tempoAtualBoss = tempoTotalBoss;
+    clearInterval(tempoBossInterval);
+    bossTimerCanvas.style.display = "none";
 
-      atualizarBarraVida();
-      criarBola();
+    // Boss permanece visível, mas não pode levar dano
+    bossVulneravel = false;       // desativa dano no boss
+    bossAtivo = false;            // barra de vida oculta
+    barraContainer.style.display = "none";
+
+    bolasAcertadas = 0;           // reset contador bolinhas para poder ativar dano depois
+
+    // Se estiver na fase 1, recarrega munição
+    if (faseAtual === 1) {
+      muni = maxmuni;
+      atualizarMunicao();
     }
 
-    desenharBossTimer();
-  }, 90); 
+    atualizarBarraVida();         // atualiza barra (deve ficar invisível porque bossAtivo = false)
+
+    // Cria uma nova bolinha para o jogador acertar e reativar o boss
+    criarBola();
+
+    // OBS: o boss continua na tela, invisível? Não, ele fica visível.
+    // Então não removemos o elemento do boss aqui.
+  }
+
+  desenharBossTimer();
 }
+
 
 function desenharBossTimer() {
   const ctx = bossTimerCtx;
@@ -189,37 +202,41 @@ function posicaoRelativaParaPixels(posRelativa) {
     y: Math.round(posRelativa.y * altura) - 25,
   };
 }
-
 function criarBoss() {
   if (document.querySelector(".boss") || !jogoAtivo) return;
 
-  const boss = document.createElement("div");
-  boss.classList.add("boss", configuracaoFases[faseAtual].classeBoss);
+  // Remover todas as bolas ativas antes de mostrar o boss
+  bolasAtivas.forEach(b => b.el.remove());
+  bolasAtivas = [];
 
-  // Defina o tamanho real do boss
-  const bossWidth = 400;  // maior largura
-  const bossHeight = 400; // maior altura
+  const bossWidth = 400;
+  const bossHeight = 400;
 
-  boss.style.width = `${bossWidth}px`;
-  boss.style.height = `${bossHeight}px`;
-  boss.style.position = "absolute";
-  boss.style.backgroundSize = "contain"; // Faz a imagem se ajustar sem cortar
-
-  // Calcula o centro do canvas
   const canvasWidth = canvas.offsetWidth;
   const canvasHeight = canvas.offsetHeight;
 
   const posX = (canvasWidth - bossWidth) / 2;
   const posY = (canvasHeight - bossHeight) / 2;
 
+  criarElementoBoss(posX, posY, bossWidth, bossHeight);
+}
+
+function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
+  const boss = document.createElement("div");
+  boss.classList.add("boss", configuracaoFases[faseAtual].classeBoss);
+
+  boss.style.width = `${bossWidth}px`;
+  boss.style.height = `${bossHeight}px`;
+  boss.style.position = "absolute";
   boss.style.left = `${posX}px`;
   boss.style.top = `${posY}px`;
+  boss.style.backgroundSize = "contain";
 
   canvas.appendChild(boss);
 
   boss.addEventListener("click", (event) => {
     event.stopPropagation();
-    if (!bossAtivo || !atirar()) return;
+    if (!bossAtivo || !bossVulneravel || !atirar()) return;
     bossVidaAtual--;
     atualizarBarraVida();
     if (bossVidaAtual <= 0) {
@@ -230,58 +247,40 @@ function criarBoss() {
 }
 
 
+
+
 function criarBola() {
   if (!jogoAtivo || bossAtivo) return;
 
-  // converte posições relativas para pixels toda vez para acompanhar o tamanho da tela
   const posicoesBolasPixels = posicaoBolasRelativas.map(pos => posicaoRelativaParaPixels(pos));
 
-  // seleciona posições livres para evitar sobreposição com bolasAtivas
-  const livres = posicoesBolasPixels
-    .map((pos, i) => {
-      const ocupado = bolasAtivas.some(b => b.x === pos.x && b.y === pos.y);
-      return !ocupado ? i : null;
-    })
-    .filter(i => i !== null);
+  // Filtra posições livres que não estão ocupadas por nenhuma bola ativa
+  const posicoesDisponiveis = posicoesBolasPixels.filter(pos => {
+    return !bolasAtivas.some(b => (
+      pos.x < b.x + 50 &&
+      pos.x + 50 > b.x &&
+      pos.y < b.y + 50 &&
+      pos.y + 50 > b.y
+    ));
+  });
 
-  if (livres.length === 0) {
-    setTimeout(() => criarBola(), 200);
+  if (posicoesDisponiveis.length === 0) {
+    // Se não tiver nenhuma posição disponível, tenta de novo em breve
+    setTimeout(criarBola, 200);
     return;
   }
 
-  const indice = livres[Math.floor(Math.random() * livres.length)];
-  const posX = posicoesBolasPixels[indice].x;
-  const posY = posicoesBolasPixels[indice].y;
+  // Escolhe uma posição aleatória entre as livres
+  const posicaoEscolhida = posicoesDisponiveis[Math.floor(Math.random() * posicoesDisponiveis.length)];
+  const posX = posicaoEscolhida.x;
+  const posY = posicaoEscolhida.y;
 
-  // Área do boss (dimensões aproximadas 100x100)
-  const bossPosPixels = posicaoRelativaParaPixels(posicaoBossRelativa);
-  const bossArea = { x: bossPosPixels.x, y: bossPosPixels.y, width: 100, height: 100 };
+  criarElementoBola(posX, posY);
+}
 
-  // Verifica se bola está sobre a área do boss
-  if (
-    posX < bossArea.x + bossArea.width &&
-    posX + 50 > bossArea.x &&
-    posY < bossArea.y + bossArea.height &&
-    posY + 50 > bossArea.y
-  ) {
-    setTimeout(() => criarBola(), 100);
-    return;
-  }
 
-  // Verifica colisão com outras bolas ativas
-  const colisao = bolasAtivas.some((b) => (
-    posX < b.x + 50 &&
-    posX + 50 > b.x &&
-    posY < b.y + 50 &&
-    posY + 50 > b.y
-  ));
-
-  if (colisao) {
-    setTimeout(() => criarBola(), 100);
-    return;
-  }
-
-  // Cria o envelope e bola com as classes e posições
+function criarElementoBola(posX, posY) {
+  // Criação dos elementos DOM
   const envelope = document.createElement("div");
   envelope.style.position = "absolute";
 
@@ -304,23 +303,27 @@ function criarBola() {
 
   bolasAtivas.push({ x: posX, y: posY, el: envelope });
 
+  // Evento de clique na bola
   envelope.addEventListener("click", (event) => {
     event.stopPropagation();
     if (!atirar()) return;
     envelope.remove();
     bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
+
     if (!bossAtivo) {
       bolasAcertadas++;
       if (bolasAcertadas >= 10) {
         bossAtivo = true;
+        bossVulneravel = true;
         barraContainer.style.display = "block";
         atualizarBarraVida();
         criarBoss();
-        iniciarTempoBoss(); // Inicia uma única vez aqui
+        iniciarTempoBoss();
       }
     }
   });
 
+  // Remove a bola depois de um tempo se o jogador não acertar
   setTimeout(() => {
     if (document.body.contains(envelope)) {
       envelope.remove();
@@ -331,6 +334,7 @@ function criarBola() {
     }
   }, 4000);
 
+  // Programar a próxima bola se o jogo estiver ativo e sem boss
   const delay = Math.random() * 1000 + 500;
   setTimeout(() => {
     if (jogoAtivo && !bossAtivo) criarBola();
