@@ -13,21 +13,22 @@ html {
   display: flex;
   justify-content: center;
   align-items: center;
- font-family: Arial, sans-serif;
+  font-family: Arial, sans-serif;
 }
 
+main {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
 
 #canvas {
   position: relative;
   width: 1440px;
-  /* ajuste conforme necessário para seu layout */
   height: 600px;
-  /* altura suficiente para as bolas e o personagem */
   margin: 0 auto;
-  /* centraliza o canvas horizontalmente */
   border: 2px solid #333;
   overflow: hidden;
-  /* impede elementos saírem do canvas visualmente */
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
@@ -37,7 +38,6 @@ html {
 
 .fase1 {
   background-image: url("imagens/teste.png");
-  /* caminho corrigido */
 }
 
 #hud {
@@ -49,7 +49,6 @@ html {
   padding: 8px 16px;
   border-radius: 12px;
   color: white;
-  font-family: 'Arial', sans-serif;
   font-size: 18px;
   z-index: 1000;
   pointer-events: none;
@@ -83,8 +82,6 @@ html {
 .circulo {
   border: 3px solid white;
   transform: translate(0%, 0%);
-  /*centralizado*/
-
 }
 
 .circulo,
@@ -96,29 +93,28 @@ html {
 }
 
 .boss {
-
-  left: 33rem !important;
-  top: 8rem !important;
+  left: 33rem ;
+  top: 8rem ;
   position: absolute;
-  width: 350px;
-  height: 350px;
+  width: 40vw;
+  height: 40vw;
   z-index: 2;
-
   background-image: url(imagens/Gula.png);
   background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
 }
 
 .personagem {
   position: absolute;
-  width: 15vw; /* largura da personagem */
-  height: 15vw; /* altura da personagem */
+  width: 15vw;
+  height: 15vw;
   bottom: 0;
   left: 50%;
   transform-origin: center bottom;
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.05s linear;
   background-image: url("imagens/personagem.png");
-  /*imagem da personagem*/
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
@@ -144,7 +140,6 @@ html {
   transition: opacity 0.2s ease;
 }
 
-
 .bala.apagada {
   opacity: 0.2;
 }
@@ -152,7 +147,7 @@ html {
 #vidas {
   position: absolute;
   max-height: 32px;
-  top: 520px;
+  top: 840px;
   left: 8px;
   display: flex;
   gap: 8px;
@@ -165,19 +160,16 @@ html {
   width: 32px;
   height: 32px;
   gap: 5px;
-  
 }
 
 .vida.perdida {
   opacity: 0.2;
 }
 
-
 @keyframes fadeIn {
   0% {
     opacity: 1;
   }
-
   100% {
     opacity: 0;
   }
@@ -187,58 +179,43 @@ html {
   0% {
     transform: scale(0);
   }
-
   100% {
     transform: scale(1);
   }
 }
 
-.mensagem-vitoria {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  color: white;
-  font-size: 60px;
-  font-weight: bold;
-  text-shadow: 2px 2px 4px black;
-  cursor: pointer;
-
-  /* Estilos adicionais sugeridos */
-  background-color: rgba(0, 0, 0, 0.7);
-  padding: 20px 40px;
-  border-radius: 10px;
-  text-align: center;
-  transition: transform 0.3s;
-  z-index: 1000;
-}
-
-.mensagem-vitoria:hover {
-  transform: translate(-50%, -50%) scale(1.05);
-}
-
+.mensagem-vitoria,
 .mensagem-derrota {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   font-size: 48px;
-  color: red;
+  color: white;
   font-weight: bold;
   cursor: pointer;
   background: rgba(0, 0, 0, 0.7);
   padding: 20px 40px;
   border-radius: 10px;
   text-align: center;
+  z-index: 1000;
+  transition: transform 0.3s;
 }
 
+.mensagem-vitoria {
+  font-size: 60px;
+  text-shadow: 2px 2px 4px black;
+}
+
+.mensagem-vitoria:hover,
 .mensagem-derrota:hover {
   transform: translate(-50%, -50%) scale(1.05);
 }
 
-/* styles.css */
+.mensagem-derrota {
+  color: red;
+}
 
-/* Barra de vida do boss */
 #barraVidaContainer {
   position: absolute;
   top: 10px;
@@ -278,11 +255,9 @@ html {
   0% {
     filter: brightness(1);
   }
-
   50% {
     filter: brightness(1.5);
   }
-
   100% {
     filter: brightness(1);
   }
@@ -308,15 +283,12 @@ html {
   0% {
     opacity: 0;
   }
-
   10% {
     opacity: 1;
   }
-
   90% {
     opacity: 1;
   }
-
   100% {
     opacity: 0;
   }
@@ -341,7 +313,6 @@ html {
   from {
     opacity: 1;
   }
-
   to {
     opacity: 0.3;
   }

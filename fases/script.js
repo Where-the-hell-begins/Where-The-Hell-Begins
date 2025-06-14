@@ -38,14 +38,17 @@ window.addEventListener('keydown', function(e) {
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
   { fase: "1", classeCanva: "fase1", classeBolas: "bolasFase1", classeBoss: "bossFase1", posicaoBolas: [
-  { x: 805, y: 100 },
-  { x: 1015, y: 100 },
-  { x: 1280, y: 320 },
-  { x: 130, y: 370 },
-  { x: 300, y: 275 },
-  { x: 990, y: 275 },
-  { x: 510, y: 290 }
-], posicaoBoss: 630, bossVidaMax: 100 },
+    { x: 0.56, y: 0.2 }, //janela 1
+    { x: 0.705, y: 0.2 }, //janela 2
+    { x: 0.69, y: 0.48}, // atras da carroça
+    { x: 0.9, y: 0.53}, // varanda esquerda
+    { x: 0.32, y: 0.48 }, // perto da carroça
+    { x: 0.21, y: 0.44  }, // dentro da corroça
+    { x: 0.02, y: 0.48 } //varanda direita
+], posicaoBoss: [
+  { x: 0.5, y: 0.5 } // Posição centralizada para o boss
+] , bossVidaMax: 100 }, 
+
   { fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [
    { x: 805, y: 100 },
   { x: 1015, y: 100 },
@@ -140,7 +143,7 @@ function iniciarTempoBoss() {
     }
 
     desenharBossTimer();
-  }, 100);
+  }, 90); 
 }
 
 function desenharBossTimer() {
@@ -192,9 +195,26 @@ function criarBoss() {
 
   const boss = document.createElement("div");
   boss.classList.add("boss", configuracaoFases[faseAtual].classeBoss);
-  boss.style.left = `${posicaoBoss - 25}px`;
-  boss.style.backgroundSize = "350px";
-  boss.style.top = "25px";
+
+  // Defina o tamanho real do boss
+  const bossWidth = 400;  // maior largura
+  const bossHeight = 400; // maior altura
+
+  boss.style.width = `${bossWidth}px`;
+  boss.style.height = `${bossHeight}px`;
+  boss.style.position = "absolute";
+  boss.style.backgroundSize = "contain"; // Faz a imagem se ajustar sem cortar
+
+  // Calcula o centro do canvas
+  const canvasWidth = canvas.offsetWidth;
+  const canvasHeight = canvas.offsetHeight;
+
+  const posX = (canvasWidth - bossWidth) / 2;
+  const posY = (canvasHeight - bossHeight) / 2;
+
+  boss.style.left = `${posX}px`;
+  boss.style.top = `${posY}px`;
+
   canvas.appendChild(boss);
 
   boss.addEventListener("click", (event) => {
@@ -208,6 +228,7 @@ function criarBoss() {
     }
   });
 }
+
 
 function criarBola() {
   if (!jogoAtivo || bossAtivo) return;
