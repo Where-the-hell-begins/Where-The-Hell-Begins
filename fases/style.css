@@ -38,6 +38,7 @@ main {
 
 .fase1 {
   background-image: url("imagens/teste.png");
+  z-index: 9;
 }
 
 #hud {
@@ -73,20 +74,7 @@ main {
   image-rendering: pixelated;
   animation: growAndFade 4s ease-out forwards;
   transform-origin: center;
-}
-
-.circuloMenor {
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  background-image: url('circulo-pixel.png');
-  background-size: contain;
-  background-repeat: no-repeat;
-  background-position: center;
-  image-rendering: pixelated;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+  opacity: 40%;
 }
 
 .circulo {
@@ -99,6 +87,7 @@ main {
   background-position: center;
   image-rendering: pixelated;
   transform: translate(0%, 0%);
+  opacity: 50%;
 }
 
 .boss  {
@@ -193,7 +182,7 @@ main {
     transform: scale(0);
   }
   100% {
-    transform: scale(1);
+    transform: scale(0.8);
   }
 }
 
@@ -227,7 +216,6 @@ main {
 .mensagem-derrota:hover {
   transform: translate(-50%, -50%) scale(1.05);
 }
-
 
 #barraVidaContainer {
   position: absolute;
@@ -342,4 +330,20 @@ main {
   transform: translateX(-50%);
   z-index: 999;
   display: none;
+}
+
+.inimigo {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  animation: levantar 1s ease-out forwards;
+}
+
+@keyframes levantar {
+  from {
+    transform: translateY(100px);
+  }
+  to {
+    transform: translateY(0);
+  }
 }

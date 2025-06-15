@@ -85,7 +85,7 @@ let tempoAtualBoss = 0;
 let bossVulneravel = false;
 
 
-let maxVidas = 6;
+let maxVidas = 10000;
 let vidas = maxVidas;
 let bolasAtivas = [];
 
@@ -308,6 +308,7 @@ function criarElementoBola(posX, posY) {
 
   envelope.appendChild(circulo);
   envelope.appendChild(bola);
+  criarInimigo(posX, posY);
   canvas.appendChild(envelope);
 
   bolasAtivas.push({ x: posX, y: posY, el: envelope });
@@ -471,7 +472,7 @@ function mostrarVitoria() {
   mensagemImg.className = "mensagem-vitoria";
 
   if (proximaFase > configuracaoFases.length - 1) {
-    mensagemImg.src = "imagens/vitoria.png"; // imagem para "Você completou todas as fases"
+    mensagemImg.src = "imagens/vitoria.png"; 
     mensagemImg.alt = "Você completou todas as fases!";
     setTimeout(() => {
       window.location.href = "../index.html";
@@ -528,8 +529,20 @@ function musica() {
   window.addEventListener("click", tocarMusica, { once: true });
 }
 
-window.addEventListener("DOMContentLoaded", musica);
+function criarInimigo(posX, posY) {
+  const inimigo = document.createElement("img");
+  inimigo.src = "./imagens/inimigo.png";
+  inimigo.className = "inimigo";
+  inimigo.style.left = `${posX - 50}px`; //mude a posicao aqui
+  inimigo.style.top = `${posY - 30}px`; //mude a posicao aqui
+  canvas.appendChild(inimigo);
 
+  setTimeout(() => {
+    if (canvas.contains(inimigo)) inimigo.remove();
+  }, 4000);
+}
+
+window.addEventListener("DOMContentLoaded", musica);
 
 function iniciarFase() {
   const mensagem = document.createElement("div");
@@ -566,3 +579,5 @@ function iniciarFase() {
 
 // Inicializa a fase ao carregar
 iniciarFase();
+
+
