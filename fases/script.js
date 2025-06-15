@@ -3,6 +3,8 @@
 const canvas = document.getElementById("canvas");
 let faseAtual = parseInt(canvas.dataset.fase) || 1; // Corrigido para garantir número
 
+const musicaFundo1 = document.getElementById('musica-fundo1');
+
 // Ajusta o tamanho do canvas para a tela toda
 function ajustarTela() {
   canvas.style.width = window.innerWidth + "px";
@@ -450,7 +452,7 @@ function mostrarVitoria() {
       window.location.href = "../index.html";
     }, 5000);
   } else {
-    mensagemImg.src = "vitoria.png";
+    mensagemImg.src = "imagens/vitoria.png";
     mensagemImg.alt = "VITÓRIA!";
     mensagemImg.addEventListener("click", () => {
       window.location.href = `./fase${proximaFase}.html`;
@@ -490,6 +492,19 @@ function mostrarGameOver() {
   }, 10000);
 }
 
+function musica() {
+  function tocarMusica() {
+    const musicaFundo1 = document.getElementById("musica-fundo1");
+    musicaFundo1.volume=0.1;
+    musicaFundo1.play().catch(() => {});
+    window.removeEventListener("click", tocarMusica);
+  }
+
+  window.addEventListener("click", tocarMusica, { once: true });
+}
+
+window.addEventListener("DOMContentLoaded", musica);
+
 
 function iniciarFase() {
   const mensagem = document.createElement("div");
@@ -497,7 +512,9 @@ function iniciarFase() {
   mensagem.innerHTML = `<strong>Fase ${faseAtual}</strong><br>A Gula foi despertada <br>De a ela o que ela mais deseja: uma chuva de balas!`;
   canvas.appendChild(mensagem);
 
+  
   setTimeout(() => {
+    musica();
     mensagem.remove();
     criarBola();               // Começa as bolas
     criaPersonagem();          // Mostra personagem
