@@ -241,6 +241,11 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.addEventListener("click", (event) => {
     event.stopPropagation();
     if (!bossAtivo || !bossVulneravel || !atirar()) return;
+  
+    const somDisparoBoss = somDisparo.cloneNode();
+    somDisparoBoss.volume = somDisparo.volume;
+    somDisparoBoss.play().catch(console.error);
+  
     bossVidaAtual--;
     atualizarBarraVida();
     if (bossVidaAtual <= 0) {
