@@ -67,7 +67,7 @@ window.addEventListener("resize", ajustarImagemComCanvas);
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
   {
-    fase: "1", classeCanva: "fase1", classeBolas: "bolasFase1", classeBoss: "bossFase1", posicaoBolas: [
+    fase: "1", classeCanva: "fase1", classeBoss: "bossFase1", posicaoBolas: [
       { x: 0.56, y: 0.25 }, //janela esquerda
       { x: 0.705, y: 0.25 }, //janela direita
       { x: 0.69, y: 0.48 }, // atras da carroça
@@ -81,7 +81,7 @@ const configuracaoFases = [
   },
 
   {
-    fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [
+    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", posicaoBolas: [
       { x: 0.56, y: 0.25 }, //janela esquerda
       { x: 0.705, y: 0.25 }, //janela direita
       { x: 0.69, y: 0.48 }, // atras da carroça
