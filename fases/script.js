@@ -71,7 +71,7 @@ const configuracaoFases = [
     { x: 0.705, y: 0.2 }, //janela 2
     { x: 0.69, y: 0.48}, // atras da carroça
     { x: 0.9, y: 0.53}, // varanda esquerda
-    { x: 0.32, y: 0.48 }, // perto da carroça
+    { x: 0.35, y: 0.48 }, // perto da carroça
     { x: 0.21, y: 0.44  }, // dentro da corroça
     { x: 0.02, y: 0.48 } //varanda direita
 ], posicaoBoss: [
