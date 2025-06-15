@@ -9,18 +9,28 @@
 </head>
 <body>
 
-  
-  <div id="hud">
-    <span id="faseAtual">Fase 2: Ira</span>
-  </div>
+  <main>
+    
+    <!-- Container de HUD e elementos de interface -->
+    <div id="hud-container">
+      
+      <div id="hud">
+        <span id="faseAtual">Fase 2: IRA</span>
+      </div>
 
+      <div id="canvas" class="fase1" data-fase="2">
+        <audio id="musica-fundo1" src="../audio/musicaFase1.mp3" loop></audio>
+        <div id="municao"></div>
+        <div id="vidas"></div>
+        <div id="mensagem-recarregar">Pressione R para recarregar!</div>
+        <div id="animacao-recarregando"></div>
+        <canvas id="boss-timer-circle" width="100" height="100"></canvas>
+      </div>
 
-  <div id="canvas" class="fase2" data-fase="2">
-    <div id="municao"></div>
-    <div id="vidas"></div>
-    <div id="mensagem-recarregar">Pressione R para recarregar!</div>
-    <div id="animacao-recarregando"></div>
-  </div>
+      
+
+    </div>
+  </main>
 
 </body>
 </html>
