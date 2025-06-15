@@ -101,7 +101,7 @@ main {
   transform: translate(0%, 0%);
 }
 
-.boss {
+.boss  {
   left: 33rem ;
   top: 8rem ;
   position: absolute;
@@ -112,6 +112,10 @@ main {
   background-repeat: no-repeat;
   background-position: center;
   background-size: contain;
+}
+
+.boss.inativo {
+  filter: brightness(30%);
 }
 
 .personagem {

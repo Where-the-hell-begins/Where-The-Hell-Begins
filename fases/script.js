@@ -138,6 +138,8 @@ function atualizarTempoBoss() {
     bossAtivo = false;            // barra de vida oculta
     barraContainer.style.display = "none";
 
+    if (document.querySelector(".boss").classList.add("inativo"));
+
     bolasAcertadas = 0;           // reset contador bolinhas para poder ativar dano depois
 
     // Se estiver na fase 1, recarrega munição
@@ -153,11 +155,11 @@ function atualizarTempoBoss() {
 
     // OBS: o boss continua na tela, invisível? Não, ele fica visível.
     // Então não removemos o elemento do boss aqui.
+  } else {
+    document.querySelector(".boss").classList.remove("inativo");
+    desenharBossTimer();
   }
-
-  desenharBossTimer();
 }
-
 
 function desenharBossTimer() {
   const ctx = bossTimerCtx;
