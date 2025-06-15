@@ -123,6 +123,7 @@ main {
   background-size: contain;
 }
 
+
 .boss.inativo {
   filter: brightness(30%);
 }
