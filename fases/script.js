@@ -388,7 +388,7 @@ const somDisparo = new Audio('../audio/tiroSom.mp3');
 const somRecarregar = new Audio('../audio/recarregarSom.mp3');
 
 // Ajustando o volume
-somDisparo.volume = 0.5; // 0.0 (silêncio) a 1.0 (volume máximo)
+somDisparo.volume = 0.1; // 0.0 (silêncio) a 1.0 (volume máximo)
 somRecarregar.volume = 0.5;
 
 // Definindo loop
