@@ -431,25 +431,31 @@ function mostrarVitoria() {
   clearTimeout(tempoBossTimer);
   canvas.innerHTML = "";
   barraContainer.style.display = "none";
-  const mensagem = document.createElement("div");
+
   const proximaFase = faseAtual + 1;
-  mensagem.className = "mensagem-vitoria";
-  mensagem.innerText = "VITÓRIA!";
-  canvas.appendChild(mensagem);
+  const mensagemImg = document.createElement("img");
+  mensagemImg.className = "mensagem-vitoria";
+
   if (proximaFase > configuracaoFases.length - 1) {
-    mensagem.innerText = "Você completou todas as fases!";
+    mensagemImg.src = "imagens/vitoria.png"; // imagem para "Você completou todas as fases"
+    mensagemImg.alt = "Você completou todas as fases!";
     setTimeout(() => {
       window.location.href = "../index.html";
     }, 5000);
   } else {
-    mensagem.addEventListener("click", () => {
+    mensagemImg.src = "vitoria.png";
+    mensagemImg.alt = "VITÓRIA!";
+    mensagemImg.addEventListener("click", () => {
       window.location.href = `./fase${proximaFase}.html`;
     });
     setTimeout(() => {
       window.location.href = `./fase${proximaFase}.html`;
     }, 10000);
   }
+
+  canvas.appendChild(mensagemImg);
 }
+
 
 function mostrarGameOver() {
   jogoAtivo = false;
@@ -458,17 +464,25 @@ function mostrarGameOver() {
   clearTimeout(tempoBossTimer);
   canvas.innerHTML = "";
   barraContainer.style.display = "none";
-  const mensagem = document.createElement("div");
-  mensagem.className = "mensagem-derrota";
-  mensagem.innerText = "GAME OVER";
-  mensagem.addEventListener("click", () => {
+
+  // Cria o elemento img em vez da div texto
+  const mensagemImg = document.createElement("img");
+  mensagemImg.className = "mensagem-derrota";
+  mensagemImg.src = "imagens/gameOver.png"; // caminho da sua imagem
+  mensagemImg.alt = "GAME OVER";
+  mensagemImg.style.cursor = "pointer";
+
+  mensagemImg.addEventListener("click", () => {
     window.location.href = `./fase${faseAtual}.html`;
   });
-  canvas.appendChild(mensagem);
+
+  canvas.appendChild(mensagemImg);
+
   setTimeout(() => {
     window.location.href = `./fase${faseAtual}.html`;
   }, 10000);
 }
+
 
 function iniciarFase() {
   const mensagem = document.createElement("div");

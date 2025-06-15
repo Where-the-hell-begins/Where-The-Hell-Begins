@@ -193,37 +193,37 @@ main {
   }
 }
 
-.mensagem-vitoria,
+.mensagem-vitoria {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 300px; /* ou o tamanho ideal da imagem */
+  height: auto;
+  z-index: 1000;
+  cursor: pointer;
+  image-rendering: pixelated;
+}
+
+
 .mensagem-derrota {
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  font-size: 48px;
-  color: white;
-  font-weight: bold;
-  cursor: pointer;
-  background: rgba(0, 0, 0, 0.7);
-  padding: 20px 40px;
-  border-radius: 10px;
-  text-align: center;
+  width: 500px;  /* ajuste o tamanho da imagem */
+  height: auto;
   z-index: 1000;
+  cursor: pointer;
   transition: transform 0.3s;
 }
 
-.mensagem-vitoria {
-  font-size: 60px;
-  text-shadow: 2px 2px 4px black;
-}
 
 .mensagem-vitoria:hover,
 .mensagem-derrota:hover {
   transform: translate(-50%, -50%) scale(1.05);
 }
 
-.mensagem-derrota {
-  color: red;
-}
 
 #barraVidaContainer {
   position: absolute;
