@@ -4,10 +4,11 @@
   box-sizing: border-box;
 }
 
-body, html {
+body,
+html {
   height: 100%;
   background-color: #181818;
-  cursor: crosshair;
+  cursor: url("imagens/mira.png"), auto;
   overflow: hidden;
   display: flex;
   justify-content: center;
@@ -15,74 +16,129 @@ body, html {
   font-family: Arial, sans-serif;
 }
 
+main {
+  width: 100%;
+  height: 100%;
+  position: relative;
+}
+
 #canvas {
   position: relative;
   width: 1440px;
   height: 600px;
+  margin: 0 auto;
   border: 2px solid #333;
-  background-image: url("../imagens/teste.png"); /* imagem de fundo */
+  overflow: hidden;
   background-size: cover;
   background-position: center;
   background-repeat: no-repeat;
   user-select: none;
+  z-index: 1;
+}
+
+.fase1 {
+  background-image: url("imagens/teste.png");
+  z-index: 0;
+}
+
+#camadaSuperior {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100vw;  /* largura da viewport */
+  height: 100vh; /* altura da viewport */
+  z-index: 10;
+  pointer-events: none; /* para que a imagem não interfira com cliques */
+  object-fit: cover; /* opcional: cobre sem deformar */
+}
+
+
+
+#hud {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0, 0, 0, 0.6);
+  padding: 8px 16px;
+  border-radius: 12px;
+  color: white;
+  font-size: 18px;
+  z-index: 1000;
+  pointer-events: none;
+}
+
+#boss-timer-circle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  z-index: 1000;
+  pointer-events: none;
 }
 
 .bola {
-  background-color: red;
-  transform-origin: center;
-  animation: growAndFade 4s ease-out forwards;
-}
-
-.circuloMenor{
-  position: absolute;
-  width: 30px;
-  height: 30px;
-  border: 1px solid white;
-  border-radius: 50%;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-}
-
-.circulo {
-  border: 1px solid white;
-  transform: translate(0%, 0%);
-  animation: fadeIn 5s ease-out forwards;
-}
-
-.circulo, .bola {
   position: absolute;
   width: 50px;
   height: 50px;
-  border-radius: 50%;
+  background-image: url('imagens/bola-pixel.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  image-rendering: pixelated;
+  animation: growAndFade 4s ease-out forwards;
+  transform-origin: center;
+  opacity: 40%;
 }
 
-.boss {
+.circulo {
   position: absolute;
-  width: 100px;
-  height: 100px;
-  background-color: blue;
-  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  background-image: url('imagens/circulo-pixel.png');
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  image-rendering: pixelated;
+  transform: translate(0%, 0%);
+  opacity: 50%;
 }
 
-.arma {
+.boss  {
+  left: 33rem ;
+  top: 8rem ;
   position: absolute;
-  width: 500px;
-  height: 200px;
+  width: 40vw;
+  height: 40vw;
+  z-index: 11;
+  background-image: url(imagens/Gula.png);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+}
+
+.boss.inativo {
+  filter: brightness(30%);
+}
+
+.personagem {
+  position: absolute;
+  width: 15vw;
+  height: 15vw;
   bottom: 0;
   left: 50%;
   transform-origin: center bottom;
   transform: translateX(-50%) rotate(0deg);
   transition: transform 0.05s linear;
-  background-image: url("../imagens/personagem.png"); /*imagem da arma*/
+  background-image: url("imagens/personagem.png");
   background-size: contain;
   background-repeat: no-repeat;
   background-position: center;
+  z-index: 3;
 }
 
 #municao {
   position: absolute;
-  top: 10px;
+  top: 800px;
   left: 10px;
   display: flex;
   gap: 8px;
@@ -90,12 +146,38 @@ body, html {
 }
 
 .bala {
-  font-size: 28px;
-  color: white;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  gap: 5px;
+  z-index: 10;
+  background-image: url("imagens/bala.png");
   transition: opacity 0.2s ease;
 }
 
 .bala.apagada {
+  opacity: 0.2;
+}
+
+#vidas {
+  position: absolute;
+  max-height: 32px;
+  top: 750px;
+  left: 8px;
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+  background-repeat: no-repeat;
+}
+
+.icone-coracao {
+  background-repeat: no-repeat !important;
+  width: 32px;
+  height: 32px;
+  gap: 5px;
+}
+
+.vida.perdida {
   opacity: 0.2;
 }
 
@@ -111,10 +193,170 @@ body, html {
 @keyframes growAndFade {
   0% {
     transform: scale(0);
+  }
+  100% {
+    transform: scale(0.8);
+  }
+}
+
+.mensagem-vitoria {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px; /* tamanho da imagem*/
+  height: auto;
+  z-index: 1000;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+
+.mensagem-derrota {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 500px;  /* tamanho da imagem*/
+  height: auto;
+  z-index: 1000;
+  cursor: pointer;
+  transition: transform 0.3s;
+}
+
+
+.mensagem-vitoria:hover,
+.mensagem-derrota:hover {
+  transform: translate(-50%, -50%) scale(1.05);
+}
+
+#barraVidaContainer {
+  position: absolute;
+  top: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 400px;
+  height: 30px;
+  border: 3px solid #ff0000;
+  border-radius: 15px;
+  background-color: #222;
+  box-shadow: 0 0 10px rgba(255, 0, 0, 0.7);
+  display: none;
+  z-index: 1000;
+  overflow: hidden;
+}
+
+#barraVida {
+  height: 100%;
+  width: 100%;
+  background-color: #00ff00;
+  transition: width 0.3s ease, background-color 0.3s ease;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#bossVidaText {
+  color: white;
+  font-family: 'Arial Black', sans-serif;
+  font-size: 14px;
+  text-shadow: 1px 1px 2px black;
+  z-index: 2;
+}
+
+@keyframes dano {
+  0% {
+    filter: brightness(1);
+  }
+  50% {
+    filter: brightness(1.5);
+  }
+  100% {
+    filter: brightness(1);
+  }
+}
+
+.mensagem-fase {
+  position: absolute;
+  top: 40%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.75);
+  color: #fff;
+  font-size: 24px;
+  padding: 20px 40px;
+  border-radius: 12px;
+  text-align: center;
+  z-index: 10000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  animation: fadeInOut 3s ease-in-out;
+}
+
+@keyframes fadeInOut {
+  0% {
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  90% {
     opacity: 1;
   }
   100% {
-    transform: scale(1);
     opacity: 0;
+  }
+}
+
+#mensagem-recarregar {
+  position: absolute;
+  top: 80px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: rgba(255, 0, 0, 0.8);
+  color: white;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-size: 20px;
+  z-index: 999;
+  display: none;
+  animation: piscar 0.5s ease-in-out infinite alternate;
+}
+
+@keyframes piscar {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0.3;
+  }
+}
+
+#animacao-recarregando {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  width: 0;
+  height: 10px;
+  background: limegreen;
+  border-radius: 5px;
+  transform: translateX(-50%);
+  z-index: 999;
+  display: none;
+}
+
+.inimigo {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  animation: levantar 1s ease-out forwards;
+}
+
+@keyframes levantar {
+  from {
+    transform: translateY(100px);
+  }
+  to {
+    transform: translateY(0);
   }
 }

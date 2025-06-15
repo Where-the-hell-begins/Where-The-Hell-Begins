@@ -7,7 +7,7 @@ body {
     background-color: black;
     background-image: radial-gradient(circle at center, rgba(255, 204, 153, 0.05) 0%, transparent 70%);
     color: #e0d8c3;
-    font-family: 'UnifrakturCook', cursive;
+    font-family: 'VT323', monospace; /* Atualizado para VT323 */
     min-height: 100vh;
     overflow: hidden;
     position: relative;
@@ -50,7 +50,7 @@ body {
     font-size: 1.5rem;
     color: #c7b389;
     transition: color 0.3s;
-    font-family: 'UnifrakturCook', cursive;
+    font-family: 'VT323', monospace; /* Atualizado para VT323 */
 }
 
 .opcoes-menu div:hover {
@@ -83,7 +83,7 @@ body {
     padding: 0.75rem 1rem;
     border-radius: 0.5rem;
     transition: color 0.3s, box-shadow 0.3s, transform 0.3s;
-    font-family: 'UnifrakturCook', cursive;
+    font-family: 'VT323', monospace; /* Atualizado para VT323 */
     text-align: center;
     margin-bottom: 0.5rem;
 }
@@ -136,7 +136,7 @@ h2, h3 {
     background: none;
     cursor: pointer;
     font-size: 1.2rem;
-    font-family: 'UnifrakturCook', cursive;
+    font-family: 'VT323', monospace; /* Atualizado para VT323 */
 }
 
 .btn-voltar:hover {
@@ -148,7 +148,7 @@ h2, h3 {
     border: 1px solid #c2a869;
     color: #e6d6b8;
     padding: 0.5rem 1rem;
-    font-family: 'UnifrakturCook', cursive;
+    font-family: 'VT323', monospace; /* Atualizado para VT323 */
     cursor: pointer;
     transition: all 0.3s;
 }
@@ -231,7 +231,7 @@ h2, h3 {
     border: 1px solid #c2a869;
     color: #e6d6b8;
     padding: 0.75rem 1.5rem;
-    font-family: 'UnifrakturCook', cursive;
+    font-family: 'VT323', monospace; /* Atualizado para VT323 */
     cursor: pointer;
     transition: all 0.3s;
     font-size: 1.2rem;

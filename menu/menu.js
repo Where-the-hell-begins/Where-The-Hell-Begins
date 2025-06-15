@@ -1,19 +1,18 @@
 // Dados dos personagens
 const personagens = [
     {
-        nome: 'Clint',
-        descricao: 'Pistoleiro morto-vivo, ressuscitado para caçar as forças do inferno.',
-        imagem: 'https://i.pinimg.com/736x/9b/e9/50/9be95049887c336a5bea6e25feed3c2d.jpg'
+        nome: 'CLINT',
+        descricao: 'PISTOLEIRO MORTO-VIVO, RESSUSCITADO PARA CAÇAR AS FORÇAS DO INFERNO.',
+        imagem: 'https://i.pinimg.com/736x/9b/e9/50/9be95049887c336a5bea6e25feed3c2d.jpg',
+        bloqueado: false
     },
     {
-        nome: 'Bloquado',
-        descricao: 'Bruxa do deserto com pacto demoníaco reverso.',
-        imagem: '../imagens/block_generico.png'
+        nome: 'EM BREVE',
+        bloqueado: true
     },
     {
-        nome: 'Bloqueado',
-        descricao: 'Exorcista com espingarda sagrada e passado sombrio.',
-        imagem: '../imagens/block_generico.png'
+        nome: 'EM BREVE',
+        bloqueado: true
     }
 ];
 
@@ -40,7 +39,7 @@ const elementos = {
     detalhesPersonagem: document.getElementById('detalhes-personagem')
 };
 
-// Inicialização quando o DOM estiver carregado
+// Inicialização
 document.addEventListener('DOMContentLoaded', function() {
     configurarEventos();
     carregarPersonagens();
@@ -48,14 +47,9 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarTelaCheia();
 });
 
-/**
- * Configura todos os eventos da aplicação
- */
 function configurarEventos() {
-    // Botão de iniciar na tela inicial
     elementos.botoes.iniciar.addEventListener('click', () => mostrarTela('menu'));
 
-    // Opções do menu principal
     document.querySelectorAll('.opcao-menu').forEach(opcao => {
         opcao.addEventListener('click', function() {
             mostrarTela(this.dataset.tela);
@@ -63,64 +57,73 @@ function configurarEventos() {
         opcao.addEventListener('mouseover', criarFaisca);
     });
 
-    // Botões de voltar
     elementos.botoes.voltarPersonagens.addEventListener('click', () => mostrarTela('menu'));
     elementos.botoes.voltarConfig.addEventListener('click', () => mostrarTela('menu'));
 
-    // Lista de personagens
     elementos.listaPersonagens.addEventListener('click', function(e) {
-        if (e.target.classList.contains('list-group-item')) {
-            selecionarPersonagem(parseInt(e.target.dataset.index));
+        const item = e.target.closest('.list-group-item');
+        if (item && !item.classList.contains('bloqueado') && item.dataset.index) {
+            selecionarPersonagem(parseInt(item.dataset.index));
         }
     });
 }
 
-/**
- * Mostra uma tela específica e esconde as outras
- */
 function mostrarTela(tela) {
     Object.values(elementos.telas).forEach(t => t.style.display = 'none');
     if (elementos.telas[tela]) elementos.telas[tela].style.display = 'flex';
 }
 
-/**
- * Carrega a lista de personagens na tela de seleção
- */
 function carregarPersonagens() {
     elementos.listaPersonagens.innerHTML = '';
     
     personagens.forEach((personagem, index) => {
         const item = document.createElement('li');
         item.className = `list-group-item ${index === personagemSelecionadoIndex ? 'selecionado' : ''}`;
-        item.textContent = personagem.nome;
-        item.dataset.index = index;
+        
+        if (personagem.bloqueado) {
+            item.innerHTML = `
+                <span>${personagem.nome}</span>
+                <span class="cadeado">🔒</span>
+            `;
+            item.classList.add('bloqueado');
+        } else {
+            item.textContent = personagem.nome;
+            item.dataset.index = index;
+        }
+        
         elementos.listaPersonagens.appendChild(item);
     });
     
     atualizarDetalhesPersonagem();
 }
 
-/**
- * Seleciona um personagem da lista
- */
 function selecionarPersonagem(index) {
     personagemSelecionadoIndex = index;
     document.querySelectorAll('#lista-personagens .list-group-item').forEach((item, i) => {
-        item.classList.toggle('selecionado', i === index);
+        item.classList.toggle('selecionado', i === index && !item.classList.contains('bloqueado'));
     });
     atualizarDetalhesPersonagem();
 }
 
-/**
- * Atualiza a área de detalhes do personagem selecionado
- */
 function atualizarDetalhesPersonagem() {
     const personagem = personagens[personagemSelecionadoIndex];
+    
+    if (personagem.bloqueado) {
+        elementos.detalhesPersonagem.innerHTML = `
+            <div class="personagem-bloqueado">
+                <h3 class="fonte-pixelada-titulo">PERSONAGEM BLOQUEADO</h3>
+                <p class="fonte-pixelada-texto">DISPONÍVEL EM UMA ATUALIZAÇÃO FUTURA</p>
+                <div class="cadeado-grande">🔒</div>
+            </div>
+        `;
+        return;
+    }
+    
     elementos.detalhesPersonagem.innerHTML = `
         <img src="${personagem.imagem}" alt="${personagem.nome}">
-        <h3>${personagem.nome}</h3>
-        <p>${personagem.descricao}</p>
-        <button class="btn-selecionar">Selecionar</button>
+        <h3 class="fonte-pixelada-titulo">${personagem.nome}</h3>
+        <p class="fonte-pixelada-texto">${personagem.descricao}</p>
+        <button class="btn-selecionar fonte-pixelada-menu">SELECIONAR</button>
     `;
     
     elementos.detalhesPersonagem.querySelector('.btn-selecionar').addEventListener('click', () => {
@@ -128,13 +131,10 @@ function atualizarDetalhesPersonagem() {
     });
 }
 
-/**
- * Mostra tela de carregamento e inicia o jogo após 3 segundos
- */
 function iniciarJogoComPersonagem(personagem) {
     elementos.telas.personagens.innerHTML = `
         <div class="tela-carregamento">
-            <h2>INICIANDO...</h2>
+            <h2 class="fonte-pixelada-titulo">INICIANDO...</h2>
             <div class="barra-carregamento">
                 <div class="progresso-carregamento"></div>
             </div>
@@ -148,40 +148,33 @@ function iniciarJogoComPersonagem(personagem) {
     setTimeout(() => {
         sessionStorage.setItem('personagemSelecionado', JSON.stringify(personagem));
         sessionStorage.setItem('musicaLigada', !musicaFundo.muted);
-        window.location.href = '../fases/fase.html';
+        window.location.href = './fases/fase1.html';
     }, 3000);
 }
 
-//============================
-// Configura o controle de som
-//============================
 function configurarMusica() {
-    elementos.botoes.som.textContent = musicaFundo.muted ? '🔇 Som Desligado' : '🔊 Som Ligado';
+    elementos.botoes.som.textContent = musicaFundo.muted ? '🔇 SOM DESLIGADO' : '🔊 SOM LIGADO';
     
     elementos.botoes.som.addEventListener('click', function() {
         musicaFundo.muted = !musicaFundo.muted;
-        this.textContent = musicaFundo.muted ? '🔇 Som Desligado' : '🔊 Som Ligado';
+        this.textContent = musicaFundo.muted ? '🔇 SOM DESLIGADO' : '🔊 SOM LIGADO';
     });
 
-    // Inicia música no primeiro clique
     window.addEventListener('click', function iniciarMusica() {
         musicaFundo.play().catch(() => {});
         window.removeEventListener('click', iniciarMusica);
     }, { once: true });
 }
 
-//=================================
- // Configura o botão de tela cheia
- //=================================
 function configurarTelaCheia() {
     elementos.botoes.telaCheia.addEventListener('click', function() {
         if (!document.fullscreenElement) {
             document.documentElement.requestFullscreen()
-                .then(() => this.textContent = '🖥️ Sair da Tela Cheia')
+                .then(() => this.textContent = '🖥️ SAIR DA TELA CHEIA')
                 .catch(err => console.error('Erro ao entrar em tela cheia:', err));
         } else {
             document.exitFullscreen();
-            this.textContent = '🖥️ Tela Cheia';
+            this.textContent = '🖥️ TELA CHEIA';
         }
     });
 }
