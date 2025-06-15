@@ -9,23 +9,23 @@ const musicaFundo1 = document.getElementById('musica-fundo1');
 function ajustarTela() {
   canvas.style.width = window.innerWidth + "px";
   canvas.style.height = window.innerHeight + "px";
-  
+
 }
 window.addEventListener("load", ajustarTela);
 window.addEventListener("resize", ajustarTela);
 
-window.addEventListener('wheel', function(e) {
+window.addEventListener('wheel', function (e) {
   if (e.ctrlKey) {
     e.preventDefault(); // bloqueia zoom com Ctrl + roda do mouse
   }
 }, { passive: false });
 
-window.addEventListener('keydown', function(e) {
+window.addEventListener('keydown', function (e) {
   // Bloquear Ctrl + '+' ou Ctrl + '-' e Ctrl + '0'
   if (e.ctrlKey) {
     if (
-      e.key === '+' || 
-      e.key === '-' || 
+      e.key === '+' ||
+      e.key === '-' ||
       e.key === '=' || // '=' também pode ser o '+'
       e.key === '0'
     ) {
@@ -66,27 +66,31 @@ window.addEventListener("resize", ajustarImagemComCanvas);
 // Configurações das fases com posições relativas (0 a 1)
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
-  { fase: "1", classeCanva: "fase1", classeBolas: "bolasFase1", classeBoss: "bossFase1", posicaoBolas: [
-    { x: 0.56, y: 0.25 }, //janela esquerda
-    { x: 0.705, y: 0.25 }, //janela direita
-    { x: 0.69, y: 0.48}, // atras da carroça
-    { x: 0.9, y: 0.53}, // direita
-    { x: 0.35, y: 0.48 }, // barril vermelho carroça
-    { x: 0.21, y: 0.44  }, // dentro da corroça
-    { x: 0.02, y: 0.48 } //esquerda
-], posicaoBoss: [
-  { x: 0.5, y: 0.5 } // Posição centralizada para o boss
-] , bossVidaMax: 100 }, 
+  {
+    fase: "1", classeCanva: "fase1", classeBolas: "bolasFase1", classeBoss: "bossFase1", posicaoBolas: [
+      { x: 0.56, y: 0.25 }, //janela esquerda
+      { x: 0.705, y: 0.25 }, //janela direita
+      { x: 0.69, y: 0.48 }, // atras da carroça
+      { x: 0.9, y: 0.53 }, // direita
+      { x: 0.35, y: 0.48 }, // barril vermelho carroça
+      { x: 0.21, y: 0.44 }, // dentro da corroça
+      { x: 0.02, y: 0.48 } //esquerda
+    ], posicaoBoss: [
+      { x: 0.5, y: 0.5 } // Posição centralizada para o boss
+    ], bossVidaMax: 100
+  },
 
-  { fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [
-   { x: 805, y: 100 },
-  { x: 1015, y: 100 },
-  { x: 1280, y: 320 },
-  { x: 130, y: 370 },
-  { x: 300, y: 275 },
-  { x: 990, y: 275 },
-  { x: 510, y: 290 }
-], posicaoBoss: 770, bossVidaMax: 6 }
+  {
+    fase: "2", classeCanva: "fase2", classeBolas: "bolasFase2", classeBoss: "bossFase2", posicaoBolas: [
+      { x: 805, y: 100 },
+      { x: 1015, y: 100 },
+      { x: 1280, y: 320 },
+      { x: 130, y: 370 },
+      { x: 300, y: 275 },
+      { x: 990, y: 275 },
+      { x: 510, y: 290 }
+    ], posicaoBoss: 770, bossVidaMax: 6
+  }
 ];
 
 // Aplica classe da fase ao canvas
@@ -269,11 +273,11 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.addEventListener("click", (event) => {
     event.stopPropagation();
     if (!bossAtivo || !bossVulneravel || !atirar()) return;
-  
+
     const somDisparoBoss = somDisparo.cloneNode();
     somDisparoBoss.volume = somDisparo.volume;
     somDisparoBoss.play().catch(console.error);
-  
+
     bossVidaAtual--;
     atualizarBarraVida();
     if (bossVidaAtual <= 0) {
@@ -336,8 +340,11 @@ function criarElementoBola(posX, posY) {
 
   envelope.appendChild(circulo);
   envelope.appendChild(bola);
-  criarInimigo(posX, posY);
+  criarInimigo(posX, posY, envelope);
   canvas.appendChild(envelope);
+
+
+
 
   bolasAtivas.push({ x: posX, y: posY, el: envelope });
 
@@ -354,7 +361,7 @@ function criarElementoBola(posX, posY) {
         // Limpa todas as bolas menores antes de mostrar o boss
         bolasAtivas.forEach(b => b.el.remove());
         bolasAtivas = [];
-    
+
         bossAtivo = true;
         bossVulneravel = true;
         barraContainer.style.display = "block";
@@ -363,7 +370,7 @@ function criarElementoBola(posX, posY) {
         iniciarTempoBoss();
       }
     }
-    
+
   });
 
   // Remove a bola depois de um tempo se o jogador não acertar
@@ -500,7 +507,7 @@ function mostrarVitoria() {
   mensagemImg.className = "mensagem-vitoria";
 
   if (proximaFase > configuracaoFases.length - 1) {
-    mensagemImg.src = "imagens/vitoria.png"; 
+    mensagemImg.src = "imagens/vitoria.png";
     mensagemImg.alt = "Você completou todas as fases!";
     setTimeout(() => {
       window.location.href = "../index.html";
@@ -549,25 +556,23 @@ function mostrarGameOver() {
 function musica() {
   function tocarMusica() {
     const musicaFundo1 = document.getElementById("musica-fundo1");
-    musicaFundo1.volume=0.1;
-    musicaFundo1.play().catch(() => {});
+    musicaFundo1.volume = 0.1;
+    musicaFundo1.play().catch(() => { });
     window.removeEventListener("click", tocarMusica);
   }
 
   window.addEventListener("click", tocarMusica, { once: true });
 }
 
-function criarInimigo(posX, posY) {
+
+function criarInimigo(posX, posY, container) {
   const inimigo = document.createElement("img");
   inimigo.src = "./imagens/inimigo.png";
   inimigo.className = "inimigo";
-  inimigo.style.left = `${posX - 50}px`; //mude a posicao aqui
-  inimigo.style.top = `${posY - 30}px`; //mude a posicao aqui
-  canvas.appendChild(inimigo);
-
-  setTimeout(() => {
-    if (canvas.contains(inimigo)) inimigo.remove();
-  }, 4000);
+  inimigo.style.position = "absolute";
+  inimigo.style.left = `-50px`; // relativo ao container
+  inimigo.style.top = `-30px`;  // relativo ao container
+  container.appendChild(inimigo);
 }
 
 
@@ -579,7 +584,7 @@ function iniciarFase() {
   mensagem.innerHTML = `<strong>Fase ${faseAtual}</strong><br>A Gula foi despertada <br>De a ela o que ela mais deseja: uma chuva de balas!`;
   canvas.appendChild(mensagem);
 
-  
+
   setTimeout(() => {
     mensagem.remove();
     criarBola();               // Começa as bolas
