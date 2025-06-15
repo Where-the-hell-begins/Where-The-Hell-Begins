@@ -34,6 +34,33 @@ window.addEventListener('keydown', function(e) {
   }
 });
 
+function criarCamadaSuperior() {
+  const img = document.createElement("img");
+  img.id = "camadaSuperior";
+  img.src = "imagens/suaImagem1.png"; // atualize com seu caminho
+  document.body.appendChild(img);
+}
+
+// Chamada no momento certo, como após o carregamento da fase
+window.addEventListener("load", () => {
+  criarCamadaSuperior();
+  ajustarImagemComCanvas(); // opcional
+});
+
+function ajustarImagemComCanvas() {
+  const img = document.getElementById("camadaSuperior");
+  const canvas = document.getElementById("canvas");
+  const rect = canvas.getBoundingClientRect();
+
+  img.style.position = "absolute";
+  img.style.left = rect.left + "px";
+  img.style.top = rect.top + "px";
+  img.style.width = rect.width + "px";
+  img.style.height = rect.height + "px";
+}
+window.addEventListener("resize", ajustarImagemComCanvas);
+
+
 
 
 // Configurações das fases com posições relativas (0 a 1)
@@ -206,6 +233,7 @@ function posicaoRelativaParaPixels(posRelativa) {
     y: Math.round(posRelativa.y * altura) - 25,
   };
 }
+
 function criarBoss() {
   if (document.querySelector(".boss") || !jogoAtivo) return;
 
@@ -541,6 +569,7 @@ function criarInimigo(posX, posY) {
     if (canvas.contains(inimigo)) inimigo.remove();
   }, 4000);
 }
+
 
 window.addEventListener("DOMContentLoaded", musica);
 
