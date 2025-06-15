@@ -47,7 +47,7 @@ main {
   left: 0;
   width: 100vw;  /* largura da viewport */
   height: 100vh; /* altura da viewport */
-  z-index: 9999;
+  z-index: 10;
   pointer-events: none; /* para que a imagem não interfira com cliques */
   object-fit: cover; /* opcional: cobre sem deformar */
 }
@@ -109,7 +109,7 @@ main {
   position: absolute;
   width: 40vw;
   height: 40vw;
-  z-index: 2;
+  z-index: 11;
   background-image: url(imagens/Gula.png);
   background-repeat: no-repeat;
   background-position: center;
