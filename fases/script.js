@@ -383,6 +383,19 @@ function atualizarVidas() {
   }
 }
 
+// Criando os objetos de áudio
+const somDisparo = new Audio('../audio/tiroSom.mp3');
+const somRecarregar = new Audio('../audio/recarregarSom.mp3');
+
+// Ajustando o volume
+somDisparo.volume = 0.5; // 0.0 (silêncio) a 1.0 (volume máximo)
+somRecarregar.volume = 0.5;
+
+// Definindo loop
+somDisparo.loop = false; // Não repete o som
+somRecarregar.loop = false; // Não repete o som
+
+// Função de disparo
 function atirar() {
   if (recarregando) return false;
 
@@ -395,11 +408,18 @@ function atirar() {
 
   muni--;
   atualizarMunicao();
+
+  // Clonando e tocando o som de disparo
+  const somDisparoClone = somDisparo.cloneNode();
+  somDisparoClone.play();
+
   return true;
 }
 
+// Evento de tecla para recarregar
 window.addEventListener("keydown", (event) => {
   if (event.key === "r" && !recarregando && muni < maxmuni) {
+    somRecarregar.play(); // Toca o som de recarregamento
     recarregando = true;
     mostrarAnimacaoRecarregando();
     setTimeout(() => {
