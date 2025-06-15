@@ -41,6 +41,11 @@ main {
   z-index: 0;
 }
 
+.fase2 {
+  background-image: url("imagens/fundo2.png");
+  z-index: 0;
+}
+
 #camadaSuperior {
   position: absolute;
   top: 0;
