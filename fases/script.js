@@ -313,6 +313,10 @@ function criarElementoBola(posX, posY) {
     if (!bossAtivo) {
       bolasAcertadas++;
       if (bolasAcertadas >= 10) {
+        // Limpa todas as bolas menores antes de mostrar o boss
+        bolasAtivas.forEach(b => b.el.remove());
+        bolasAtivas = [];
+    
         bossAtivo = true;
         bossVulneravel = true;
         barraContainer.style.display = "block";
@@ -321,6 +325,7 @@ function criarElementoBola(posX, posY) {
         iniciarTempoBoss();
       }
     }
+    
   });
 
   // Remove a bola depois de um tempo se o jogador não acertar
