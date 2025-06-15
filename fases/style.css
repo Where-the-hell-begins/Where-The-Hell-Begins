@@ -88,6 +88,7 @@ main {
   animation: growAndFade 4s ease-out forwards;
   transform-origin: center;
   opacity: 40%;
+  z-index: 2;
 }
 
 .circulo {
@@ -101,6 +102,7 @@ main {
   image-rendering: pixelated;
   transform: translate(0%, 0%);
   opacity: 50%;
+  z-index: 2;
 }
 
 .boss  {
@@ -350,6 +352,7 @@ main {
   width: 150px;
   height: 150px;
   animation: levantar 1s ease-out forwards;
+  z-index: 1;
 }
 
 @keyframes levantar {
