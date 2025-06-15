@@ -539,7 +539,6 @@ function iniciarFase() {
 
   
   setTimeout(() => {
-    musica();
     mensagem.remove();
     criarBola();               // Começa as bolas
     criaPersonagem();          // Mostra personagem
