@@ -77,7 +77,7 @@ const configuracaoFases = [
       { x: 0.02, y: 0.48 } //esquerda
     ], posicaoBoss: [
       { x: 0.5, y: 0.5 } // Posição centralizada para o boss
-    ], bossVidaMax: 150
+    ], bossVidaMax: 20
   },
 
   {
@@ -91,7 +91,7 @@ const configuracaoFases = [
       { x: 0.08, y: 0.3 } //esquerda cima
     ], posicaoBoss: [
       { x: 0.48, y: 0.47 } // Posição centralizada para o boss
-    ], bossVidaMax: 150
+    ], bossVidaMax: 20
   },
 ];
 
