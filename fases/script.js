@@ -62,7 +62,6 @@ window.addEventListener("resize", ajustarImagemComCanvas);
 
 
 
-
 // Configurações das fases com posições relativas (0 a 1)
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
@@ -88,8 +87,18 @@ const configuracaoFases = [
       { x: 0.09, y: 0.65 }, // direita meio
       { x: 0.29, y: 0.44 }, // caixa esquerda
       { x: 0.235, y: 0.44 }, // caixa direita
-      { x: 0.08, y: 0.32 } //esquerda cima
-    ], posicaoBoss: [
+      { x: 0.08, y: 0.32 }, //esquerda cima
+
+    ], 
+    classeCoins: "coinsFase2",posicaoCoins: [
+      { x: 0.4, y: 0.5 }, //boss esquerda
+      { x: 0.4, y: 0.4 }, //boss esquerda
+      { x: 0.45, y: 0.2 }, //boss cima
+      { x: 0.5, y: 0.2 }, //boss cima
+      { x: 0.55, y: 0.4 }, //boss direita
+      { x: 0.55, y: 0.5 }, //boss direita
+    ],
+    posicaoBoss: [
       { x: 0.48, y: 0.47 } // Posição centralizada para o boss
     ], bossVidaMax: 20
   },
@@ -117,14 +126,15 @@ let tempoTotalBoss = 8; // 8 segundos de duração
 let tempoAtualBoss = 0;
 let bossVulneravel = false;
 
-
 let maxVidas = 10000;
 let vidas = maxVidas;
 let bolasAtivas = [];
+let coinsAcertadas = 0;
+let coinsAtivas = [];
 
 const barraContainer = document.createElement("div");
 barraContainer.id = "barraVidaContainer";
-barraContainer.style.display = "none"; // Melhor controle visual inicial
+barraContainer.style.display = "none"; // Oculto inicialmente
 
 const barraVida = document.createElement("div");
 barraVida.id = "barraVida";
@@ -157,7 +167,15 @@ function iniciarTempoBoss() {
   tempoAtualBoss = 0;
   bossTimerCanvas.style.display = "block";
 
-  tempoBossInterval = setInterval(atualizarTempoBoss, 90);
+  tempoBossInterval = setInterval(atualizarTempoBoss, 100);
+
+  bossVulneravel = true;
+  bossAtivo = true;
+  barraContainer.style.display = "block";
+
+  if(faseAtual === 2){
+    criarCoinsAoRedorDoBoss();
+  }
 }
 
 function atualizarTempoBoss() {
@@ -168,30 +186,23 @@ function atualizarTempoBoss() {
     clearInterval(tempoBossInterval);
     bossTimerCanvas.style.display = "none";
 
-    // Boss permanece visível, mas não pode levar dano
-    bossVulneravel = false;       // desativa dano no boss
-    bossAtivo = false;            // barra de vida oculta
+    bossVulneravel = false;
+    bossAtivo = false;
     barraContainer.style.display = "none";
 
-    if (document.querySelector(".boss").classList.add("inativo"));
+    const bossEl = document.querySelector(".boss");
+    if(bossEl) bossEl.classList.add("inativo");
 
-    bolasAcertadas = 0;           // reset contador bolinhas para poder ativar dano depois
+    bolasAcertadas = 0;
 
-    // Se estiver na fase 1, recarrega munição
-    if (faseAtual === 1) {
-      muni = maxmuni;
-      atualizarMunicao();
+    if(faseAtual === 2){
+      removerTodasCoins();
     }
 
-    atualizarBarraVida();         // atualiza barra (deve ficar invisível porque bossAtivo = false)
-
-    // Cria uma nova bolinha para o jogador acertar e reativar o boss
     criarBola();
-
-    // OBS: o boss continua na tela, invisível? Não, ele fica visível.
-    // Então não removemos o elemento do boss aqui.
   } else {
-    document.querySelector(".boss").classList.remove("inativo");
+    const bossEl = document.querySelector(".boss");
+    if(bossEl) bossEl.classList.remove("inativo");
     desenharBossTimer();
   }
 }
@@ -229,8 +240,6 @@ function desenharBossTimer() {
   ctx.stroke();
 }
 
-// Função auxiliar para converter posição relativa para pixels com ajuste de offset (50px para centralizar)
-// OFFSET considera largura/altura do elemento (50x50)
 function posicaoRelativaParaPixels(posRelativa) {
   const largura = canvas.clientWidth;
   const altura = canvas.clientHeight;
@@ -243,13 +252,11 @@ function posicaoRelativaParaPixels(posRelativa) {
 function criarBoss() {
   if (document.querySelector(".boss") || !jogoAtivo) return;
 
-  // Remover todas as bolas ativas antes de mostrar o boss
   bolasAtivas.forEach(b => b.el.remove());
   bolasAtivas = [];
 
-  const bossSize = 400; // Largura e altura do boss
-  const posicaoRelativa = posicaoBossRelativa[0]; // Suporta múltiplas, mas usamos a primeira
-
+  const bossSize = 400;
+  const posicaoRelativa = posicaoBossRelativa[0];
   const posicao = posicaoRelativaParaPixels(posicaoRelativa);
 
   const posX = posicao.x;
@@ -268,6 +275,8 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.left = `${posX - bossWidth / 2}px`;
   boss.style.top = `${posY - bossHeight / 2}px`;
   boss.style.backgroundSize = "contain";
+  boss.style.backgroundRepeat = "no-repeat";
+  boss.style.cursor = "pointer";
 
   canvas.appendChild(boss);
 
@@ -279,16 +288,72 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     somDisparoBoss.volume = somDisparo.volume;
     somDisparoBoss.play().catch(console.error);
 
-    bossVidaAtual--;
-    atualizarBarraVida();
-    if (bossVidaAtual <= 0) {
-      clearTimeout(tempoBossTimer);
-      mostrarVitoria();
+    // Na fase 1, o dano é ao clicar direto no boss
+    if(faseAtual === 1){
+      bossVidaAtual--;
+      atualizarBarraVida();
+      if(bossVidaAtual <= 0){
+        clearTimeout(tempoBossTimer);
+        mostrarVitoria();
+      }
     }
+    // Na fase 2 o dano só vem das coins, clique no boss não diminui vida
   });
 }
 
+function criarCoinsAoRedorDoBoss() {
+  if (faseAtual !== 2 || !bossVulneravel) return;
 
+  const posicoes = configuracaoFases[faseAtual].posicaoCoins;
+  coinsAcertadas = 0;
+  coinsAtivas = [];
+
+  posicoes.forEach((posRelativa) => {
+    const pos = posicaoRelativaParaPixels(posRelativa);
+
+    const coin = document.createElement("div");
+    coin.classList.add("coin");
+    coin.style.position = "absolute";
+    coin.style.left = `${pos.x}px`;
+    coin.style.top = `${pos.y}px`;
+    coin.style.cursor = "pointer";
+
+    coin.addEventListener("click", () => {
+      if(!bossVulneravel) return;
+
+      coin.remove();
+      coinsAcertadas++;
+
+      bossVidaAtual--;
+      atualizarBarraVida();
+
+      if(bossVidaAtual <= 0){
+        mostrarVitoria();
+        return;
+      }
+
+      if(coinsAcertadas >= posicoes.length){
+        clearInterval(tempoBossInterval);
+        bossTimerCanvas.style.display = "none";
+        bossVulneravel = false;
+        bossAtivo = false;
+        barraContainer.style.display = "none";
+
+        bolasAcertadas = 0;
+        criarBola();
+      }
+    });
+
+    document.body.appendChild(coin);
+    coinsAtivas.push(coin);
+  });
+}
+
+function removerTodasCoins() {
+  coinsAtivas.forEach(coin => coin.remove());
+  coinsAtivas = [];
+  coinsAcertadas = 0;
+}
 
 
 function criarBola() {
