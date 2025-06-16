@@ -582,18 +582,50 @@ window.addEventListener("DOMContentLoaded", musica);
 function iniciarFase() {
   const mensagem = document.createElement("div");
   mensagem.className = "mensagem-fase";
-  mensagem.innerHTML = `<strong>Fase ${faseAtual}</strong><br>A Gula foi despertada <br>De a ela o que ela mais deseja: uma chuva de balas!`;
-  canvas.appendChild(mensagem);
+
+  if (faseAtual == 1) {
+    mensagem.innerHTML = `
+    <strong>
+      Fase ${faseAtual} 
+    </strong> <br>
+      A Gula foi despertada 
+    <br>
+      De a ela o que ela mais deseja: uma chuva de balas!
+    `;
+    canvas.appendChild(mensagem);
 
 
-  setTimeout(() => {
-    mensagem.remove();
-    criarBola();               // Começa as bolas
-    criaPersonagem();          // Mostra personagem
-    atualizarMunicao();
-    atualizarVidas();
-    atualizarBarraVida();      // Só mostrará se boss aparecer
-  }, 3000);
+    setTimeout(() => {
+      mensagem.remove();
+      criarBola();               // Começa as bolas
+      criaPersonagem();          // Mostra personagem
+      atualizarMunicao();
+      atualizarVidas();
+      atualizarBarraVida();      // Só mostrará se boss aparecer
+    }, 3000);
+
+  } else {
+    mensagem.style.backgroundSize = "31rem 8rem";
+     mensagem.innerHTML = `
+    <strong>
+      Fase ${faseAtual} 
+    </strong> <br>
+      A Avareza foi despertada
+    <br>
+       Mostre que nem ouro pode protegê-la!
+    `;
+    canvas.appendChild(mensagem);
+
+
+    setTimeout(() => {
+      mensagem.remove();
+      criarBola();               // Começa as bolas
+      criaPersonagem();          // Mostra personagem
+      atualizarMunicao();
+      atualizarVidas();
+      atualizarBarraVida();      // Só mostrará se boss aparecer
+    }, 3000);
+  }
 
 
   /*//CODIGO DE TESTE BOSS
