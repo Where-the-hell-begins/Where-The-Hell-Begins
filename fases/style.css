@@ -116,6 +116,54 @@ main {
   z-index: 2;
 }
 
+/* Estilo base para todos os bosses */
+.boss {
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: contain;
+  z-index: 10;
+}
+
+/* Boss da fase 1 */
+.bossFase1 {
+  background-image: url('imagens/Gula.png');
+}
+
+/* Boss da fase 2 - nova imagem */
+.bossFase2 {
+  background-image: url('imagens/personagem.png');
+}
+
+/* Coins da fase 2 */
+.coin {
+  width: 40px;
+  height: 40px;
+  background-image: url('imagens/coin.jpg'); /* Caminho da imagem da coin */
+  background-size: cover;
+  position: absolute;
+  cursor: pointer;
+  z-index: 20;
+  animation: brilhoCoin 1s infinite alternate;
+}
+
+/* Efeito de brilho nas coins */
+@keyframes brilhoCoin {
+  0% {
+    filter: brightness(1);
+    transform: scale(1);
+  }
+  100% {
+    filter: brightness(1.5);
+    transform: scale(1.2);
+  }
+}
+
+/* Opcional: estado invisível para o boss (quando vulnerabilidade acaba) */
+.boss.inativo {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .circulo {
   position: absolute;
   width: 50px;
@@ -130,7 +178,7 @@ main {
   z-index: 2;
 }
 
-.boss  {
+/*.boss  {
   left: 33rem ;
   top: 8rem ;
   position: absolute;
@@ -143,10 +191,10 @@ main {
   background-size: contain;
 }
 
-
 .boss.inativo {
   filter: brightness(30%);
 }
+*/
 
 .personagem {
   position: absolute;
