@@ -82,15 +82,15 @@ const configuracaoFases = [
 
   {
     fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", posicaoBolas: [
-      { x: 0.56, y: 0.25 }, //janela esquerda
-      { x: 0.705, y: 0.25 }, //janela direita
-      { x: 0.69, y: 0.48 }, // atras da carroça
-      { x: 0.9, y: 0.53 }, // direita
-      { x: 0.35, y: 0.48 }, // barril vermelho carroça
-      { x: 0.21, y: 0.44 }, // dentro da corroça
-      { x: 0.02, y: 0.48 } //esquerda
+      { x: 0.62, y: 0.05 }, //janela
+      { x: 0.61, y: 0.39 }, // empiladeira
+      { x: 0.77, y: 0.4 }, // direita meio
+      { x: 0.09, y: 0.65 }, // direita meio
+      { x: 0.29, y: 0.44 }, // caixa esquerda
+      { x: 0.235, y: 0.44 }, // caixa direita
+      { x: 0.08, y: 0.3 } //esquerda cima
     ], posicaoBoss: [
-      { x: 0.5, y: 0.5 } // Posição centralizada para o boss
+      { x: 0.48, y: 0.47 } // Posição centralizada para o boss
     ], bossVidaMax: 150
   },
 ];
@@ -247,16 +247,15 @@ function criarBoss() {
   bolasAtivas.forEach(b => b.el.remove());
   bolasAtivas = [];
 
-  const bossWidth = 400;
-  const bossHeight = 400;
+  const bossSize = 400; // Largura e altura do boss
+  const posicaoRelativa = posicaoBossRelativa[0]; // Suporta múltiplas, mas usamos a primeira
 
-  const canvasWidth = canvas.offsetWidth;
-  const canvasHeight = canvas.offsetHeight;
+  const posicao = posicaoRelativaParaPixels(posicaoRelativa);
 
-  const posX = (canvasWidth - bossWidth) / 2;
-  const posY = (canvasHeight - bossHeight) / 2;
+  const posX = posicao.x;
+  const posY = posicao.y;
 
-  criarElementoBoss(posX, posY, bossWidth, bossHeight);
+  criarElementoBoss(posX, posY, bossSize, bossSize);
 }
 
 function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
@@ -266,8 +265,8 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.width = `${bossWidth}px`;
   boss.style.height = `${bossHeight}px`;
   boss.style.position = "absolute";
-  boss.style.left = `${posX}px`;
-  boss.style.top = `${posY}px`;
+  boss.style.left = `${posX - bossWidth / 2}px`;
+  boss.style.top = `${posY - bossHeight / 2}px`;  
   boss.style.backgroundSize = "contain";
 
   canvas.appendChild(boss);
