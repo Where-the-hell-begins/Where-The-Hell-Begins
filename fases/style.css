@@ -393,3 +393,17 @@ main {
     transform: translateY(0);
   }
 }
+
+.inimigo.morte {
+  animation: abaixar 2s forwards;
+}
+
+@keyframes abaixar {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(100px);
+  }
+}
+
