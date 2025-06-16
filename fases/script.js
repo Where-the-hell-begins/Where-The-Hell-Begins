@@ -266,7 +266,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.height = `${bossHeight}px`;
   boss.style.position = "absolute";
   boss.style.left = `${posX - bossWidth / 2}px`;
-  boss.style.top = `${posY - bossHeight / 2}px`;  
+  boss.style.top = `${posY - bossHeight / 2}px`;
   boss.style.backgroundSize = "contain";
 
   canvas.appendChild(boss);
@@ -606,7 +606,7 @@ function iniciarFase() {
 
   } else {
     mensagem.style.backgroundSize = "31rem 8rem";
-     mensagem.innerHTML = `
+    mensagem.innerHTML = `
     <strong>
       Fase ${faseAtual} 
     </strong> <br>
