@@ -377,12 +377,17 @@ function criarElementoBola(posX, posY) {
   //remove a bola se errar
   setTimeout(() => {
   if (document.body.contains(envelope)) {
-    
+
     // troca o sprite do inimigo para tiro
     const inimigo = envelope.querySelector(".inimigo");
     if (inimigo) {
       inimigo.src = "./imagens/tiroinimigo.png";
     }
+
+    //som de tiro do inimigo
+    const somTiroInimigo = new Audio("../audio/tiroSom.mp3");
+    somTiroInimigo.volume = 0.7; // volume opcional
+    somTiroInimigo.play().catch(() => {});
 
     setTimeout(() => {
       envelope.remove();
