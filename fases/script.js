@@ -424,12 +424,8 @@ function criarElementoBola(posX, posY) {
   }, delay);
 }
 
-
+//antiga funcao de criar personagem, deixei o atirar pois nao funciona sem chamar aqui antes
 function criaPersonagem() {
-  const personagem = document.createElement("div");
-  personagem.classList.add("personagem");
-  canvas.appendChild(personagem);
-
   canvas.addEventListener("click", () => {
     atirar();
   });
