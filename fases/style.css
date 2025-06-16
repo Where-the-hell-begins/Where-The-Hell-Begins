@@ -71,7 +71,8 @@ main {
   pointer-events: none;
   background-image: url(imagens/caixaDeDialogo.png);
   background-repeat: no-repeat;
-  background-size: 10rem 2.3rem;
+  background-size: 8.8rem 2.3rem;
+  font-family: 'VT323', monospace;
 }
 
 #faseAtual2{
@@ -88,7 +89,8 @@ main {
   pointer-events: none;
   background-image: url(imagens/caixaDeDialogo.png);
   background-repeat: no-repeat;
-  background-size: 10rem 2.3rem;
+  background-size: 8.5rem 2.3rem;
+  font-family: 'VT323', monospace;
 }
 
 #boss-timer-circle {
@@ -176,7 +178,7 @@ main {
   height: 32px;
   display: flex;
   gap: 5px;
-  z-index: 10;
+  z-index: 1000;
   background-image: url("imagens/bala.png");
   transition: opacity 0.2s ease;
 }
@@ -192,7 +194,7 @@ main {
   left: 8px;
   display: flex;
   gap: 8px;
-  z-index: 10;
+  z-index: 1000;
   background-repeat: no-repeat;
 }
 
@@ -319,7 +321,8 @@ main {
   animation: fadeInOut 3s ease-in-out;
   background-image: url(imagens/caixaDeDialogo.png);
   background-repeat: no-repeat;
-  background-size: 41rem 8rem;
+  background-size: 36rem 8rem;
+  font-family: 'VT323', monospace;
 }
 
 @keyframes fadeInOut {

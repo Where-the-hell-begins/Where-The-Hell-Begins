@@ -621,7 +621,7 @@ function iniciarFase() {
     }, 3000);
 
   } else {
-    mensagem.style.backgroundSize = "31rem 8rem";
+    mensagem.style.backgroundSize = "27rem 8rem";
     mensagem.innerHTML = `
     <strong>
       Fase ${faseAtual} 
