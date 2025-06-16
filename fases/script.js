@@ -374,16 +374,27 @@ function criarElementoBola(posX, posY) {
 
   });
 
-  // Remove a bola depois de um tempo se o jogador não acertar
+  //remove a bola se errar
   setTimeout(() => {
-    if (document.body.contains(envelope)) {
+  if (document.body.contains(envelope)) {
+    
+    // troca o sprite do inimigo para tiro
+    const inimigo = envelope.querySelector(".inimigo");
+    if (inimigo) {
+      inimigo.src = "./imagens/tiroinimigo.png";
+    }
+
+    setTimeout(() => {
       envelope.remove();
       bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
       vidas--;
       atualizarVidas();
       if (vidas <= 0) mostrarGameOver();
-    }
-  }, 4000);
+    }, 300); //tempo do tiro
+  }
+}, 4000);
+
+
 
   // Programar a próxima bola se o jogo estiver ativo e sem boss
   const delay = Math.random() * 1000 + 500;
