@@ -23,23 +23,15 @@ body {
 }
 
 .logo {
-    width: 180px;
-    margin-bottom: 20px;
+    width: 300px; /* Aumentado o tamanho da logo */
+    margin-bottom: 5px; /* Reduzido o espaço abaixo da logo */
     filter: drop-shadow(0 0 15px rgba(255, 190, 90, 0.7))
             drop-shadow(0 0 30px rgba(255, 150, 50, 0.4))
             drop-shadow(0 0 60px rgba(255, 120, 40, 0.3));
 }
 
-.tela-titulo h1 {
-    font-size: 4rem;
-    color: #d9c18c;
-    letter-spacing: 8px;
-    text-shadow: 0 0 20px rgba(255, 215, 130, 0.8),
-                 0 0 40px rgba(255, 200, 100, 0.5);
-}
-
 .opcoes-menu {
-    margin-top: 3rem;
+    margin-top: 5px; /* Ajustado para mover o botão mais para cima */
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
