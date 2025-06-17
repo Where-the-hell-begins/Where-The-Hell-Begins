@@ -110,7 +110,7 @@ main {
   background-repeat: no-repeat;
   background-position: center;
   image-rendering: pixelated;
-  animation: growAndFade 4s ease-out forwards;
+  animation: growAndFade ease-out forwards;
   transform-origin: center;
   opacity: 40%;
   z-index: 2;
