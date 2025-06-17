@@ -716,4 +716,3 @@ function iniciarFase() {
 // Inicializa a fase ao carregar
 iniciarFase();
 
-
