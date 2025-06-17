@@ -190,8 +190,8 @@ function atualizarTempoBoss() {
     bossAtivo = false;
     barraContainer.style.display = "none";
 
-    const bossEl = document.querySelector(".boss");
-    if(bossEl) bossEl.classList.add("inativo");
+    const bossmorte = document.querySelector(".boss");
+    if(bossmorte) bossmorte.classList.add("inativo");
 
     bolasAcertadas = 0;
 
@@ -201,8 +201,8 @@ function atualizarTempoBoss() {
 
     criarBola();
   } else {
-    const bossEl = document.querySelector(".boss");
-    if(bossEl) bossEl.classList.remove("inativo");
+    const bossmorte = document.querySelector(".boss");
+    if(bossmorte) bossmorte.classList.remove("inativo");
     desenharBossTimer();
   }
 }
@@ -277,7 +277,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.backgroundSize = "contain";
   boss.style.backgroundRepeat = "no-repeat";
   boss.style.cursor = "pointer";
-
+//
   canvas.appendChild(boss);
 
   boss.addEventListener("click", (event) => {
@@ -591,37 +591,55 @@ function mostrarAnimacaoRecarregando() {
   }, 550);
 }
 
+
 function mostrarVitoria() {
-  jogoAtivo = false;
-  bolasAtivas.forEach(b => b.el.remove());
-  bolasAtivas = [];
-  clearTimeout(tempoBossTimer);
-  canvas.innerHTML = "";
-  barraContainer.style.display = "none";
 
-  const proximaFase = faseAtual + 1;
-  const mensagemImg = document.createElement("img");
-  mensagemImg.className = "mensagem-vitoria";
+  switch (faseAtual) {
+    case 1:
+      const bossmorte = document.querySelector(".boss");
+      bossmorte.style.backgroundImage = "url('./imagens/GulaMorte.png')";
+      break;
 
-  if (proximaFase > configuracaoFases.length - 1) {
-    mensagemImg.src = "imagens/vitoria.png";
-    mensagemImg.alt = "Você completou todas as fases!";
-    setTimeout(() => {
-      window.location.href = "../index.html";
-    }, 5000);
-  } else {
-    mensagemImg.src = "imagens/vitoria.png";
-    mensagemImg.alt = "VITÓRIA!";
-    mensagemImg.addEventListener("click", () => {
-      window.location.href = `./fase${proximaFase}.html`;
-    });
-    setTimeout(() => {
-      window.location.href = `./fase${proximaFase}.html`;
-    }, 10000);
+    case 2:
+      const bossmorte2 = document.querySelector(".boss");
+      bossmorte2.style.backgroundImage = "url('./imagens/AvarezaMorte.png')";
+      break;
   }
+  
+  setTimeout(() => {
+    jogoAtivo = false;
+    bolasAtivas.forEach(b => b.el.remove());
+    bolasAtivas = [];
+    clearTimeout(tempoBossTimer);
+    canvas.innerHTML = "";
+    barraContainer.style.display = "none";
 
-  canvas.appendChild(mensagemImg);
+    const proximaFase = faseAtual + 1;
+    const mensagemImg = document.createElement("img");
+    mensagemImg.className = "mensagem-vitoria";
+
+    if (proximaFase > configuracaoFases.length - 1) {
+      mensagemImg.src = "imagens/vitoria.png";
+      mensagemImg.alt = "Você completou todas as fases!";
+      setTimeout(() => {
+        window.location.href = "../index.html";
+      }, 5000);
+    } else {
+      mensagemImg.src = "imagens/vitoria.png";
+      mensagemImg.alt = "VITÓRIA!";
+      mensagemImg.addEventListener("click", () => {
+        window.location.href = `./fase${proximaFase}.html`;
+      });
+      setTimeout(() => {
+        window.location.href = `./fase${proximaFase}.html`;
+      }, 10000);
+    }
+
+    canvas.appendChild(mensagemImg);
+  }, 2000); //segundos do sprite de morte
 }
+
+
 
 
 function mostrarGameOver() {
@@ -689,8 +707,11 @@ function iniciarFase() {
       A Gula foi despertada 
     <br>
       De a ela o que ela mais deseja: uma chuva de balas!
+    <br>
+    <button id="botaoComecarFase">Começar</button>
     `;
   } else {
+    mensagem.style.backgroundSize = "27rem 8rem";
     mensagem.innerHTML = `
     <strong>
       Fase ${faseAtual} 
@@ -698,21 +719,22 @@ function iniciarFase() {
       A Avareza foi despertada
     <br>
        Mostre que nem ouro pode protegê-la!
+    <br>
+    <button id="botaoComecarFase">Começar</button>
     `;
   }
 
   canvas.appendChild(mensagem);
 
-  setTimeout(() => {
+  document.getElementById("botaoComecarFase").addEventListener("click", () => {
     mensagem.remove();
     criarBola();
     criaPersonagem();
     atualizarMunicao();  // ← Garantir que é chamado em ambas as fases
     atualizarVidas();
     atualizarBarraVida();
-  }, 3000);
+  });
 }
 
 // Inicializa a fase ao carregar
 iniciarFase();
-
