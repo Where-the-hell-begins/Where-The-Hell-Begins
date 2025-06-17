@@ -190,8 +190,8 @@ function atualizarTempoBoss() {
     bossAtivo = false;
     barraContainer.style.display = "none";
 
-    const bossEl = document.querySelector(".boss");
-    if(bossEl) bossEl.classList.add("inativo");
+    const bossmorte = document.querySelector(".boss");
+    if(bossmorte) bossmorte.classList.add("inativo");
 
     bolasAcertadas = 0;
 
@@ -201,8 +201,8 @@ function atualizarTempoBoss() {
 
     criarBola();
   } else {
-    const bossEl = document.querySelector(".boss");
-    if(bossEl) bossEl.classList.remove("inativo");
+    const bossmorte = document.querySelector(".boss");
+    if(bossmorte) bossmorte.classList.remove("inativo");
     desenharBossTimer();
   }
 }
@@ -277,7 +277,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.backgroundSize = "contain";
   boss.style.backgroundRepeat = "no-repeat";
   boss.style.cursor = "pointer";
-
+//
   canvas.appendChild(boss);
 
   boss.addEventListener("click", (event) => {
@@ -594,8 +594,8 @@ function mostrarAnimacaoRecarregando() {
 
 function mostrarVitoria() {
 
-  const bossEl = document.querySelector(".boss"); // ou ".boss"
-  bossEl.style.backgroundImage = "url('./imagens/GulaMorte.png')"; // muda sprite
+  const bossmorte = document.querySelector(".boss");
+  bossmorte.style.backgroundImage = "url('./imagens/GulaMorte.png')"; // muda sprite
   
   setTimeout(() => {
     jogoAtivo = false;
@@ -627,7 +627,7 @@ function mostrarVitoria() {
     }
 
     canvas.appendChild(mensagemImg);
-  }, 2000);
+  }, 2000); //segundos do sprite de morte
 }
 
 
