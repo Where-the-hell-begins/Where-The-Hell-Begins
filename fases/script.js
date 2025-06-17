@@ -91,15 +91,15 @@ const configuracaoFases = [
 
     ], 
     classeCoins: "coinsFase2",posicaoCoins: [
-      { x: 0.4, y: 0.5 }, //boss esquerda
-      { x: 0.4, y: 0.4 }, //boss esquerda
-      { x: 0.45, y: 0.2 }, //boss cima
-      { x: 0.5, y: 0.2 }, //boss cima
-      { x: 0.55, y: 0.4 }, //boss direita
-      { x: 0.55, y: 0.5 }, //boss direita
+      { x: 0.39, y: 0.5 }, //boss esquerda
+      { x: 0.39, y: 0.4 }, //boss esquerda
+      { x: 0.43, y: 0.2 }, //boss cima
+      { x: 0.50, y: 0.2 }, //boss cima
+      { x: 0.54, y: 0.4 }, //boss direita
+      { x: 0.54, y: 0.5 }, //boss direita
     ],
     posicaoBoss: [
-      { x: 0.48, y: 0.47 } // Posição centralizada para o boss
+      { x: 0.47, y: 0.42 } // Posição centralizada para o boss
     ], bossVidaMax: 20
   },
 ];
@@ -535,6 +535,8 @@ somRecarregar.loop = false; // Não repete o som
 function atirar() {
   if (recarregando) return false;
 
+  tocarMusica();
+
   if (faseAtual === 1 && bossAtivo) return true;
 
   if (muni <= 0) {
@@ -648,14 +650,16 @@ function mostrarGameOver() {
   }, 10000);
 }
 
-function musica() {
-  function tocarMusica() {
-    const musicaFundo1 = document.getElementById("musica-fundo1");
-    musicaFundo1.volume = 0.1;
-    musicaFundo1.play().catch(() => { });
-    window.removeEventListener("click", tocarMusica);
-  }
+// Função para tocar a música (extraída para reutilização)
+function tocarMusica() {
+  const musicaFundo1 = document.getElementById("musica-fundo1");
+  musicaFundo1.volume = 0.1;
+  musicaFundo1.play().catch(() => {});
+}
 
+function musica() {
+  // Remove os listeners antigos para evitar duplicação
+  window.removeEventListener("click", tocarMusica);
   window.addEventListener("click", tocarMusica, { once: true });
 }
 
@@ -686,20 +690,7 @@ function iniciarFase() {
     <br>
       De a ela o que ela mais deseja: uma chuva de balas!
     `;
-    canvas.appendChild(mensagem);
-
-
-    setTimeout(() => {
-      mensagem.remove();
-      criarBola();               // Começa as bolas
-      criaPersonagem();          // Mostra personagem
-      atualizarMunicao();
-      atualizarVidas();
-      atualizarBarraVida();      // Só mostrará se boss aparecer
-    }, 3000);
-
   } else {
-    mensagem.style.backgroundSize = "27rem 8rem";
     mensagem.innerHTML = `
     <strong>
       Fase ${faseAtual} 
@@ -708,34 +699,18 @@ function iniciarFase() {
     <br>
        Mostre que nem ouro pode protegê-la!
     `;
-    canvas.appendChild(mensagem);
-
-
-    setTimeout(() => {
-      mensagem.remove();
-      criarBola();               // Começa as bolas
-      criaPersonagem();          // Mostra personagem
-      atualizarMunicao();
-      atualizarVidas();
-      atualizarBarraVida();      // Só mostrará se boss aparecer
-    }, 3000);
   }
 
+  canvas.appendChild(mensagem);
 
-  /*//CODIGO DE TESTE BOSS
   setTimeout(() => {
-  mensagem.remove();
-  criaPersonagem();          
-  atualizarMunicao();
-  atualizarVidas();
-  
-  bossAtivo = true;
-  barraContainer.style.display = "block";
-  atualizarBarraVida();
-  criarBoss();               // Força o boss aparecer
-  iniciarTempoBoss();       // Inicia o tempo do boss
-}, 1000);*/
-
+    mensagem.remove();
+    criarBola();
+    criaPersonagem();
+    atualizarMunicao();  // ← Garantir que é chamado em ambas as fases
+    atualizarVidas();
+    atualizarBarraVida();
+  }, 3000);
 }
 
 // Inicializa a fase ao carregar
