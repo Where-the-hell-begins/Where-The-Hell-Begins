@@ -66,7 +66,7 @@ window.addEventListener("resize", ajustarImagemComCanvas);
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
   {
-    fase: "1", classeCanva: "fase1", classeBoss: "bossFase1", delayInimigo: 3500, posicaoBolas: [
+    fase: "1", classeCanva: "fase1", classeBoss: "bossFase1", posicaoBolas: [
       { x: 0.56, y: 0.25 }, //janela esquerda
       { x: 0.705, y: 0.25 }, //janela direita
       { x: 0.69, y: 0.48 }, // atras da carroça
@@ -80,7 +80,7 @@ const configuracaoFases = [
   },
 
   {
-    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", delayInimigo: 3000, posicaoBolas: [
+    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", posicaoBolas: [
       { x: 0.62, y: 0.08 }, //janela
       { x: 0.61, y: 0.41 }, // empiladeira
       { x: 0.77, y: 0.4 }, // direita meio
@@ -89,8 +89,8 @@ const configuracaoFases = [
       { x: 0.235, y: 0.44 }, // caixa direita
       { x: 0.08, y: 0.32 }, //esquerda cima
 
-    ],
-    classeCoins: "coinsFase2", posicaoCoins: [
+    ], 
+    classeCoins: "coinsFase2",posicaoCoins: [
       { x: 0.39, y: 0.5 }, //boss esquerda
       { x: 0.39, y: 0.4 }, //boss esquerda
       { x: 0.43, y: 0.2 }, //boss cima
@@ -106,8 +106,6 @@ const configuracaoFases = [
 
 // Aplica classe da fase ao canvas
 canvas.classList.add(configuracaoFases[faseAtual].classeCanva);
-
-const delayInimigo = configuracaoFases[faseAtual].delayInimigo;
 
 let maxmuni = 6;
 let muni = maxmuni;
@@ -175,7 +173,7 @@ function iniciarTempoBoss() {
   bossAtivo = true;
   barraContainer.style.display = "block";
 
-  if (faseAtual === 2) {
+  if(faseAtual === 2){
     criarCoinsAoRedorDoBoss();
   }
 }
@@ -193,18 +191,18 @@ function atualizarTempoBoss() {
     barraContainer.style.display = "none";
 
     const bossmorte = document.querySelector(".boss");
-    if (bossmorte) bossmorte.classList.add("inativo");
+    if(bossmorte) bossmorte.classList.add("inativo");
 
     bolasAcertadas = 0;
 
-    if (faseAtual === 2) {
+    if(faseAtual === 2){
       removerTodasCoins();
     }
 
     criarBola();
   } else {
     const bossmorte = document.querySelector(".boss");
-    if (bossmorte) bossmorte.classList.remove("inativo");
+    if(bossmorte) bossmorte.classList.remove("inativo");
     desenharBossTimer();
   }
 }
@@ -279,7 +277,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.backgroundSize = "contain";
   boss.style.backgroundRepeat = "no-repeat";
   boss.style.cursor = "pointer";
-  //
+//
   canvas.appendChild(boss);
 
   boss.addEventListener("click", (event) => {
@@ -291,10 +289,10 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     somDisparoBoss.play().catch(console.error);
 
     // Na fase 1, o dano é ao clicar direto no boss
-    if (faseAtual === 1) {
+    if(faseAtual === 1){
       bossVidaAtual--;
       atualizarBarraVida();
-      if (bossVidaAtual <= 0) {
+      if(bossVidaAtual <= 0){
         clearTimeout(tempoBossTimer);
         mostrarVitoria();
       }
@@ -321,7 +319,7 @@ function criarCoinsAoRedorDoBoss() {
     coin.style.cursor = "pointer";
 
     coin.addEventListener("click", () => {
-      if (!bossVulneravel) return;
+      if(!bossVulneravel) return;
 
       coin.remove();
       coinsAcertadas++;
@@ -329,13 +327,12 @@ function criarCoinsAoRedorDoBoss() {
       bossVidaAtual--;
       atualizarBarraVida();
 
-      if (bossVidaAtual <= 0) {
+      if(bossVidaAtual <= 0){
         mostrarVitoria();
-        removerTodasCoins();
         return;
       }
 
-      if (coinsAcertadas >= posicoes.length) {
+      if(coinsAcertadas >= posicoes.length){
         clearInterval(tempoBossInterval);
         bossTimerCanvas.style.display = "none";
         bossVulneravel = false;
@@ -396,7 +393,6 @@ function criarElementoBola(posX, posY) {
 
   const bola = document.createElement("div");
   bola.classList.add("bola", configuracaoFases[faseAtual].classeBolas);
-  bola.style.animationDuration = `${delayInimigo/1000}s`;
 
   const circulo = document.createElement("div");
   circulo.classList.add("circulo");
@@ -418,48 +414,48 @@ function criarElementoBola(posX, posY) {
 
   // Evento de clique na bola
   envelope.addEventListener("click", (event) => {
-    event.stopPropagation();
+  event.stopPropagation();
 
-    if (!atirar()) return;
+  if (!atirar()) return;
 
-    // Remove a bola imediatamente para sumir o círculo da bola
-    const bola = envelope.querySelector(".bola");
-    if (bola) {
-      bola.remove();
-    }
+  // Remove a bola imediatamente para sumir o círculo da bola
+  const bola = envelope.querySelector(".bola");
+  if (bola) {
+    bola.remove();
+  }
 
-    const circulo = envelope.querySelector(".circulo");
-    if (circulo) {
-      circulo.remove();
-    }
+  const circulo = envelope.querySelector(".circulo");
+  if (circulo) {
+    circulo.remove();
+  }
 
-    // Troca sprite e animação do inimigo
-    const inimigo = envelope.querySelector(".inimigo");
-    if (inimigo) {
-      inimigo.src = "./imagens/inimigoMorte.png"; // troca o sprite
-      inimigo.classList.add("morte"); // ativa a animação
-    }
+  // Troca sprite e animação do inimigo
+  const inimigo = envelope.querySelector(".inimigo");
+  if (inimigo) {
+    inimigo.src = "./imagens/inimigoMorte.png"; // troca o sprite
+    inimigo.classList.add("morte"); // ativa a animação
+  }
 
-    setTimeout(() => {
-      envelope.remove();
-      bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
+  setTimeout(() => {
+    envelope.remove();
+    bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
 
-      if (!bossAtivo) {
-        bolasAcertadas++;
-        if (bolasAcertadas >= 10) {
-          bolasAtivas.forEach(b => b.el.remove());
-          bolasAtivas = [];
+    if (!bossAtivo) {
+      bolasAcertadas++;
+      if (bolasAcertadas >= 10) {
+        bolasAtivas.forEach(b => b.el.remove());
+        bolasAtivas = [];
 
-          bossAtivo = true;
-          bossVulneravel = true;
-          barraContainer.style.display = "block";
-          atualizarBarraVida();
-          criarBoss();
-          iniciarTempoBoss();
-        }
+        bossAtivo = true;
+        bossVulneravel = true;
+        barraContainer.style.display = "block";
+        atualizarBarraVida();
+        criarBoss();
+        iniciarTempoBoss();
       }
-    }, 2000); // espera a animação terminar
-  });
+    }
+  }, 2000); // espera a animação terminar
+});
 
 
   // Remove a bola se o jogador não clicar a tempo (erro)
@@ -474,7 +470,7 @@ function criarElementoBola(posX, posY) {
       // Som do tiro do inimigo
       const somTiroInimigo = new Audio("../audio/tiroSom.mp3");
       somTiroInimigo.volume = 0.7; // volume opcional
-      somTiroInimigo.play().catch(() => { });
+      somTiroInimigo.play().catch(() => {});
 
       setTimeout(() => {
         envelope.remove();
@@ -484,9 +480,9 @@ function criarElementoBola(posX, posY) {
         if (vidas <= 0) mostrarGameOver();
       }, 300); // tempo do tiro
     }
-  }, delayInimigo); // tempo para o inimigo atirar, pode ser ajustado
+  }, 4000);
 
-  // Programar a próxima criatura se o jogo estiver ativo e sem boss
+  // Programar a próxima bola se o jogo estiver ativo e sem boss
   const delay = Math.random() * 1000 + 500;
   setTimeout(() => {
     if (jogoAtivo && !bossAtivo) criarBola();
@@ -560,7 +556,7 @@ function atirar() {
 
 // Evento de tecla para recarregar
 window.addEventListener("keydown", (event) => {
-  if (event.key === "r" || event.key === "R" && !recarregando && muni < maxmuni) {
+  if (event.key === "r" && !recarregando && muni < maxmuni) {
     somRecarregar.play(); // Toca o som de recarregamento
     recarregando = true;
     mostrarAnimacaoRecarregando();
@@ -598,18 +594,9 @@ function mostrarAnimacaoRecarregando() {
 
 function mostrarVitoria() {
 
-  switch (faseAtual) {
-    case 1:
-      const bossmorte = document.querySelector(".boss");
-      bossmorte.style.backgroundImage = "url('./imagens/GulaMorte.png')";
-      break;
-
-    case 2:
-      const bossmorte2 = document.querySelector(".boss");
-      bossmorte2.style.backgroundImage = "url('./imagens/AvarezaMorte.png')";
-      break;
-  }
-
+  const bossmorte = document.querySelector(".boss");
+  bossmorte.style.backgroundImage = "url('./imagens/GulaMorte.png')"; // muda sprite
+  
   setTimeout(() => {
     jogoAtivo = false;
     bolasAtivas.forEach(b => b.el.remove());
@@ -640,8 +627,7 @@ function mostrarVitoria() {
     }
 
     canvas.appendChild(mensagemImg);
-  }, 2000); // Espera a animação de morte do boss
-
+  }, 2000); //segundos do sprite de morte
 }
 
 
@@ -677,7 +663,7 @@ function mostrarGameOver() {
 function tocarMusica() {
   const musicaFundo1 = document.getElementById("musica-fundo1");
   musicaFundo1.volume = 0.1;
-  musicaFundo1.play().catch(() => { });
+  musicaFundo1.play().catch(() => {});
 }
 
 function musica() {
@@ -738,5 +724,3 @@ function iniciarFase() {
 
 // Inicializa a fase ao carregar
 iniciarFase();
-
-
