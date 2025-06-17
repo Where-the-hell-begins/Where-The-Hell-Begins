@@ -276,7 +276,6 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.top = `${posY - bossHeight / 2}px`;
   boss.style.backgroundSize = "contain";
   boss.style.backgroundRepeat = "no-repeat";
-  boss.style.cursor = "pointer";
 //
   canvas.appendChild(boss);
 

@@ -133,6 +133,7 @@ main {
   background-position: center;
   background-size: contain;
   z-index: 10;
+  
 }
 
 /* Boss da fase 1 */
@@ -180,8 +181,8 @@ main {
 
 /* Opcional: estado invisível para o boss (quando vulnerabilidade acaba) */
 .boss.inativo {
-  opacity: 0.4;
-  filter: brightness(0.7);
+  opacity: 0.7;
+  filter: brightness(0.3);
   pointer-events: none;
   transition: opacity 0.3s ease, filter 0.3s ease;
 }
@@ -409,15 +410,18 @@ main {
 }
 
 #mensagem-recarregar {
+  background-image: url(imagens/caixaDeDialogo.png);
+  background-repeat: no-repeat;
+  background-size: 20rem 2.5rem;
   position: absolute;
   top: 80px;
   left: 50%;
   transform: translateX(-50%);
-  background: rgba(255, 0, 0, 0.8);
+  font-family: 'VT323', monospace;
   color: white;
-  padding: 10px 20px;
+  padding: 3px 20px;
   border-radius: 10px;
-  font-size: 20px;
+  font-size: 25px;
   z-index: 999;
   display: none;
   animation: piscar 0.5s ease-in-out infinite alternate;
