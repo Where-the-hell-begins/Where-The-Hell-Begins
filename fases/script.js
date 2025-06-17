@@ -594,8 +594,17 @@ function mostrarAnimacaoRecarregando() {
 
 function mostrarVitoria() {
 
-  const bossmorte = document.querySelector(".boss");
-  bossmorte.style.backgroundImage = "url('./imagens/GulaMorte.png')"; // muda sprite
+  switch (faseAtual) {
+    case 1:
+      const bossmorte = document.querySelector(".boss");
+      bossmorte.style.backgroundImage = "url('./imagens/GulaMorte.png')";
+      break;
+
+    case 2:
+      const bossmorte2 = document.querySelector(".boss");
+      bossmorte2.style.backgroundImage = "url('./imagens/AvarezaMorte.png')";
+      break;
+  }
   
   setTimeout(() => {
     jogoAtivo = false;
