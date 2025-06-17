@@ -591,37 +591,46 @@ function mostrarAnimacaoRecarregando() {
   }, 550);
 }
 
+
 function mostrarVitoria() {
-  jogoAtivo = false;
-  bolasAtivas.forEach(b => b.el.remove());
-  bolasAtivas = [];
-  clearTimeout(tempoBossTimer);
-  canvas.innerHTML = "";
-  barraContainer.style.display = "none";
 
-  const proximaFase = faseAtual + 1;
-  const mensagemImg = document.createElement("img");
-  mensagemImg.className = "mensagem-vitoria";
+  const bossEl = document.querySelector(".boss"); // ou ".boss"
+  bossEl.style.backgroundImage = "url('./imagens/GulaMorte.png')"; // muda sprite
+  
+  setTimeout(() => {
+    jogoAtivo = false;
+    bolasAtivas.forEach(b => b.el.remove());
+    bolasAtivas = [];
+    clearTimeout(tempoBossTimer);
+    canvas.innerHTML = "";
+    barraContainer.style.display = "none";
 
-  if (proximaFase > configuracaoFases.length - 1) {
-    mensagemImg.src = "imagens/vitoria.png";
-    mensagemImg.alt = "Você completou todas as fases!";
-    setTimeout(() => {
-      window.location.href = "../index.html";
-    }, 5000);
-  } else {
-    mensagemImg.src = "imagens/vitoria.png";
-    mensagemImg.alt = "VITÓRIA!";
-    mensagemImg.addEventListener("click", () => {
-      window.location.href = `./fase${proximaFase}.html`;
-    });
-    setTimeout(() => {
-      window.location.href = `./fase${proximaFase}.html`;
-    }, 10000);
-  }
+    const proximaFase = faseAtual + 1;
+    const mensagemImg = document.createElement("img");
+    mensagemImg.className = "mensagem-vitoria";
 
-  canvas.appendChild(mensagemImg);
+    if (proximaFase > configuracaoFases.length - 1) {
+      mensagemImg.src = "imagens/vitoria.png";
+      mensagemImg.alt = "Você completou todas as fases!";
+      setTimeout(() => {
+        window.location.href = "../index.html";
+      }, 5000);
+    } else {
+      mensagemImg.src = "imagens/vitoria.png";
+      mensagemImg.alt = "VITÓRIA!";
+      mensagemImg.addEventListener("click", () => {
+        window.location.href = `./fase${proximaFase}.html`;
+      });
+      setTimeout(() => {
+        window.location.href = `./fase${proximaFase}.html`;
+      }, 10000);
+    }
+
+    canvas.appendChild(mensagemImg);
+  }, 2000);
 }
+
+
 
 
 function mostrarGameOver() {
