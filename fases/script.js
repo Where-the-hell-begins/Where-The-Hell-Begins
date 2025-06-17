@@ -284,7 +284,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     if (!bossAtivo || !bossVulneravel || !atirar()) return;
 
     const somDisparoBoss = somDisparo.cloneNode();
-    somDisparoBoss.volume = somDisparo.volume;
+    somDisparoBoss.volume = 0.3;
     somDisparoBoss.play().catch(console.error);
 
     // Na fase 1, o dano é ao clicar direto no boss
@@ -322,6 +322,10 @@ function criarCoinsAoRedorDoBoss() {
 
       coin.remove();
       coinsAcertadas++;
+
+      const somDisparoBoss = somDisparo.cloneNode();
+      somDisparoBoss.volume = 0.3;
+      somDisparoBoss.play().catch(console.error);
 
       bossVidaAtual--;
       atualizarBarraVida();
