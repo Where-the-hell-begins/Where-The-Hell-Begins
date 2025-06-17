@@ -25,9 +25,25 @@
     <div id="tela-menu" class="overlay" style="display: none;">
         <div class="opcoes-menu">
             <div class="opcao-menu" data-tela="personagens">Iniciar Jogo</div>
+            <div class="opcao-menu" data-tela="creditos">Créditos</div> 
             <div class="opcao-menu" data-tela="configuracoes">Configurações</div>
             <div class="opcao-menu" data-tela="inicio">Voltar</div>
         </div>
+    </div>
+
+    <!-- Tela de Créditos -->
+    <div id="tela-creditos" class="overlay" style="display: none;">
+        <h2 class="mb-4">Créditos</h2>
+        <p>Desenvolvedores:</p>
+        <ul>
+            <li>Gabriel Campos Feiten</li>
+            <li>Guilherme Tamioso Bueno Prado</li>
+            <li>Gustavo Cardoso</li>
+            <li>José Antônio Kassius Floriani Lima</li>
+            <li>João Pedro de Oliveira</li>
+            <li>Rodrigo Augusto da Silva Virgilino</li>
+        </ul>
+        <button id="btn-voltar-creditos" class="btn-voltar">Voltar</button>
     </div>
 
     <!-- Seleção de Personagens -->
@@ -47,10 +63,7 @@
         <h2 class="mb-4">Configurações</h2>
         <div class="configuracoes-conteudo">
             <div class="configuracao-item">
-                <button id="btn-som" class="btn-config">🔊 Som Ligado</button>
-            </div>
-            <div class="configuracao-item">
-                <button id="btn-tela-cheia" class="btn-config">🖥️ Tela Cheia</button>
+                <button id="btn-som" class="btn-config">🔊 Música Ligada</button>
             </div>
         </div>
         <button id="btn-voltar-config" class="btn-voltar">Voltar</button>
