@@ -131,14 +131,23 @@ main {
 
 /* Boss da fase 2 - nova imagem */
 .bossFase2 {
-  background-image: url('imagens/personagem.png');
+  background-image: url('imagens/avareza.png');
+}
+
+.bossFase2:hover, 
+.coin:hover {
+  cursor: url("imagens/mira.png"), auto !important;
+}
+
+#canvas {
+  cursor: url("imagens/mira.png"), auto;
 }
 
 /* Coins da fase 2 */
 .coin {
-  width: 40px;
-  height: 40px;
-  background-image: url('imagens/coin.jpg'); /* Caminho da imagem da coin */
+  width: 70px;
+  height: 70px;
+  background-image: url('imagens/coin.png'); /* Caminho da imagem da coin */
   background-size: cover;
   position: absolute;
   cursor: pointer;
@@ -161,7 +170,9 @@ main {
 /* Opcional: estado invisível para o boss (quando vulnerabilidade acaba) */
 .boss.inativo {
   opacity: 0.4;
+  filter: brightness(0.7);
   pointer-events: none;
+  transition: opacity 0.3s ease, filter 0.3s ease;
 }
 
 .circulo {
@@ -214,20 +225,28 @@ main {
 
 #municao {
   position: absolute;
-  top: 800px;
-  left: 10px;
+  bottom: 20px;
+  left: 20px;
   display: flex;
   gap: 8px;
-  z-index: 10;
+  z-index: 1000;
+}
+
+#vidas {
+  position: absolute;
+  bottom: 60px;
+  left: 20px;
+  display: flex;
+  gap: 8px;
+  z-index: 1000;
 }
 
 .bala {
   width: 32px;
   height: 32px;
-  display: flex;
-  gap: 5px;
-  z-index: 1000;
   background-image: url("imagens/bala.png");
+  background-size: contain;
+  background-repeat: no-repeat;
   transition: opacity 0.2s ease;
 }
 
@@ -235,22 +254,12 @@ main {
   opacity: 0.2;
 }
 
-#vidas {
-  position: absolute;
-  max-height: 32px;
-  top: 750px;
-  left: 8px;
-  display: flex;
-  gap: 8px;
-  z-index: 1000;
-  background-repeat: no-repeat;
-}
-
-.icone-coracao {
-  background-repeat: no-repeat !important;
+.vida {
   width: 32px;
   height: 32px;
-  gap: 5px;
+  background-image: url("imagens/coracao.png");
+  background-size: contain;
+  background-repeat: no-repeat;
 }
 
 .vida.perdida {
@@ -454,4 +463,3 @@ main {
     transform: translateY(100px);
   }
 }
-
