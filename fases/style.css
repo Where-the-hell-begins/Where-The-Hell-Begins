@@ -93,6 +93,17 @@ main {
   font-family: 'VT323', monospace;
 }
 
+#botaoComecarFase {
+  background: none;
+  border: none;
+  font-size: 24px;
+  font-family: 'VT323', monospace;
+  padding: 15px 20px;
+  font-weight: bold;
+  color: rgb(255, 0, 0);
+  cursor: pointer;
+}
+
 #boss-timer-circle {
   position: absolute;
   top: 20px;

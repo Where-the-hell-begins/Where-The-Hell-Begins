@@ -689,8 +689,11 @@ function iniciarFase() {
       A Gula foi despertada 
     <br>
       De a ela o que ela mais deseja: uma chuva de balas!
+    <br>
+    <button id="botaoComecarFase">Começar</button>
     `;
   } else {
+    mensagem.style.backgroundSize = "27rem 8rem";
     mensagem.innerHTML = `
     <strong>
       Fase ${faseAtual} 
@@ -698,19 +701,21 @@ function iniciarFase() {
       A Avareza foi despertada
     <br>
        Mostre que nem ouro pode protegê-la!
+    <br>
+    <button id="botaoComecarFase">Começar</button>
     `;
   }
 
   canvas.appendChild(mensagem);
 
-  setTimeout(() => {
+  document.getElementById("botaoComecarFase").addEventListener("click", () => {
     mensagem.remove();
     criarBola();
     criaPersonagem();
     atualizarMunicao();  // ← Garantir que é chamado em ambas as fases
     atualizarVidas();
     atualizarBarraVida();
-  }, 3000);
+  });
 }
 
 // Inicializa a fase ao carregar

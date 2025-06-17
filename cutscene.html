@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <video id="vid" autoplay src="./cutscene/intro.mp4"></video>
+</body>
+
+<style>
+    html,
+    body {
+        margin: 0;
+        padding: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+    }
+
+    video {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        object-fit: cover;
+        /* Mantém o vídeo cobrindo toda a tela */
+    }
+</style>
+
+<script>
+    document.getElementById('vid').addEventListener('ended', function (e) {
+        window.location.href = "../fases/fase1.html";
+    });
+</script>
+
+</html>
