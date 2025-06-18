@@ -3,7 +3,7 @@ const personagens = [
     {
         nome: 'CLINT',
         descricao: 'PISTOLEIRO MORTO-VIVO, RESSUSCITADO PARA CAÇAR AS FORÇAS DO INFERNO.',
-        imagem: 'https://i.pinimg.com/736x/9b/e9/50/9be95049887c336a5bea6e25feed3c2d.jpg',
+        imagem: './fases/imagens/profile-export.png',
         bloqueado: false
     },
     {
