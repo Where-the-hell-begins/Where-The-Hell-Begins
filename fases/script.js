@@ -299,6 +299,8 @@ function criarBoss() {
   criarElementoBoss(posX, posY, bossSize, bossSize);
 }
 
+
+
 function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   const boss = document.createElement("div");
   boss.classList.add("boss", configuracaoFases[faseAtual].classeBoss);
@@ -317,7 +319,12 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
 
   // Troca a imagem para o gif de entrada do boss
   if (faseAtual === 1) {
-    boss.style.backgroundImage = "url('./imagens/explosao.gif')"; 
+    boss.style.backgroundImage = "url('./imagens/explosao.gif')";
+
+    //SFX para quando o boss aparece
+    let gulaSFX = new Audio("../audio/GulaSFX.mp3");
+    gulaSFX.volume = 0.15
+    gulaSFX.play(); 
     
     //volta para a imagem estatica
     setTimeout(() => {
@@ -325,7 +332,12 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     }, 1100); //tempo para que o boss surja antes da explosão termina
     
   }else if(faseAtual === 2){
-    boss.style.backgroundImage = "url('./imagens/explosao.gif')"; 
+    boss.style.backgroundImage = "url('./imagens/explosao.gif')";
+
+    //SFX para quando o boss aparece
+    let avarezaSFX = new Audio("../audio/AvarezaSFX.mp3");
+    avarezaSFX.volume = 0.25
+    avarezaSFX.play();  
     
     //volta para a imagem estatica
     setTimeout(() => {
