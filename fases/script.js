@@ -283,7 +283,6 @@ function posicaoRelativaParaPixels(posRelativa) {
 /*-----------------------------------------------------------------------
   Cria o boss e suas interações
 -------------------------------------------------------------------------*/
-
 function criarBoss() {
   if (document.querySelector(".boss") || !jogoAtivo) return;
 
@@ -311,8 +310,20 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.top = `${posY - bossHeight / 2}px`;
   boss.style.backgroundSize = "contain";
   boss.style.backgroundRepeat = "no-repeat";
-//
+  boss.style.backgroundPosition = "center";
+  boss.style.zIndex = "10";
+
   canvas.appendChild(boss);
+
+  // Troca a imagem para o gif de entrada do boss
+  if (faseAtual === 1) {
+    boss.style.backgroundImage = "url('./imagens/moeda.gif')"; //moeda só de teste
+    
+    //volta para a imagem estatica
+    setTimeout(() => {
+      boss.style.backgroundImage = "url('./imagens/Gula.png')";
+    }, 3000);
+  }
 
   boss.addEventListener("click", (event) => {
     event.stopPropagation();
@@ -323,10 +334,10 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     somDisparoBoss.play().catch(console.error);
 
     // Na fase 1, o dano é ao clicar direto no boss
-    if(faseAtual === 1){
+    if(faseAtual === 1) {
       bossVidaAtual--;
       atualizarBarraVida();
-      if(bossVidaAtual <= 0){
+      if(bossVidaAtual <= 0) {
         clearTimeout(tempoBossTimer);
         mostrarVitoria();
       }
@@ -334,6 +345,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     // Na fase 2 o dano só vem das coins, clique no boss não diminui vida
   });
 }
+
 
 /*-----------------------------------------------------------------------
   Cria as coins ao redor do boss na fase 2
@@ -493,7 +505,7 @@ function criarElementoBola(posX, posY) {
 
     if (!bossAtivo) {
       bolasAcertadas++;
-      if (bolasAcertadas >= 15) {
+      if (bolasAcertadas >= 15) { //quantidade necessaria de inimigos mortos
         bolasAtivas.forEach(b => b.el.remove());
         bolasAtivas = [];
 
@@ -538,7 +550,7 @@ function criarElementoBola(posX, posY) {
       if (vidas <= 0) mostrarGameOver();
     }, 300);
   }
-}, 4000);//tempo pra bola sumir
+}, 5000);//tempo pra bola sumir
 
 
   // Programar a próxima bola se o jogo estiver ativo e sem boss
