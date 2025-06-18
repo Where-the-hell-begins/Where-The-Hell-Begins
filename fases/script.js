@@ -321,6 +321,7 @@ function criarCoinsAoRedorDoBoss() {
       if(!bossVulneravel) return;
 
       coin.remove();
+      tocarSom(somMoeda);
       coinsAcertadas++;
 
       const somDisparoBoss = somDisparo.cloneNode();
@@ -525,14 +526,25 @@ function atualizarVidas() {
 // Criando os objetos de áudio
 const somDisparo = new Audio('../audio/tiroSom.mp3');
 const somRecarregar = new Audio('../audio/recarregarSom.mp3');
+const somMoeda = new Audio('../audio/som-moeda.mp3');
 
 // Ajustando o volume
 somDisparo.volume = 0.1; // 0.0 (silêncio) a 1.0 (volume máximo)
 somRecarregar.volume = 0.5;
+somMoeda.volume = 0.5;
 
 // Definindo loop
 somDisparo.loop = false; // Não repete o som
 somRecarregar.loop = false; // Não repete o som
+somMoeda.loop = false;
+
+function tocarSom(som) {
+  som.pause();       // Pausa o som, se estiver tocando
+  som.currentTime = 0; // Volta o som pro começo
+  som.play().catch(console.error); // Toca o som e captura erro, se der
+}
+
+
 
 // Função de disparo
 function atirar() {
