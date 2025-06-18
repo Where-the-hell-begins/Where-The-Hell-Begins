@@ -76,7 +76,7 @@ const configuracaoFases = [
       { x: 0.02, y: 0.48 } //esquerda
     ], posicaoBoss: [
       { x: 0.5, y: 0.5 } // Posição centralizada para o boss
-    ], bossVidaMax: 20
+    ], bossVidaMax: 5
   },
 
   {
@@ -100,7 +100,7 @@ const configuracaoFases = [
     ],
     posicaoBoss: [
       { x: 0.47, y: 0.68 } // Posição centralizada para o boss
-    ], bossVidaMax: 20
+    ], bossVidaMax: 5
   },
 ];
 
@@ -601,12 +601,13 @@ function mostrarVitoria() {
     case 1:
       const bossmorte = document.querySelector(".boss");
       bossmorte.style.backgroundImage = "url('./imagens/GulaMorte.png')";
+      bossmorte.style.top = "400px";
       break;
 
     case 2:
       const bossmorte2 = document.querySelector(".boss");
       bossmorte2.style.backgroundImage = "url('./imagens/avarezaMorte.png')";
-       bossmorte2.style.top = "60px";
+       bossmorte2.style.top = "630px";
       break;
   }
   
@@ -640,7 +641,7 @@ function mostrarVitoria() {
     }
 
     canvas.appendChild(mensagemImg);
-  }, 60000); //segundos do sprite de morte
+  }, 2000); //segundos do sprite de morte
 }
 
 
