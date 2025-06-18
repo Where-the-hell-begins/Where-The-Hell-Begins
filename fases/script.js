@@ -836,3 +836,5 @@ function iniciarFase() {
 
 // Inicializa a fase ao carregar
 iniciarFase();
+
+// Guilherme é um viado, ele não é um bom amigo
