@@ -677,7 +677,8 @@ function mostrarVitoria() {
 
     case 2:
       const bossmorte2 = document.querySelector(".boss");
-      bossmorte2.style.backgroundImage = "url('./imagens/AvarezaMorte.png')";
+      bossmorte2.style.backgroundImage = "url('./imagens/avarezaMorte.png')";
+       bossmorte2.style.top = "60px";
       break;
   }
   
@@ -685,6 +686,8 @@ function mostrarVitoria() {
     jogoAtivo = false;
     bolasAtivas.forEach(b => b.el.remove());
     bolasAtivas = [];
+    coinsAtivas.forEach(c => c.remove());
+    coinsAtivas = [];
     clearTimeout(tempoBossTimer);
     canvas.innerHTML = "";
     barraContainer.style.display = "none";
@@ -711,7 +714,7 @@ function mostrarVitoria() {
     }
 
     canvas.appendChild(mensagemImg);
-  }, 2000); //segundos do sprite de morte
+  }, 60000); //segundos do sprite de morte
 }
 
 /*-----------------------------------------------------------------------

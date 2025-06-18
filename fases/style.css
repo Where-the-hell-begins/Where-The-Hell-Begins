@@ -157,24 +157,25 @@ main {
 
 /* Coins da fase 2 */
 .coin {
-  width: 70px;
-  height: 70px;
-  background-image: url('imagens/coin.png'); /* Caminho da imagem da coin */
-  background-size: cover;
+  width: 50px;
+  height: 50px;
+  background-image: url('imagens/moeda.gif'); /* Caminho da imagem da coin */
+  background-size: 50px 50px;
   position: absolute;
   cursor: pointer;
   z-index: 20;
+  background-repeat: no-repeat;
   animation: brilhoCoin 1s infinite alternate;
 }
 
 /* Efeito de brilho nas coins */
 @keyframes brilhoCoin {
   0% {
-    filter: brightness(1);
+    filter: brightness(0.8);
     transform: scale(1);
   }
   100% {
-    filter: brightness(1.5);
+    filter: brightness(1);
     transform: scale(1.2);
   }
 }
