@@ -323,26 +323,32 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
 
     //SFX para quando o boss aparece
     let gulaSFX = new Audio("../audio/GulaSFX.mp3");
+    let explosaoSFX = new Audio("../audio/explosao.mp3")
+    explosaoSFX.volume = 0.25
     gulaSFX.volume = 0.15
+    explosaoSFX.play();
     gulaSFX.play();
 
     //volta para a imagem estatica
     setTimeout(() => {
       boss.style.backgroundImage = "url('./imagens/Gula.png')";
-    }, 1400); //tempo para que o boss surja antes da explosão termina
+    }, 1300); //tempo para que o boss surja antes da explosão termina
 
   } else if (faseAtual === 2) {
     boss.style.backgroundImage = "url('./imagens/avarezaGif.gif')";
 
     //SFX para quando o boss aparece
     let avarezaSFX = new Audio("../audio/AvarezaSFX.mp3");
-    avarezaSFX.volume = 0.25
+    let explosaoSFX = new Audio("../audio/explosao.mp3")
+    explosaoSFX.volume = 0.25
+    avarezaSFX.volume = 0.4
+    explosaoSFX.play();
     avarezaSFX.play();
 
     //volta para a imagem estatica
     setTimeout(() => {
       boss.style.backgroundImage = "url('./imagens/avareza.png')";
-    }, 1400); //tempo para que o boss surja antes da explosão termina
+    }, 1300); //tempo para que o boss surja antes da explosão termina
   }
 
   boss.addEventListener("click", (event) => {
