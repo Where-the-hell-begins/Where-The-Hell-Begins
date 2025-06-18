@@ -160,10 +160,6 @@ barraContainer.style.display = "none"; // Oculto inicialmente
 const barraVida = document.createElement("div");
 barraVida.id = "barraVida";
 
-const textoVida = document.createElement("span");
-textoVida.id = "bossVidaText";
-
-barraVida.appendChild(textoVida);
 barraContainer.appendChild(barraVida);
 document.body.appendChild(barraContainer);
 
@@ -186,7 +182,6 @@ function atualizarBarraVida() {
   const verde = Math.floor((porcentagem / 100) * 255);
   const vermelho = 255 - verde;
   barraVida.style.backgroundColor = `rgb(${vermelho}, ${verde}, 0)`;
-  textoVida.innerText = `${bossVidaAtual}/${bossVidaMax}`;
 }
 
 /*-----------------------------------------------------------------------
