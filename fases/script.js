@@ -85,7 +85,7 @@ const configuracaoFases = [
   },
 
   {
-    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 3, posicaoBolas: [
+    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 100, posicaoBolas: [
       { x: 0.62, y: 0.08 }, //janela
       { x: 0.61, y: 0.41 }, // empiladeira
       { x: 0.77, y: 0.4 }, // direita meio
@@ -96,15 +96,15 @@ const configuracaoFases = [
 
     ], 
     classeCoins: "coinsFase2",posicaoCoins: [
-      { x: 0.39, y: 0.5 }, //boss esquerda
-      { x: 0.39, y: 0.4 }, //boss esquerda
-      { x: 0.43, y: 0.2 }, //boss cima
-      { x: 0.50, y: 0.2 }, //boss cima
-      { x: 0.54, y: 0.4 }, //boss direita
-      { x: 0.54, y: 0.5 }, //boss direita
+      { x: 0.38, y: 0.52 }, //boss esquerda 1
+      { x: 0.41, y: 0.45 }, //boss esquerda 2
+      { x: 0.45, y: 0.40 }, //boss esquerda 3
+      { x: 0.49, y: 0.40 }, //boss direita 3
+      { x: 0.53, y: 0.45 }, //boss direita 2
+      { x: 0.56, y: 0.52 }, //boss direita 1
     ],
     posicaoBoss: [
-      { x: 0.47, y: 0.68 } // Posição centralizada para o boss
+      { x: 0.48, y: 0.68 } // Posição centralizada para o boss
     ], bossVidaMax: 5
   },
 ];
@@ -498,7 +498,7 @@ function criarElementoBola(posX, posY) {
 
     if (!bossAtivo) {
       bolasAcertadas++;
-      if (bolasAcertadas >= 10) {
+      if (bolasAcertadas >= 15) {
         bolasAtivas.forEach(b => b.el.remove());
         bolasAtivas = [];
 
