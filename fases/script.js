@@ -317,20 +317,20 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
 
   // Troca a imagem para o gif de entrada do boss
   if (faseAtual === 1) {
-    boss.style.backgroundImage = "url('./imagens/moeda.gif')"; //moeda só de teste
+    boss.style.backgroundImage = "url('./imagens/explosao.gif')"; 
     
     //volta para a imagem estatica
     setTimeout(() => {
       boss.style.backgroundImage = "url('./imagens/Gula.png')";
-    }, 3000);
+    }, 1100); //tempo para que o boss surja antes da explosão termina
     
   }else if(faseAtual === 2){
-    boss.style.backgroundImage = "url('./imagens/moeda.gif')"; //moeda só de teste
+    boss.style.backgroundImage = "url('./imagens/explosao.gif')"; 
     
     //volta para a imagem estatica
     setTimeout(() => {
       boss.style.backgroundImage = "url('./imagens/avareza.png')";
-    }, 3000);
+    }, 1100); //tempo para que o boss surja antes da explosão termina
   }
 
   boss.addEventListener("click", (event) => {
