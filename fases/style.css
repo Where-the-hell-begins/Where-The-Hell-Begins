@@ -236,6 +236,12 @@ main {
   z-index: 3;
 }
 
+.hudPersonagem{
+background-image: url("imagens/caixaDeDialogo.png");
+  background-repeat: no-repeat;
+  background-size: 300px 100px; /* largura e altura da imagem de fundo */
+}
+
 #municao {
   position: absolute;
   bottom: 20px;
@@ -253,6 +259,16 @@ main {
   gap: 8px;
   z-index: 1000;
 }
+
+#fundoHud {
+  position: absolute;
+  bottom: -7px; /* ajusta conforme necessário */
+  left: -5px;
+  width: 450px; /* tamanho da imagem */
+  height: 130px;
+  z-index: 999; /* maior que os outros elementos */
+}
+
 
 .bala {
   width: 32px;
