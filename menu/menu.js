@@ -33,6 +33,7 @@ const elementos = {
         voltarPersonagens: document.getElementById('btn-voltar-personagens'),
         voltarConfig: document.getElementById('btn-voltar-config'),
         voltarCreditos: document.getElementById('btn-voltar-creditos'),
+        voltarControle: document.getElementById('btn-voltar-controle'),
         som: document.getElementById('btn-som'),
         telaCheia: document.getElementById('btn-tela-cheia')
     },
@@ -66,6 +67,7 @@ function configurarEventos() {
     elementos.botoes.voltarPersonagens.addEventListener('click', () => mostrarTela('menu'));
     elementos.botoes.voltarConfig.addEventListener('click', () => mostrarTela('menu'));
     elementos.botoes.voltarCreditos.addEventListener('click', () => mostrarTela('menu'));
+    elementos.botoes.voltarControle.addEventListener('click', () => mostrarTela('menu'));
 }
 
 //================================================
