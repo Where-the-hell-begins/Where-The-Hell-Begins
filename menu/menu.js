@@ -3,7 +3,7 @@ const personagens = [
     {
         nome: 'CLINT',
         descricao: 'PISTOLEIRO MORTO-VIVO, RESSUSCITADO PARA CAÇAR AS FORÇAS DO INFERNO.',
-        imagem: 'https://i.pinimg.com/736x/9b/e9/50/9be95049887c336a5bea6e25feed3c2d.jpg',
+        imagem: './fases/imagens/profile-export.png',
         bloqueado: false
     },
     {
@@ -165,7 +165,10 @@ function iniciarJogoComPersonagem(personagem) {
     setTimeout(() => {
         sessionStorage.setItem('personagemSelecionado', JSON.stringify(personagem));
         sessionStorage.setItem('musicaLigada', !musicaFundo.muted);
-        window.location.href = './fases/fase1.html';
+        window.location.href = './cutscene.html';
+        /* elementos.telas.personagens.innerHTML = `
+            <video id="vid" autoplay src="../cutscene/hon.mp4">
+        ` */
     }, 3000);
 }
 
