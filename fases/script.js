@@ -66,7 +66,7 @@ window.addEventListener("resize", ajustarImagemComCanvas);
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
   {
-    fase: "1", classeCanva: "fase1", classeBoss: "bossFase1", posicaoBolas: [
+    fase: "1", classeCanva: "fase1", classeBoss: "bossFase1", BossTimer: 6, posicaoBolas: [
       { x: 0.56, y: 0.25 }, //janela esquerda
       { x: 0.705, y: 0.25 }, //janela direita
       { x: 0.69, y: 0.48 }, // atras da carroça
@@ -80,7 +80,7 @@ const configuracaoFases = [
   },
 
   {
-    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", posicaoBolas: [
+    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 3, posicaoBolas: [
       { x: 0.62, y: 0.08 }, //janela
       { x: 0.61, y: 0.41 }, // empiladeira
       { x: 0.77, y: 0.4 }, // direita meio
@@ -107,12 +107,20 @@ const configuracaoFases = [
 // Aplica classe da fase ao canvas
 canvas.classList.add(configuracaoFases[faseAtual].classeCanva);
 
+/*-----------------------------------------------------------------------
+  Variaveis do Player
+-------------------------------------------------------------------------*/
+
 let maxmuni = 6;
 let muni = maxmuni;
 const posicaoBolasRelativas = configuracaoFases[faseAtual].posicaoBolas;
 let bolasAcertadas = 0;
 let recarregando = false;
 let jogoAtivo = true;
+
+/*-----------------------------------------------------------------------
+  Variaveis do Boss
+-------------------------------------------------------------------------*/
 
 let bossVidaMax = configuracaoFases[faseAtual].bossVidaMax;
 const posicaoBossRelativa = configuracaoFases[faseAtual].posicaoBoss;
@@ -122,9 +130,13 @@ let tempoBossTimer = null;
 const bossTimerCanvas = document.getElementById('boss-timer-circle');
 const bossTimerCtx = bossTimerCanvas.getContext('2d');
 let tempoBossInterval = null;
-let tempoTotalBoss = 8; // 8 segundos de duração
+let tempoTotalBoss = configuracaoFases[faseAtual].BossTimer; 
 let tempoAtualBoss = 0;
 let bossVulneravel = false;
+
+/*-----------------------------------------------------------------------
+  Variaveis do Boss
+-------------------------------------------------------------------------*/
 
 let maxVidas = 10000;
 let vidas = maxVidas;
@@ -483,7 +495,7 @@ function criarElementoBola(posX, posY) {
         if (vidas <= 0) mostrarGameOver();
       }, 300); // tempo do tiro
     }
-  }, 10000);
+  }, 4000); // Tempo para sumir a bola se não for clicada
 
   // Programar a próxima bola se o jogo estiver ativo e sem boss
   const delay = Math.random() * 1000 + 500;
