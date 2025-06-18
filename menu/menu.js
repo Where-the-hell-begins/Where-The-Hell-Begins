@@ -25,7 +25,8 @@ const elementos = {
         menu: document.getElementById('tela-menu'),
         personagens: document.getElementById('tela-personagens'),
         configuracoes: document.getElementById('tela-configuracoes'),
-        creditos: document.getElementById('tela-creditos')
+        creditos: document.getElementById('tela-creditos'),
+        controles: document.getElementById('tela-controles')
     },
     botoes: {
         iniciar: document.getElementById('btn-iniciar'),
