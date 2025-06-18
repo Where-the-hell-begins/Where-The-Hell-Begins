@@ -786,11 +786,11 @@ function mostrarVitoria() {
     mensagemImg.className = "mensagem-vitoria";
 
     if (proximaFase > configuracaoFases.length - 1) {
-      mensagemImg.src = "imagens/vitoria.png";
+      mensagemImg.src = "imagens/telaFinal.png";
       mensagemImg.alt = "Você completou todas as fases!";
       setTimeout(() => {
         window.location.href = "../index.html";
-      }, 5000);
+      }, 20000);
     } else {
       mensagemImg.src = "imagens/vitoria.png";
       mensagemImg.alt = "VITÓRIA!";
