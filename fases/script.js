@@ -84,7 +84,7 @@ const configuracaoFases = [
   },
 
   {
-    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 2, posicaoBolas: [
+    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 2.5, posicaoBolas: [
       { x: 0.62, y: 0.08 }, //janela
       { x: 0.61, y: 0.41 }, // empiladeira
       { x: 0.77, y: 0.4 }, // direita meio
