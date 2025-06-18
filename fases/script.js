@@ -614,6 +614,8 @@ function mostrarVitoria() {
     jogoAtivo = false;
     bolasAtivas.forEach(b => b.el.remove());
     bolasAtivas = [];
+    coinsAtivas.forEach(c => c.remove());
+    coinsAtivas = [];
     clearTimeout(tempoBossTimer);
     canvas.innerHTML = "";
     barraContainer.style.display = "none";
