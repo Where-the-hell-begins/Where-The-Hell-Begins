@@ -94,8 +94,8 @@ const configuracaoFases = [
       { x: 0.235, y: 0.44 }, // caixa direita
       { x: 0.08, y: 0.32 }, //esquerda cima
 
-    ],
-    classeCoins: "coinsFase2", posicaoCoins: [
+    ], 
+    classeCoins: "coinsFase2",posicaoCoins: [
       { x: 0.38, y: 0.52 }, //boss esquerda 1
       { x: 0.41, y: 0.45 }, //boss esquerda 2
       { x: 0.45, y: 0.40 }, //boss esquerda 3
@@ -135,7 +135,7 @@ let tempoBossTimer = null;
 const bossTimerCanvas = document.getElementById('boss-timer-circle');
 const bossTimerCtx = bossTimerCanvas.getContext('2d');
 let tempoBossInterval = null;
-let tempoTotalBoss = configuracaoFases[faseAtual].BossTimer;
+let tempoTotalBoss = configuracaoFases[faseAtual].BossTimer; 
 let tempoAtualBoss = 0;
 let bossVulneravel = false;
 
@@ -201,7 +201,7 @@ function iniciarTempoBoss() {
   bossAtivo = true;
   barraContainer.style.display = "block";
 
-  if (faseAtual === 2) {
+  if(faseAtual === 2){
     criarCoinsAoRedorDoBoss();
   }
 }
@@ -219,18 +219,18 @@ function atualizarTempoBoss() {
     barraContainer.style.display = "none";
 
     const bossmorte = document.querySelector(".boss");
-    if (bossmorte) bossmorte.classList.add("inativo");
+    if(bossmorte) bossmorte.classList.add("inativo");
 
     bolasAcertadas = 0;
 
-    if (faseAtual === 2) {
+    if(faseAtual === 2){
       removerTodasCoins();
     }
 
     criarBola();
   } else {
     const bossmorte = document.querySelector(".boss");
-    if (bossmorte) bossmorte.classList.remove("inativo");
+    if(bossmorte) bossmorte.classList.remove("inativo");
     desenharBossTimer();
   }
 }
@@ -312,7 +312,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
   boss.style.top = `${posY - bossHeight / 2}px`;
   boss.style.backgroundSize = "contain";
   boss.style.backgroundRepeat = "no-repeat";
-  //
+//
   canvas.appendChild(boss);
 
   boss.addEventListener("click", (event) => {
@@ -324,10 +324,10 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     somDisparoBoss.play().catch(console.error);
 
     // Na fase 1, o dano é ao clicar direto no boss
-    if (faseAtual === 1) {
+    if(faseAtual === 1){
       bossVidaAtual--;
       atualizarBarraVida();
-      if (bossVidaAtual <= 0) {
+      if(bossVidaAtual <= 0){
         clearTimeout(tempoBossTimer);
         mostrarVitoria();
       }
@@ -358,7 +358,7 @@ function criarCoinsAoRedorDoBoss() {
     coin.style.cursor = "pointer";
 
     coin.addEventListener("click", () => {
-      if (!bossVulneravel) return;
+      if(!bossVulneravel) return;
 
       coin.remove();
       tocarSom(somMoeda);
@@ -371,12 +371,12 @@ function criarCoinsAoRedorDoBoss() {
       bossVidaAtual--;
       atualizarBarraVida();
 
-      if (bossVidaAtual <= 0) {
+      if(bossVidaAtual <= 0){
         mostrarVitoria();
         return;
       }
 
-      if (coinsAcertadas >= posicoes.length) {
+      if(coinsAcertadas >= posicoes.length){
         clearInterval(tempoBossInterval);
         bossTimerCanvas.style.display = "none";
         bossVulneravel = false;
@@ -466,111 +466,79 @@ function criarElementoBola(posX, posY) {
 
   // Evento de clique na bola
   envelope.addEventListener("click", (event) => {
-    event.stopPropagation();
+  event.stopPropagation();
 
-    if (!atirar()) return;
+  if (!atirar()) return;
 
-    // Remove a bola imediatamente para sumir o círculo da bola
-    const bola = envelope.querySelector(".bola");
-    if (bola) {
-      bola.remove();
-    }
+  // Remove a bola imediatamente para sumir o círculo da bola
+  const bola = envelope.querySelector(".bola");
+  if (bola) {
+    bola.remove();
+  }
 
-    const circulo = envelope.querySelector(".circulo");
-    if (circulo) {
-      circulo.remove();
-    }
+  const circulo = envelope.querySelector(".circulo");
+  if (circulo) {
+    circulo.remove();
+  }
 
-    // Troca sprite e animação do inimigo
-    const inimigo = envelope.querySelector(".inimigo");
-    if (inimigo) {
-      inimigo.src = "./imagens/inimigoMorte.png"; // troca o sprite
-      inimigo.classList.add("morte"); // ativa a animação
-    }
+  // Troca sprite e animação do inimigo
+  const inimigo = envelope.querySelector(".inimigo");
+  if (inimigo) {
+    inimigo.src = "./imagens/inimigoMorte.png"; // troca o sprite
+    inimigo.classList.add("morte"); // ativa a animação
+  }
 
-    setTimeout(() => {
-      envelope.remove();
-      bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
+  setTimeout(() => {
+    envelope.remove();
+    bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
 
-      if (!bossAtivo) {
-        bolasAcertadas++;
-        if (bolasAcertadas >= 15) {
-          bolasAtivas.forEach(b => b.el.remove());
-          bolasAtivas = [];
+    if (!bossAtivo) {
+      bolasAcertadas++;
+      if (bolasAcertadas >= 15) {
+        bolasAtivas.forEach(b => b.el.remove());
+        bolasAtivas = [];
 
-          bossAtivo = true;
-          bossVulneravel = true;
-          barraContainer.style.display = "block";
-          atualizarBarraVida();
-          criarBoss();
-          iniciarTempoBoss();
-        }
+        bossAtivo = true;
+        bossVulneravel = true;
+        barraContainer.style.display = "block";
+        atualizarBarraVida();
+        criarBoss();
+        iniciarTempoBoss();
       }
+    }
+  }, 2000); // espera a animação terminar
+});
 
-      const circulo = envelope.querySelector(".circulo");
-      if (circulo) {
-        circulo.remove();
-      }
 
-      // Troca sprite e animação do inimigo
+  // Remove a bola se o jogador não clicar a tempo (erro)
+  setTimeout(() => {
+    if (document.body.contains(envelope)) {
+      // Troca sprite do inimigo para tiro
       const inimigo = envelope.querySelector(".inimigo");
       if (inimigo) {
-        inimigo.src = "./imagens/inimigoMorte.png"; // troca o sprite
-        inimigo.classList.add("morte"); // ativa a animação
+        inimigo.src = "./imagens/tiroinimigo.png";
       }
+
+      // Som do tiro do inimigo
+      const somTiroInimigo = new Audio("../audio/tiroSom.mp3");
+      somTiroInimigo.volume = 0.7; // volume opcional
+      somTiroInimigo.play().catch(() => {});
 
       setTimeout(() => {
         envelope.remove();
         bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
+        vidas--;
+        atualizarVidas();
+        if (vidas <= 0) mostrarGameOver();
+      }, 300); // tempo do tiro
+    }
+  }, 4000); // Tempo para sumir a bola se não for clicada
 
-        if (!bossAtivo) {
-          bolasAcertadas++;
-          if (bolasAcertadas >= 10) {
-            bolasAtivas.forEach(b => b.el.remove());
-            bolasAtivas = [];
-
-            bossAtivo = true;
-            bossVulneravel = true;
-            barraContainer.style.display = "block";
-            atualizarBarraVida();
-            criarBoss();
-            iniciarTempoBoss();
-          }
-        }
-      }, 2000); // espera a animação terminar
-    });
-
-
-    // Remove a bola se o jogador não clicar a tempo (erro)
-    setTimeout(() => {
-      if (document.body.contains(envelope)) {
-        // Troca sprite do inimigo para tiro
-        const inimigo = envelope.querySelector(".inimigo");
-        if (inimigo) {
-          inimigo.src = "./imagens/tiroinimigo.png";
-        }
-
-        // Som do tiro do inimigo
-        const somTiroInimigo = new Audio("../audio/tiroSom.mp3");
-        somTiroInimigo.volume = 0.7; // volume opcional
-        somTiroInimigo.play().catch(() => { });
-
-        setTimeout(() => {
-          envelope.remove();
-          bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
-          vidas--;
-          atualizarVidas();
-          if (vidas <= 0) mostrarGameOver();
-        }, 300); // tempo do tiro
-      }
-    }, 4000); // Tempo para sumir a bola se não for clicada
-
-    // Programar a próxima bola se o jogo estiver ativo e sem boss
-    const delay = Math.random() * 1000 + 500;
-    setTimeout(() => {
-      if (jogoAtivo && !bossAtivo) criarBola();
-    }, delay);
-  }
+  // Programar a próxima bola se o jogo estiver ativo e sem boss
+  const delay = Math.random() * 1000 + 500;
+  setTimeout(() => {
+    if (jogoAtivo && !bossAtivo) criarBola();
+  }, delay);
 }
 
 //antiga funcao de criar personagem, deixei o atirar pois nao funciona sem chamar aqui antes
@@ -644,6 +612,8 @@ function tocarSom(som) {
   som.currentTime = 0; // Volta o som pro começo
   som.play().catch(console.error); // Toca o som e captura erro, se der
 }
+
+
 
 /*-----------------------------------------------------------------------
   Função de disparo e recarregar
@@ -729,10 +699,10 @@ function mostrarVitoria() {
     case 2:
       const bossmorte2 = document.querySelector(".boss");
       bossmorte2.style.backgroundImage = "url('./imagens/avarezaMorte.png')";
-      bossmorte2.style.top = "630px";
+       bossmorte2.style.top = "630px";
       break;
   }
-
+  
   setTimeout(() => {
     jogoAtivo = false;
     bolasAtivas.forEach(b => b.el.remove());
@@ -805,7 +775,7 @@ function mostrarGameOver() {
 function tocarMusica() {
   const musicaFundo1 = document.getElementById("musica-fundo1");
   musicaFundo1.volume = 0.1;
-  musicaFundo1.play().catch(() => { });
+  musicaFundo1.play().catch(() => {});
 }
 
 function musica() {
@@ -813,6 +783,9 @@ function musica() {
   window.removeEventListener("click", tocarMusica);
   window.addEventListener("click", tocarMusica, { once: true });
 }
+
+
+
 
 window.addEventListener("DOMContentLoaded", musica);
 
