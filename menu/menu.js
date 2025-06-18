@@ -161,7 +161,7 @@ function iniciarJogoComPersonagem(personagem) {
         sessionStorage.setItem('personagemSelecionado', JSON.stringify(personagem));
         sessionStorage.setItem('musicaLigada', !musicaFundo.muted);
         window.location.href = './cutscene.html';
-    }, 3000);
+    }, 2000);
 }
 
 //=============================
