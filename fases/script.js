@@ -319,12 +319,15 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
 
   // Troca a imagem para o gif de entrada do boss
   if (faseAtual === 1) {
-    boss.style.backgroundImage = "url('./imagens/explosao.gif')";
+    boss.style.backgroundImage = "url('./imagens/gulaGif.gif')";
 
     //SFX para quando o boss aparece
     let gulaSFX = new Audio("../audio/GulaSFX.mp3");
+    let explosaoSFX = new Audio("../audio/explosao.mp3");
     gulaSFX.volume = 0.15
-    gulaSFX.play(); 
+    explosaoSFX.volume = 0.3
+    gulaSFX.play();
+    explosaoSFX.play();
     
     //volta para a imagem estatica
     setTimeout(() => {
@@ -332,11 +335,14 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     }, 1100); //tempo para que o boss surja antes da explosão termina
     
   }else if(faseAtual === 2){
-    boss.style.backgroundImage = "url('./imagens/explosao.gif')";
+    boss.style.backgroundImage = "url('./imagens/avarezaGif.gif')";
 
     //SFX para quando o boss aparece
     let avarezaSFX = new Audio("../audio/AvarezaSFX.mp3");
-    avarezaSFX.volume = 0.25
+    let explosaoSFX = new Audio("../audio/explosao.mp3");
+    explosaoSFX.volume = 0.3;
+    avarezaSFX.volume = 0.25;
+    explosaoSFX.play();
     avarezaSFX.play();  
     
     //volta para a imagem estatica
@@ -741,16 +747,35 @@ function mostrarVitoria() {
 
   switch (faseAtual) {
     case 1:
-      const bossmorte = document.querySelector(".boss");
-      bossmorte.style.backgroundImage = "url('./imagens/GulaMorte.png')";
-      bossmorte.style.top = "400px";
-      break;
+  const bossMorte1 = document.querySelector(".boss");
+  bossMorte1.style.backgroundImage = "url('./imagens/gulaMorteGif.gif')";
+  bossMorte1.style.top = "400px";
 
-    case 2:
-      const bossmorte2 = document.querySelector(".boss");
-      bossmorte2.style.backgroundImage = "url('./imagens/avarezaMorte.png')";
-       bossmorte2.style.top = "630px";
-      break;
+  // SFX de explosão
+  const explosao1 = new Audio("../audio/explosao.mp3");
+  explosao1.volume = 0.25;
+  explosao1.play().catch(() => {});
+
+  setTimeout(() => {
+    bossMorte1.style.backgroundImage = "url('./imagens/GulaMorte.png')";
+  }, 1400);
+  break;
+
+case 2:
+  const bossMorte2 = document.querySelector(".boss");
+  bossMorte2.style.backgroundImage = "url('./imagens/avarezaMorteGif.gif')";
+  bossMorte2.style.top = "630px";
+
+  // SFX de explosão + som único da Avareza
+  const explosao2 = new Audio("../audio/explosao.mp3");
+  explosao2.volume = 0.25;
+  explosao2.play().catch(() => {});
+
+  setTimeout(() => {
+    bossMorte2.style.backgroundImage = "url('./imagens/avarezaMorte.png')";
+  }, 1400);
+  break;
+
   }
   
   setTimeout(() => {
