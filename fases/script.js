@@ -80,7 +80,7 @@ const configuracaoFases = [
       { x: 0.02, y: 0.48 } //esquerda
     ], posicaoBoss: [
       { x: 0.5, y: 0.5 } // Posição centralizada para o boss
-    ], bossVidaMax: 5
+    ], bossVidaMax: 150
   },
 
   {
@@ -104,7 +104,7 @@ const configuracaoFases = [
     ],
     posicaoBoss: [
       { x: 0.48, y: 0.68 } // Posição centralizada para o boss
-    ], bossVidaMax: 5
+    ], bossVidaMax: 20
   },
 ];
 
@@ -651,7 +651,12 @@ function atirar() {
 
 // Evento de tecla para recarregar
 window.addEventListener("keydown", (event) => {
-  if (event.key === "r" || event.key === "R" && !recarregando && muni < maxmuni) {
+  if (
+    (event.key === "r" || event.key === "R") &&
+    !recarregando &&
+    muni < maxmuni &&
+    muni <= 3
+  ) {
     somRecarregar.play(); // Toca o som de recarregamento
     recarregando = true;
     mostrarAnimacaoRecarregando();
@@ -662,7 +667,6 @@ window.addEventListener("keydown", (event) => {
     }, 500);
   }
 });
-
 /*-----------------------------------------------------------------------
   Funções de mensagem de recarregar e animação de recarregamento
 -------------------------------------------------------------------------*/
