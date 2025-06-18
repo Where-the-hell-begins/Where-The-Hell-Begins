@@ -170,6 +170,34 @@ h2, h3 {
         opacity: 0;
     }
 }
+/* Efeito tela créditos */
+
+#tela-creditos a {
+    color: #e0d8c3;
+    text-decoration: none;
+    transition: color 0.3s, text-shadow 0.3s;
+    position: relative;
+}
+
+#tela-creditos a:hover {
+    color: #ffe6a3;
+    text-shadow: 0 0 10px rgba(255, 200, 100, 0.8);
+}
+
+#tela-creditos a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 1px;
+    bottom: -2px;
+    left: 0;
+    background-color: #ffe6a3;
+    transition: width 0.3s;
+}
+
+#tela-creditos a:hover::after {
+    width: 100%;
+}
 
 /* Tela de Carregamento */
 .tela-carregamento {
