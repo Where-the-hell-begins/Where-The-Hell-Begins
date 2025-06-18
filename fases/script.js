@@ -40,7 +40,6 @@ window.addEventListener('keydown', function (e) {
 function criarCamadaSuperior() {
   const img = document.createElement("img");
   img.id = "camadaSuperior";
-  img.src = "imagens/suaImagem1.png"; // atualize com seu caminho
   document.body.appendChild(img);
 }
 
@@ -143,7 +142,7 @@ let bossVulneravel = false;
   Variaveis do Boss
 -------------------------------------------------------------------------*/
 
-let maxVidas = 10000;
+let maxVidas = 6;
 let vidas = maxVidas;
 let bolasAtivas = [];
 let coinsAcertadas = 0;
@@ -509,30 +508,38 @@ function criarElementoBola(posX, posY) {
   }, 2000); // espera a animação terminar
 });
 
-
-  // Remove a bola se o jogador não clicar a tempo (erro)
+//remove a bola se nao acertar
   setTimeout(() => {
-    if (document.body.contains(envelope)) {
-      // Troca sprite do inimigo para tiro
-      const inimigo = envelope.querySelector(".inimigo");
-      if (inimigo) {
-        inimigo.src = "./imagens/tiroinimigo.png";
-      }
-
-      // Som do tiro do inimigo
-      const somTiroInimigo = new Audio("../audio/tiroSom.mp3");
-      somTiroInimigo.volume = 0.7; // volume opcional
-      somTiroInimigo.play().catch(() => {});
-
-      setTimeout(() => {
-        envelope.remove();
-        bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
-        vidas--;
-        atualizarVidas();
-        if (vidas <= 0) mostrarGameOver();
-      }, 300); // tempo do tiro
+  if (document.body.contains(envelope)) {
+    const inimigo = envelope.querySelector(".inimigo");
+    if (inimigo) {
+      inimigo.src = "./imagens/tiroinimigo.png";
     }
-  }, 4000); // Tempo para sumir a bola se não for clicada
+
+    const somTiroInimigo = new Audio("../audio/tiroSom.mp3");
+    somTiroInimigo.volume = 0.7;
+    somTiroInimigo.play().catch(() => {});
+
+    setTimeout(() => {
+      envelope.remove();
+      bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
+      vidas--;
+
+      // Atualiza HUD de vida
+      atualizarVidas();
+
+      // Troca temporária do HUD ao tomar dano
+      const fundoHud = document.getElementById("fundoHud");
+      fundoHud.src = "imagens/hudDano.png";
+      setTimeout(() => {
+        fundoHud.src = "imagens/hudNormal.png";
+      }, 500); // tempo para voltar ao normal
+
+      if (vidas <= 0) mostrarGameOver();
+    }, 300);
+  }
+}, 4000);//tempo pra bola sumir
+
 
   // Programar a próxima bola se o jogo estiver ativo e sem boss
   const delay = Math.random() * 1000 + 500;
@@ -671,17 +678,24 @@ function mostrarMensagemRecarregar() {
 }
 
 function mostrarAnimacaoRecarregando() {
-  barraRecarregando.style.display = "block";
-  barraRecarregando.style.width = "0";
-  barraRecarregando.style.transition = "width 0.5s linear";
+  const iconeRecarregar = document.getElementById("iconeRecarregar");
+
+  // Troca imagem para gif animado
+  iconeRecarregar.src = "./imagens/recarregarAnimado.gif";
+
   setTimeout(() => {
     barraRecarregando.style.width = "150px";
   }, 10);
+
   setTimeout(() => {
     barraRecarregando.style.display = "none";
     barraRecarregando.style.width = "0";
+
+    // Volta imagem para estado parado
+    iconeRecarregar.src = "./imagens/recarregarParado.png";
   }, 550);
 }
+
 
 /*-----------------------------------------------------------------------
   Tela de vitória, reset das variaveis, e transição para a próxima fase/menu

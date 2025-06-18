@@ -27,7 +27,7 @@ main {
   width: 1440px;
   height: 600px;
   margin: 0 auto;
-  border: 2px solid #333;
+  border: 2px solid #000000;
   overflow: hidden;
   background-size: cover;
   background-position: center;
@@ -269,6 +269,14 @@ background-image: url("imagens/caixaDeDialogo.png");
   z-index: 999; /* maior que os outros elementos */
 }
 
+#iconeRecarregar{
+  position: absolute; 
+  bottom: 25px;
+  left: 255px; 
+  width:80px;
+  height: auto;
+  z-index: 1001;
+}
 
 .bala {
   width: 32px;
