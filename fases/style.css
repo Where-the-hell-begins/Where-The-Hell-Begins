@@ -27,7 +27,7 @@ main {
   width: 1440px;
   height: 600px;
   margin: 0 auto;
-  border: 2px solid #333;
+  border: 2px solid #000000;
   overflow: hidden;
   background-size: cover;
   background-position: center;
@@ -236,6 +236,12 @@ main {
   z-index: 3;
 }
 
+.hudPersonagem{
+background-image: url("imagens/caixaDeDialogo.png");
+  background-repeat: no-repeat;
+  background-size: 300px 100px; /* largura e altura da imagem de fundo */
+}
+
 #municao {
   position: absolute;
   bottom: 20px;
@@ -252,6 +258,24 @@ main {
   display: flex;
   gap: 8px;
   z-index: 1000;
+}
+
+#fundoHud {
+  position: absolute;
+  bottom: -7px; /* ajusta conforme necessário */
+  left: -5px;
+  width: 450px; /* tamanho da imagem */
+  height: 130px;
+  z-index: 999; /* maior que os outros elementos */
+}
+
+#iconeRecarregar{
+  position: absolute; 
+  bottom: 25px;
+  left: 255px; 
+  width:80px;
+  height: auto;
+  z-index: 1001;
 }
 
 .bala {
