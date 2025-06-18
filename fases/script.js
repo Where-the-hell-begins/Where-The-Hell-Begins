@@ -80,11 +80,11 @@ const configuracaoFases = [
       { x: 0.02, y: 0.48 } //esquerda
     ], posicaoBoss: [
       { x: 0.5, y: 0.5 } // Posição centralizada para o boss
-    ], bossVidaMax: 1
+    ], bossVidaMax: 150
   },
 
   {
-    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 2, posicaoBolas: [
+    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 2.5, posicaoBolas: [
       { x: 0.62, y: 0.08 }, //janela
       { x: 0.61, y: 0.41 }, // empiladeira
       { x: 0.77, y: 0.4 }, // direita meio
@@ -104,7 +104,7 @@ const configuracaoFases = [
     ],
     posicaoBoss: [
       { x: 0.48, y: 0.68 } // Posição centralizada para o boss
-    ], bossVidaMax: 1
+    ], bossVidaMax: 20
   },
 ];
 
@@ -324,7 +324,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     //SFX para quando o boss aparece
     let gulaSFX = new Audio("../audio/GulaSFX.mp3");
     let explosaoSFX = new Audio("../audio/explosao.mp3")
-    explosaoSFX.volume = 0.25
+    explosaoSFX.volume = 0.3
     gulaSFX.volume = 0.15
     explosaoSFX.play();
     gulaSFX.play();
@@ -340,8 +340,8 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     //SFX para quando o boss aparece
     let avarezaSFX = new Audio("../audio/AvarezaSFX.mp3");
     let explosaoSFX = new Audio("../audio/explosao.mp3")
-    explosaoSFX.volume = 0.25
-    avarezaSFX.volume = 0.4
+    explosaoSFX.volume = 0.3
+    avarezaSFX.volume = 0.25
     explosaoSFX.play();
     avarezaSFX.play();
 
@@ -531,7 +531,7 @@ function criarElementoBola(posX, posY) {
 
       if (!bossAtivo) {
         bolasAcertadas++;
-        if (bolasAcertadas >= 1) { //quantidade necessaria de inimigos mortos
+        if (bolasAcertadas >= 15) { //quantidade necessaria de inimigos mortos
           bolasAtivas.forEach(b => b.el.remove());
           bolasAtivas = [];
 
@@ -751,9 +751,13 @@ function mostrarVitoria() {
       bossMorte1.style.backgroundImage = "url('./imagens/gulaMorteGif.gif')";
       bossMorte1.style.top = "400px";
 
+      let explosaoSFX = new Audio("../audio/explosao.mp3")
+      explosaoSFX.volume = 0.25
+      explosaoSFX.play();
+
       setTimeout(() => {
         bossMorte1.style.backgroundImage = "url('./imagens/GulaMorte.png')";
-      }, 1400); // tempo do gif
+      }, 1300); // tempo do gif
       break;
 
     case 2:
@@ -763,7 +767,7 @@ function mostrarVitoria() {
 
       setTimeout(() => {
         bossMorte2.style.backgroundImage = "url('./imagens/avarezaMorte.png')";
-      }, 1400); // tempo do gif
+      }, 1300); // tempo do gif
       break;
   }
 
