@@ -1,15 +1,18 @@
+/*-----------------------------------------------------------------------
+  Variáveis globais do jogo para definir o fundo e as fases
+-------------------------------------------------------------------------*/
 
-// Variáveis globais do jogo para definir o fundo e as fases
 const canvas = document.getElementById("canvas");
 let faseAtual = parseInt(canvas.dataset.fase) || 1; // Corrigido para garantir número
 
 const musicaFundo1 = document.getElementById('musica-fundo1');
 
-// Ajusta o tamanho do canvas para a tela toda
+/*-----------------------------------------------------------------------
+  Ajusta o tamanho do canvas para a tela toda
+-------------------------------------------------------------------------*/
 function ajustarTela() {
   canvas.style.width = window.innerWidth + "px";
   canvas.style.height = window.innerHeight + "px";
-
 }
 window.addEventListener("load", ajustarTela);
 window.addEventListener("resize", ajustarTela);
@@ -60,11 +63,13 @@ function ajustarImagemComCanvas() {
 }
 window.addEventListener("resize", ajustarImagemComCanvas);
 
+/*-----------------------------------------------------------------------
+ Configurações das fases com posições relativas (1 a 2)
+-------------------------------------------------------------------------*/
 
-
-// Configurações das fases com posições relativas (0 a 1)
 const configuracaoFases = [
   { nome: "Bem vindos ao jogo de tiro!" },
+
   {
     fase: "1", classeCanva: "fase1", classeBoss: "bossFase1", BossTimer: 6, posicaoBolas: [
       { x: 0.56, y: 0.25 }, //janela esquerda
@@ -144,6 +149,10 @@ let bolasAtivas = [];
 let coinsAcertadas = 0;
 let coinsAtivas = [];
 
+/*-----------------------------------------------------------------------
+ Cria elementos da barra de vida do boss
+-------------------------------------------------------------------------*/
+
 const barraContainer = document.createElement("div");
 barraContainer.id = "barraVidaContainer";
 barraContainer.style.display = "none"; // Oculto inicialmente
@@ -158,10 +167,18 @@ barraVida.appendChild(textoVida);
 barraContainer.appendChild(barraVida);
 document.body.appendChild(barraContainer);
 
+/*-----------------------------------------------------------------------
+  Mostra a fase atual no HUD
+-------------------------------------------------------------------------*/
+
 function atualizarFaseHUD(numero, nome) {
   const hud = document.getElementById("faseAtual");
   hud.textContent = `Fase ${numero}: ${nome}`;
 }
+
+/*-----------------------------------------------------------------------
+  Atualiza a barra de vida do boss
+-------------------------------------------------------------------------*/
 
 function atualizarBarraVida() {
   const porcentagem = (bossVidaAtual / bossVidaMax) * 100;
@@ -171,6 +188,10 @@ function atualizarBarraVida() {
   barraVida.style.backgroundColor = `rgb(${vermelho}, ${verde}, 0)`;
   textoVida.innerText = `${bossVidaAtual}/${bossVidaMax}`;
 }
+
+/*-----------------------------------------------------------------------
+  Define o tempo dos bosses e cria o relogio de tempo
+-------------------------------------------------------------------------*/
 
 function iniciarTempoBoss() {
   if (tempoBossTimer) clearTimeout(tempoBossTimer);
@@ -252,6 +273,10 @@ function desenharBossTimer() {
   ctx.stroke();
 }
 
+/*-----------------------------------------------------------------------
+  Função para converter posições relativas para pixels
+-------------------------------------------------------------------------*/
+
 function posicaoRelativaParaPixels(posRelativa) {
   const largura = canvas.clientWidth;
   const altura = canvas.clientHeight;
@@ -260,6 +285,10 @@ function posicaoRelativaParaPixels(posRelativa) {
     y: Math.round(posRelativa.y * altura) - 25,
   };
 }
+
+/*-----------------------------------------------------------------------
+  Cria o boss e suas interações
+-------------------------------------------------------------------------*/
 
 function criarBoss() {
   if (document.querySelector(".boss") || !jogoAtivo) return;
@@ -311,6 +340,10 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     // Na fase 2 o dano só vem das coins, clique no boss não diminui vida
   });
 }
+
+/*-----------------------------------------------------------------------
+  Cria as coins ao redor do boss na fase 2
+-------------------------------------------------------------------------*/
 
 function criarCoinsAoRedorDoBoss() {
   if (faseAtual !== 2 || !bossVulneravel) return;
@@ -364,11 +397,19 @@ function criarCoinsAoRedorDoBoss() {
   });
 }
 
+/*-----------------------------------------------------------------------
+  Remove todas as coins ativas
+-------------------------------------------------------------------------*/
+
 function removerTodasCoins() {
   coinsAtivas.forEach(coin => coin.remove());
   coinsAtivas = [];
   coinsAcertadas = 0;
 }
+
+/*-----------------------------------------------------------------------
+  Cria os elementos dos circulo vermelho e do circulo branco
+-------------------------------------------------------------------------*/
 
 
 function criarBola() {
@@ -511,6 +552,10 @@ function criaPersonagem() {
   });
 }
 
+/*-----------------------------------------------------------------------
+  Atualiza a munição e as vidas no HUD
+-------------------------------------------------------------------------*/
+
 function atualizarMunicao() {
   const container = document.getElementById("municao");
   container.innerHTML = "";
@@ -534,6 +579,10 @@ function atualizarVidas() {
   }
 }
 
+/*-----------------------------------------------------------------------
+  Adicionando o som de disparo e recarregar
+-------------------------------------------------------------------------*/
+
 // Criando os objetos de áudio
 const somDisparo = new Audio('../audio/tiroSom.mp3');
 const somRecarregar = new Audio('../audio/recarregarSom.mp3');
@@ -545,6 +594,10 @@ somRecarregar.volume = 0.5;
 // Definindo loop
 somDisparo.loop = false; // Não repete o som
 somRecarregar.loop = false; // Não repete o som
+
+/*-----------------------------------------------------------------------
+  Função de disparo e recarregar
+-------------------------------------------------------------------------*/
 
 // Função de disparo
 function atirar() {
@@ -571,7 +624,7 @@ function atirar() {
 
 // Evento de tecla para recarregar
 window.addEventListener("keydown", (event) => {
-  if (event.key === "r" && !recarregando && muni < maxmuni) {
+  if (event.key === "r" || event.key === "R" && !recarregando && muni < maxmuni) {
     somRecarregar.play(); // Toca o som de recarregamento
     recarregando = true;
     mostrarAnimacaoRecarregando();
@@ -582,6 +635,10 @@ window.addEventListener("keydown", (event) => {
     }, 500);
   }
 });
+
+/*-----------------------------------------------------------------------
+  Funções de mensagem de recarregar e animação de recarregamento
+-------------------------------------------------------------------------*/
 
 const msgRecarregar = document.getElementById("mensagem-recarregar");
 const barraRecarregando = document.getElementById("animacao-recarregando");
@@ -606,6 +663,9 @@ function mostrarAnimacaoRecarregando() {
   }, 550);
 }
 
+/*-----------------------------------------------------------------------
+  Tela de vitória, reset das variaveis, e transição para a próxima fase/menu
+-------------------------------------------------------------------------*/
 
 function mostrarVitoria() {
 
@@ -654,8 +714,9 @@ function mostrarVitoria() {
   }, 2000); //segundos do sprite de morte
 }
 
-
-
+/*-----------------------------------------------------------------------
+  Mostra o game-over, reseta as variaveis, e transição para a mesma fase/menu
+-------------------------------------------------------------------------*/
 
 function mostrarGameOver() {
   jogoAtivo = false;
@@ -683,7 +744,10 @@ function mostrarGameOver() {
   }, 10000);
 }
 
-// Função para tocar a música (extraída para reutilização)
+/*-----------------------------------------------------------------------
+  Função de tocar música ao clicar
+-------------------------------------------------------------------------*/
+
 function tocarMusica() {
   const musicaFundo1 = document.getElementById("musica-fundo1");
   musicaFundo1.volume = 0.1;
@@ -696,6 +760,9 @@ function musica() {
   window.addEventListener("click", tocarMusica, { once: true });
 }
 
+/*-----------------------------------------------------------------------
+  Adiciona o sprite do inimigo na tela
+-------------------------------------------------------------------------*/
 
 function criarInimigo(posX, posY, container) {
   const inimigo = document.createElement("img");
@@ -709,6 +776,10 @@ function criarInimigo(posX, posY, container) {
 
 
 window.addEventListener("DOMContentLoaded", musica);
+
+/*-----------------------------------------------------------------------
+  Função para iniciar a fase e mostrar a mensagem de introdução
+-------------------------------------------------------------------------*/
 
 function iniciarFase() {
   const mensagem = document.createElement("div");
