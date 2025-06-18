@@ -85,7 +85,7 @@ const configuracaoFases = [
   },
 
   {
-    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 3, posicaoBolas: [
+    fase: "2", classeCanva: "fase2", classeBoss: "bossFase2", BossTimer: 100, posicaoBolas: [
       { x: 0.62, y: 0.08 }, //janela
       { x: 0.61, y: 0.41 }, // empiladeira
       { x: 0.77, y: 0.4 }, // direita meio
@@ -94,17 +94,17 @@ const configuracaoFases = [
       { x: 0.235, y: 0.44 }, // caixa direita
       { x: 0.08, y: 0.32 }, //esquerda cima
 
-    ],
-    classeCoins: "coinsFase2", posicaoCoins: [
-      { x: 0.39, y: 0.5 }, //boss esquerda
-      { x: 0.39, y: 0.4 }, //boss esquerda
-      { x: 0.43, y: 0.2 }, //boss cima
-      { x: 0.50, y: 0.2 }, //boss cima
-      { x: 0.54, y: 0.4 }, //boss direita
-      { x: 0.54, y: 0.5 }, //boss direita
+    ], 
+    classeCoins: "coinsFase2",posicaoCoins: [
+      { x: 0.38, y: 0.52 }, //boss esquerda 1
+      { x: 0.41, y: 0.45 }, //boss esquerda 2
+      { x: 0.45, y: 0.40 }, //boss esquerda 3
+      { x: 0.49, y: 0.40 }, //boss direita 3
+      { x: 0.53, y: 0.45 }, //boss direita 2
+      { x: 0.56, y: 0.52 }, //boss direita 1
     ],
     posicaoBoss: [
-      { x: 0.47, y: 0.68 } // Posição centralizada para o boss
+      { x: 0.48, y: 0.68 } // Posição centralizada para o boss
     ], bossVidaMax: 5
   },
 ];
@@ -470,10 +470,41 @@ function criarElementoBola(posX, posY) {
 
     if (!atirar()) return;
 
-    // Remove a bola imediatamente para sumir o círculo da bola
-    const bola = envelope.querySelector(".bola");
-    if (bola) {
-      bola.remove();
+  // Remove a bola imediatamente para sumir o círculo da bola
+  const bola = envelope.querySelector(".bola");
+  if (bola) {
+    bola.remove();
+  }
+
+  const circulo = envelope.querySelector(".circulo");
+  if (circulo) {
+    circulo.remove();
+  }
+
+  // Troca sprite e animação do inimigo
+  const inimigo = envelope.querySelector(".inimigo");
+  if (inimigo) {
+    inimigo.src = "./imagens/inimigoMorte.png"; // troca o sprite
+    inimigo.classList.add("morte"); // ativa a animação
+  }
+
+  setTimeout(() => {
+    envelope.remove();
+    bolasAtivas = bolasAtivas.filter((b) => b.el !== envelope);
+
+    if (!bossAtivo) {
+      bolasAcertadas++;
+      if (bolasAcertadas >= 15) {
+        bolasAtivas.forEach(b => b.el.remove());
+        bolasAtivas = [];
+
+        bossAtivo = true;
+        bossVulneravel = true;
+        barraContainer.style.display = "block";
+        atualizarBarraVida();
+        criarBoss();
+        iniciarTempoBoss();
+      }
     }
 
     const circulo = envelope.querySelector(".circulo");
