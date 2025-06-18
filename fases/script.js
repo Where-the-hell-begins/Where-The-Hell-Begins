@@ -99,7 +99,7 @@ const configuracaoFases = [
       { x: 0.54, y: 0.5 }, //boss direita
     ],
     posicaoBoss: [
-      { x: 0.47, y: 0.42 } // Posição centralizada para o boss
+      { x: 0.47, y: 0.68 } // Posição centralizada para o boss
     ], bossVidaMax: 20
   },
 ];
@@ -483,7 +483,7 @@ function criarElementoBola(posX, posY) {
         if (vidas <= 0) mostrarGameOver();
       }, 300); // tempo do tiro
     }
-  }, 4000);
+  }, 10000);
 
   // Programar a próxima bola se o jogo estiver ativo e sem boss
   const delay = Math.random() * 1000 + 500;

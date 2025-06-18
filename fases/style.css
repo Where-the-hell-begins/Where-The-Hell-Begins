@@ -387,7 +387,6 @@ main {
   text-align: center;
   z-index: 10000;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-  animation: fadeInOut 3s ease-in-out;
   background-image: url(imagens/caixaDeDialogo.png);
   background-repeat: no-repeat;
   background-size: 36rem 8rem;
