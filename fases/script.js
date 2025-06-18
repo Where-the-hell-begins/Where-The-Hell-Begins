@@ -331,7 +331,7 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
 
     //volta para a imagem estatica
     setTimeout(() => {
-      boss.style.backgroundImage = "url('./imagens/bala.png')";
+      boss.style.backgroundImage = "url('./imagens/Gula.png')";
     }, 1300); //tempo para que o boss surja antes da explosão termina
 
   } else if (faseAtual === 2) {
