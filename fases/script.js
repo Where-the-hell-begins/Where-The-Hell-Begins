@@ -549,6 +549,19 @@ function criaPersonagem() {
 }
 
 /*-----------------------------------------------------------------------
+  Adiciona o sprite do inimigo na tela
+-------------------------------------------------------------------------*/
+
+function criarInimigo(posX, posY, container) {
+  const inimigo = document.createElement("img");
+  inimigo.src = "./imagens/inimigo.png";
+  inimigo.className = "inimigo";
+  inimigo.style.position = "absolute";
+  inimigo.style.left = `-50px`; // relativo ao container
+  inimigo.style.top = `-30px`;  // relativo ao container
+  container.appendChild(inimigo);
+}
+/*-----------------------------------------------------------------------
   Atualiza a munição e as vidas no HUD
 -------------------------------------------------------------------------*/
 
@@ -771,19 +784,7 @@ function musica() {
   window.addEventListener("click", tocarMusica, { once: true });
 }
 
-/*-----------------------------------------------------------------------
-  Adiciona o sprite do inimigo na tela
--------------------------------------------------------------------------*/
 
-function criarInimigo(posX, posY, container) {
-  const inimigo = document.createElement("img");
-  inimigo.src = "./imagens/inimigo.png";
-  inimigo.className = "inimigo";
-  inimigo.style.position = "absolute";
-  inimigo.style.left = `-50px`; // relativo ao container
-  inimigo.style.top = `-30px`;  // relativo ao container
-  container.appendChild(inimigo);
-}
 
 
 window.addEventListener("DOMContentLoaded", musica);
