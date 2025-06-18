@@ -536,8 +536,8 @@ function criarElementoBola(posX, posY) {
       inimigo.src = "./imagens/tiroinimigo.png";
     }
 
-    const somTiroInimigo = new Audio("../audio/tiroSom.mp3");
-    somTiroInimigo.volume = 0.7;
+    const somTiroInimigo = new Audio("../audio/tiroSomInimigo.mp3");
+    somTiroInimigo.volume = 0.1;
     somTiroInimigo.play().catch(() => {});
 
     setTimeout(() => {
