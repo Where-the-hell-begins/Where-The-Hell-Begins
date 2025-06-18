@@ -323,6 +323,14 @@ function criarElementoBoss(posX, posY, bossWidth, bossHeight) {
     setTimeout(() => {
       boss.style.backgroundImage = "url('./imagens/Gula.png')";
     }, 3000);
+    
+  }else if(faseAtual === 2){
+    boss.style.backgroundImage = "url('./imagens/moeda.gif')"; //moeda só de teste
+    
+    //volta para a imagem estatica
+    setTimeout(() => {
+      boss.style.backgroundImage = "url('./imagens/avareza.png')";
+    }, 3000);
   }
 
   boss.addEventListener("click", (event) => {
@@ -667,7 +675,7 @@ window.addEventListener("keydown", (event) => {
     (event.key === "r" || event.key === "R") &&
     !recarregando &&
     muni < maxmuni &&
-    muni <= 3
+    muni <= 5
   ) {
     somRecarregar.play(); // Toca o som de recarregamento
     recarregando = true;
