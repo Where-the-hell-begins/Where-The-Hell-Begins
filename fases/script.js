@@ -852,9 +852,6 @@ function musica() {
   window.addEventListener("click", tocarMusica, { once: true });
 }
 
-
-
-
 window.addEventListener("DOMContentLoaded", musica);
 
 /*-----------------------------------------------------------------------
